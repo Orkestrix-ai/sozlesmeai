@@ -1,0 +1,248 @@
+{
+  "meta": {
+    "title": "Sözleşmeni anlat, taslağın hazır olsun",
+    "description": "İhtiyacını kendi cümlelerinle yaz; eksik bilgiler sorulsun, düzenleyebileceğin bir sözleşme taslağı hazırlansın, PDF olarak dışa aktar."
+  },
+  "nav": {
+    "skipToContent": "İçeriğe geç",
+    "brand": "Sözleşme Stüdyosu",
+    "product": "Ürün",
+    "how": "Nasıl çalışır",
+    "pricing": "Paketler",
+    "faq": "SSS",
+    "login": "Giriş yap",
+    "cta": "Taslak oluştur",
+    "openMenu": "Menüyü aç",
+    "closeMenu": "Menüyü kapat"
+  },
+  "localeSwitcher": {
+    "label": "Dil",
+    "tr": "Türkçe",
+    "en": "English"
+  },
+  "hero": {
+    "eyebrow": "Sözleşme hazırlama ve belge yönetimi",
+    "titleLead": "Sözleşmeni anlat,",
+    "titleHighlight": "taslağın hazır olsun",
+    "description": "Boş şablonlar ve uzun formlar yerine kendi cümlelerinle başla. Sistem eksik bilgileri tek tek sorar, bölümlere ayrılmış bir taslak hazırlar; sen düzenler, onaylar ve PDF olarak paylaşırsın.",
+    "primaryCta": "İlk taslağını oluştur",
+    "secondaryCta": "Nasıl çalıştığını gör",
+    "note": "Her çıktı düzenlenebilir ve senin onayına tabidir.",
+    "panel": {
+      "title": "Yeni sözleşme",
+      "stepLabel": "Adım 2 / 5",
+      "stepName": "Eksik bilgiler",
+      "assistantLabel": "Asistan",
+      "userLabel": "Sen",
+      "assistantMessage": "Hizmet bedelini ve ödeme takvimini yazar mısın?",
+      "userMessage": "Toplam 45.000 TL, işe başlarken %50, teslimde %50.",
+      "missingLabel": "Eksik alan",
+      "missingField": "Teslim tarihi henüz belirtilmedi.",
+      "draftTitle": "Serbest Çalışma Sözleşmesi",
+      "draftSectionLabel": "Bölüm 4",
+      "draftSectionTitle": "Ödeme koşulları",
+      "draftBody": "Hizmet bedeli toplam 45.000 TL'dir. Bedelin %50'si işin başlangıcında, kalan %50'si teslimde ödenir.",
+      "changedBadge": "Az önce güncellendi",
+      "approvedBadge": "Onayladın",
+      "statusLabel": "Durum",
+      "statusValue": "Taslak"
+    }
+  },
+  "problem": {
+    "title": "Sözleşme hazırlamak neden bu kadar yorucu?",
+    "description": "Çoğu ekip aynı üç yerde takılıyor: nereden başlayacağını bilememek, hangi maddenin eksik olduğunu fark edememek ve hangi sürümün geçerli olduğunu kaybetmek.",
+    "items": {
+      "blank": {
+        "title": "Boş sayfa",
+        "body": "Şablon indirip kendine uyarlamak, çoğu zaman sıfırdan yazmaktan daha uzun sürüyor."
+      },
+      "missing": {
+        "title": "Gözden kaçan maddeler",
+        "body": "Teslim tarihi, fesih koşulu ya da gecikme faizi gibi alanlar sözleşme imzalanana kadar fark edilmiyor."
+      },
+      "versions": {
+        "title": "Kaybolan sürümler",
+        "body": "E‑postada gidip gelen dosyalar arasında hangisinin son hâli olduğu belirsizleşiyor."
+      }
+    }
+  },
+  "flow": {
+    "title": "Beş adımda kullanılabilir bir belge",
+    "description": "Her adımda ne olduğunu görürsün; sistem senin yerine karar vermez.",
+    "stepLabel": "Adım {number}",
+    "steps": {
+      "describe": {
+        "title": "İhtiyacını anlat",
+        "body": "Ne tür bir iş yaptığını ve karşı tarafla neyi kararlaştırdığını kendi cümlelerinle yaz."
+      },
+      "complete": {
+        "title": "Eksik bilgileri tamamla",
+        "body": "Taraflar, tarihler, bedel ve teslim gibi eksik alanlar sana kısa sorularla tek tek sorulur."
+      },
+      "edit": {
+        "title": "Taslağı düzenle",
+        "body": "Bölümleri elle değiştir ya da ne istediğini yazarak değiştir; her değişikliği onaylamadan önce görürsün."
+      },
+      "pdf": {
+        "title": "PDF'yi oluştur",
+        "body": "Onayladığın sürümden başlıklı, tarihli ve taraf bilgileri yerleşmiş bir PDF üretilir."
+      },
+      "share": {
+        "title": "Müşterinle paylaş",
+        "body": "Belgeyi indir veya doğrudan gönder; her sürüm arşivde saklanır."
+      }
+    }
+  },
+  "features": {
+    "title": "Taslağı sen yönetirsin",
+    "description": "Ürün, işi senin adına bitirmeye değil; her adımda kontrolü sende bırakmaya göre kurgulandı.",
+    "items": {
+      "naturalLanguage": {
+        "title": "Doğal dille bilgi toplama",
+        "body": "Uzun formlar yerine kısa ve sıralı sorular. Aynı bilgi iki kez sorulmaz."
+      },
+      "sectioned": {
+        "title": "Bölümlere ayrılmış taslak",
+        "body": "Taraflar, bedel, teslim, sorumluluk ve fesih ayrı bölümler hâlinde gelir; tek tek düzenlenir."
+      },
+      "editing": {
+        "title": "Yazarak düzenleme",
+        "body": "\"Fesih süresini 30 güne çıkar\" yazman yeterli. Değişiklik öncesi ve sonrasıyla gösterilir; kabul edebilir ya da geri alabilirsin.",
+        "badge": "Öne çıkan"
+      },
+      "riskCheck": {
+        "title": "Tutarlılık kontrolü",
+        "body": "Taraf adlarındaki farklılıklar, çelişen tarihler, tutmayan ödeme takvimi ve boş kritik alanlar işaretlenir."
+      },
+      "versions": {
+        "title": "Sürüm geçmişi",
+        "body": "Her değişiklik kayıt altına alınır; hangi sürümden hangi PDF'in üretildiği bellidir."
+      },
+      "archive": {
+        "title": "PDF ve arşiv",
+        "body": "Belgeler tutarlı dosya adlarıyla üretilir ve çalışma alanının arşivinde durur."
+      }
+    }
+  },
+  "pricing": {
+    "title": "Paketler",
+    "description": "İhtiyacın büyüdükçe paket değiştir. Her işlemde ne kadar kredi harcadığını ve paketinden ne kaldığını görürsün.",
+    "popularBadge": "En popüler",
+    "perMonth": "/ ay",
+    "plans": {
+      "starter": {
+        "name": "Starter",
+        "price": "₺0",
+        "tagline": "Tek başına çalışan serbest çalışanlar ve danışmanlar için.",
+        "cta": "Ücretsiz başla",
+        "features": {
+          "f1": "Ayda 3 sözleşme taslağı",
+          "f2": "Üç temel sözleşme türü",
+          "f3": "Doğal dille düzenleme",
+          "f4": "PDF oluşturma ve indirme",
+          "f5": "Kişisel belge arşivi"
+        }
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "₺499",
+        "tagline": "Düzenli sözleşme üreten ajanslar ve büyüyen ekipler için.",
+        "cta": "Pro'ya geç",
+        "features": {
+          "f1": "Aylık kredi paketi ve şeffaf kullanım takibi",
+          "f2": "Tüm sözleşme türleri",
+          "f3": "Tutarlılık ve risk kontrolü",
+          "f4": "Sürüm geçmişi ve karşılaştırma",
+          "f5": "Ekip üyesi daveti",
+          "f6": "E‑posta ile paylaşım"
+        }
+      },
+      "business": {
+        "name": "Business",
+        "price": "Teklif alın",
+        "tagline": "Çok kullanıcılı operasyonlar, satış ve hukuk ekipleri için.",
+        "cta": "Bizimle görüşün",
+        "features": {
+          "f1": "Pro'daki her şey",
+          "f2": "Çoklu çalışma alanı ve rol yönetimi",
+          "f3": "Rol bazlı erişim ve yetki",
+          "f4": "Belge işlem günlükleri",
+          "f5": "Ekip kullanım raporları",
+          "f6": "Öncelikli destek"
+        }
+      }
+    }
+  },
+  "trust": {
+    "title": "Kontrol sende kalır",
+    "description": "Ürün, taslağı hazırlamana yardım eder; belgenin sorumluluğu ve son sözü sana aittir.",
+    "items": {
+      "control": {
+        "title": "Veri kontrolü",
+        "body": "Belgelerin hangi çalışma alanına ait olduğu bellidir; yalnızca yetkili olduğun verilere erişirsin."
+      },
+      "history": {
+        "title": "Sürüm geçmişi",
+        "body": "Hangi bölümün ne zaman ve nasıl değiştiği geriye dönük izlenebilir."
+      },
+      "archive": {
+        "title": "Belge arşivi",
+        "body": "Üretilen her PDF, kaynaklandığı sürümle birlikte saklanır."
+      },
+      "approval": {
+        "title": "Kullanıcı onayı",
+        "body": "Hiçbir çıktı otomatik olarak nihai sayılmaz; taslak, inceleme ve onay birbirinden ayrıdır."
+      }
+    },
+    "disclaimerTitle": "Sınırları net söyleyelim",
+    "disclaimer": "Tutarlılık kontrolü hukuki görüş değildir ve sözleşmenin geçerliliğini garanti etmez. Belirli bir ülkenin mevzuatına otomatik uygunluk taahhüt edilmez. Kritik işlerde belgeyi bir hukuk profesyoneline gösterin."
+  },
+  "faq": {
+    "title": "Sık sorulan sorular",
+    "items": {
+      "accuracy": {
+        "question": "Hazırlanan taslak doğrudan imzalanabilir mi?",
+        "answer": "Taslak, gözden geçirilmek üzere hazırlanır. Bilmediği bilgiyi uydurmaz; eksik ve belirsiz alanları açıkça işaretler. Kritik işlerde bir hukuk profesyoneline danışmanızı öneririz."
+      },
+      "signature": {
+        "question": "Elektronik imza var mı?",
+        "answer": "Henüz yok. İlk sürüm sözleşme oluşturma, düzenleme, PDF üretme ve arşivlemeye odaklanıyor. Elektronik imza, imza takibi ve imzalı belge arşivi sonraki fazda planlanıyor."
+      },
+      "types": {
+        "question": "Hangi sözleşme türleri destekleniyor?",
+        "answer": "İlk sürümde en yaygın üç tür destekleniyor. Sistem ihtiyacına uygun türü önerir; önerdiği türü kabul edebilir ya da değiştirebilirsin."
+      },
+      "credits": {
+        "question": "Kredi nasıl harcanıyor?",
+        "answer": "Taslak üretme ve PDF oluşturma gibi işlemler kredi harcar. İşlemi başlatmadan önce ne kadar kredi gerektiğini ve paketinden ne kaldığını görürsün."
+      },
+      "team": {
+        "question": "Ekibimle birlikte kullanabilir miyim?",
+        "answer": "Pro ve Business paketlerinde çalışma alanına rolleriyle birlikte ekip üyesi davet edebilirsin. Herkes yalnızca yetkili olduğu verilere erişir."
+      }
+    }
+  },
+  "finalCta": {
+    "title": "İlk sözleşmeni bugün hazırla",
+    "description": "İhtiyacını birkaç cümleyle anlat, düzenleyebileceğin bir taslakla devam et.",
+    "cta": "Taslak oluştur",
+    "note": "Başlamak için birkaç dakikan yeterli."
+  },
+  "footer": {
+    "tagline": "Sözleşmeni anlat, taslağın hazır olsun.",
+    "productTitle": "Ürün",
+    "companyTitle": "Kurumsal",
+    "legalTitle": "Yasal",
+    "links": {
+      "how": "Nasıl çalışır",
+      "pricing": "Paketler",
+      "faq": "SSS",
+      "about": "Hakkımızda",
+      "contact": "İletişim",
+      "privacy": "Gizlilik",
+      "terms": "Kullanım koşulları"
+    },
+    "rights": "Tüm hakları saklıdır.",
+    "disclaimer": "Bu ürün hukuki danışmanlık hizmeti değildir."
+  }
+}

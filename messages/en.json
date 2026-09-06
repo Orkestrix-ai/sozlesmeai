@@ -1,0 +1,248 @@
+{
+  "meta": {
+    "title": "Describe your contract, get a working draft",
+    "description": "Describe what you need in your own words. Missing details get asked one by one, an editable contract draft is prepared, and you export it as a PDF."
+  },
+  "nav": {
+    "skipToContent": "Skip to content",
+    "brand": "Contract Studio",
+    "product": "Product",
+    "how": "How it works",
+    "pricing": "Pricing",
+    "faq": "FAQ",
+    "login": "Log in",
+    "cta": "Create a draft",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "localeSwitcher": {
+    "label": "Language",
+    "tr": "Türkçe",
+    "en": "English"
+  },
+  "hero": {
+    "eyebrow": "Contract drafting and document management",
+    "titleLead": "Describe your contract,",
+    "titleHighlight": "get a working draft",
+    "description": "Start in your own words instead of with a blank template or a long form. Missing details are asked one at a time, a sectioned draft is prepared, and you edit, approve, and share it as a PDF.",
+    "primaryCta": "Create your first draft",
+    "secondaryCta": "See how it works",
+    "note": "Every output is editable and waits for your approval.",
+    "panel": {
+      "title": "New contract",
+      "stepLabel": "Step 2 / 5",
+      "stepName": "Missing details",
+      "assistantLabel": "Assistant",
+      "userLabel": "You",
+      "assistantMessage": "What is the fee and the payment schedule?",
+      "userMessage": "45,000 TRY total — 50% at kickoff, 50% on delivery.",
+      "missingLabel": "Missing field",
+      "missingField": "The delivery date has not been provided yet.",
+      "draftTitle": "Freelance Services Agreement",
+      "draftSectionLabel": "Section 4",
+      "draftSectionTitle": "Payment terms",
+      "draftBody": "The total fee is 45,000 TRY. 50% is payable at the start of the work and the remaining 50% on delivery.",
+      "changedBadge": "Just updated",
+      "approvedBadge": "You approved",
+      "statusLabel": "Status",
+      "statusValue": "Draft"
+    }
+  },
+  "problem": {
+    "title": "Why is drafting a contract such a chore?",
+    "description": "Most teams get stuck in the same three places: not knowing where to start, not noticing which clause is missing, and losing track of which version is current.",
+    "items": {
+      "blank": {
+        "title": "The blank page",
+        "body": "Downloading a template and adapting it often takes longer than writing from scratch."
+      },
+      "missing": {
+        "title": "Clauses that slip through",
+        "body": "Delivery dates, termination terms, or late-payment interest go unnoticed until the contract is already signed."
+      },
+      "versions": {
+        "title": "Versions that go missing",
+        "body": "Among files going back and forth over email, it stops being clear which one is final."
+      }
+    }
+  },
+  "flow": {
+    "title": "A usable document in five steps",
+    "description": "You see what happens at every step; the system does not decide for you.",
+    "stepLabel": "Step {number}",
+    "steps": {
+      "describe": {
+        "title": "Describe what you need",
+        "body": "Write in your own words what the work is and what you agreed on with the other party."
+      },
+      "complete": {
+        "title": "Fill in the gaps",
+        "body": "Parties, dates, fees, and delivery terms are asked one at a time with short questions."
+      },
+      "edit": {
+        "title": "Edit the draft",
+        "body": "Change sections by hand or by describing what you want; you see every change before approving it."
+      },
+      "pdf": {
+        "title": "Generate the PDF",
+        "body": "A PDF with a title, date, and party details is produced from the version you approved."
+      },
+      "share": {
+        "title": "Share with your client",
+        "body": "Download the document or send it directly; every version stays in the archive."
+      }
+    }
+  },
+  "features": {
+    "title": "You stay in charge of the draft",
+    "description": "The product is built to keep you in control at every step, not to finish the job on your behalf.",
+    "items": {
+      "naturalLanguage": {
+        "title": "Details gathered in plain language",
+        "body": "Short, sequential questions instead of long forms. The same detail is never asked twice."
+      },
+      "sectioned": {
+        "title": "A sectioned draft",
+        "body": "Parties, fees, delivery, liability, and termination arrive as separate sections you can edit one by one."
+      },
+      "editing": {
+        "title": "Edit by describing",
+        "body": "Writing \"extend the termination notice to 30 days\" is enough. The change is shown before and after, and you can accept or undo it.",
+        "badge": "Highlight"
+      },
+      "riskCheck": {
+        "title": "Consistency checks",
+        "body": "Mismatched party names, conflicting dates, payment schedules that don't add up, and empty critical fields are flagged."
+      },
+      "versions": {
+        "title": "Version history",
+        "body": "Every change is recorded, and it is always clear which version a given PDF came from."
+      },
+      "archive": {
+        "title": "PDF and archive",
+        "body": "Documents are produced with consistent file names and kept in your workspace archive."
+      }
+    }
+  },
+  "pricing": {
+    "title": "Pricing",
+    "description": "Move up a plan as your needs grow. On every action you see how much credit it costs and what is left in your plan.",
+    "popularBadge": "Most popular",
+    "perMonth": "/ month",
+    "plans": {
+      "starter": {
+        "name": "Starter",
+        "price": "$0",
+        "tagline": "For freelancers and consultants working on their own.",
+        "cta": "Start for free",
+        "features": {
+          "f1": "3 contract drafts per month",
+          "f2": "Three core contract types",
+          "f3": "Editing in plain language",
+          "f4": "PDF generation and download",
+          "f5": "Personal document archive"
+        }
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "$19",
+        "tagline": "For agencies and growing teams producing contracts regularly.",
+        "cta": "Go Pro",
+        "features": {
+          "f1": "Monthly credit allowance with transparent usage tracking",
+          "f2": "All contract types",
+          "f3": "Consistency and risk checks",
+          "f4": "Version history and comparison",
+          "f5": "Team member invitations",
+          "f6": "Sharing over email"
+        }
+      },
+      "business": {
+        "name": "Business",
+        "price": "Talk to us",
+        "tagline": "For multi-user operations, sales teams, and legal teams.",
+        "cta": "Get in touch",
+        "features": {
+          "f1": "Everything in Pro",
+          "f2": "Multiple workspaces and role management",
+          "f3": "Role-based access and permissions",
+          "f4": "Document activity logs",
+          "f5": "Team usage reports",
+          "f6": "Priority support"
+        }
+      }
+    }
+  },
+  "trust": {
+    "title": "Control stays with you",
+    "description": "The product helps you prepare a draft; responsibility for the document, and the final say, remain yours.",
+    "items": {
+      "control": {
+        "title": "Data control",
+        "body": "It is always clear which workspace a document belongs to, and you only reach data you are authorized for."
+      },
+      "history": {
+        "title": "Version history",
+        "body": "Which section changed, when, and how can be traced back at any time."
+      },
+      "archive": {
+        "title": "Document archive",
+        "body": "Every generated PDF is stored together with the version it came from."
+      },
+      "approval": {
+        "title": "Your approval",
+        "body": "No output is treated as final on its own; draft, review, and approval stay separate."
+      }
+    },
+    "disclaimerTitle": "Where the limits are",
+    "disclaimer": "Consistency checks are not legal advice and do not guarantee that a contract is valid. Automatic compliance with any particular country's legislation is not promised. For anything critical, have the document reviewed by a legal professional."
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "items": {
+      "accuracy": {
+        "question": "Can the draft be signed as-is?",
+        "answer": "A draft is prepared to be reviewed. It does not invent information it doesn't have, and it clearly marks missing or ambiguous fields. For anything critical, we recommend consulting a legal professional."
+      },
+      "signature": {
+        "question": "Is there electronic signing?",
+        "answer": "Not yet. The first release focuses on creating, editing, exporting, and archiving contracts. Electronic signatures, signature tracking, and a signed-document archive are planned for a later phase."
+      },
+      "types": {
+        "question": "Which contract types are supported?",
+        "answer": "The three most common types are supported in the first release. The system suggests a type that fits your needs, and you can accept or change that suggestion."
+      },
+      "credits": {
+        "question": "How are credits spent?",
+        "answer": "Actions like generating a draft or producing a PDF consume credits. Before starting an action you see how much it costs and what is left in your plan."
+      },
+      "team": {
+        "question": "Can I use this with my team?",
+        "answer": "On the Pro and Business plans you can invite team members into a workspace with their roles. Everyone only reaches the data they are authorized for."
+      }
+    }
+  },
+  "finalCta": {
+    "title": "Prepare your first contract today",
+    "description": "Describe what you need in a few sentences and continue with a draft you can edit.",
+    "cta": "Create a draft",
+    "note": "A few minutes is enough to get started."
+  },
+  "footer": {
+    "tagline": "Describe your contract, get a working draft.",
+    "productTitle": "Product",
+    "companyTitle": "Company",
+    "legalTitle": "Legal",
+    "links": {
+      "how": "How it works",
+      "pricing": "Pricing",
+      "faq": "FAQ",
+      "about": "About",
+      "contact": "Contact",
+      "privacy": "Privacy",
+      "terms": "Terms of use"
+    },
+    "rights": "All rights reserved.",
+    "disclaimer": "This product does not provide legal advice."
+  }
+}

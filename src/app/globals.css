@@ -1,0 +1,227 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/*
+  KOYU YÜZEYLER DARK MODE DEĞİLDİR.
+
+  design.md'deki ink-950 / ink-900 alanlar (navbar, hero, sidebar, final CTA,
+  sözleşme ekranının sol paneli) açık temanın içinde yaşayan MARKA YÜZEYLERİDİR.
+  Bunları `bg-ink-950` gibi açık utility'lerle yazın; asla `dark:` ile değil.
+
+  Aşağıdaki custom-variant bilerek duruyor: `dark:` varyantını `.dark` sınıfına
+  bağlar. Hiçbir yere `.dark` eklemediğimiz için, shadcn bileşenlerinden gelen
+  `dark:` sınıfları ölü kalır. Bu satır silinirse Tailwind v4 varsayılanına
+  (prefers-color-scheme) döner ve işletim sistemi koyu temadaki ziyaretçilerde
+  palet sessizce bozulur.
+*/
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  /* Tailwind'in yerleşik stone paletini temizle: design.md dışı bir ton
+     (ör. stone-500) yazıldığında sessizce yanlış renk gelmesin, sınıf hiç
+     üretilmesin. */
+  --color-stone-*: initial;
+
+  /* --- Marka: kırmızı (design.md §2) --- */
+  --color-brand-red-500: #d83a3a; /* ikincil vurgu, grafik serisi */
+  --color-brand-red-600: #c62828; /* ana CTA, aktif durum */
+  --color-brand-red-700: #a61b1b; /* hover, pressed, koyu vurgu */
+
+  /* --- Marka: kömür siyahı --- */
+  --color-ink-800: #222226; /* koyu kartlar ve sınırlar */
+  --color-ink-900: #151518; /* koyu yüzeyler, sidebar */
+  --color-ink-950: #0d0d0f; /* ana siyah, dark hero, başlıklar */
+
+  /* --- Nötr --- */
+  --color-paper-50: #faf9f7; /* ana açık arka plan */
+  --color-paper-100: #f3f1ee; /* bölüm arka planı, hover yüzeyi */
+  --color-stone-200: #e5e1dc; /* border, divider */
+  --color-stone-400: #aaa49d; /* placeholder, ikincil ikon */
+  --color-stone-600: #6d6862; /* yardımcı metin */
+  --color-stone-800: #393633; /* ana gövde metni */
+
+  /* --- Durum renkleri (design.md §2) --- */
+  --color-state-success: #287a55;
+  --color-state-info: #35658f;
+  --color-state-warning: #b7791f;
+  --color-state-error: #b42318;
+  --color-state-success-surface: #e8f3ed;
+  --color-state-warning-surface: #fff4d6;
+  --color-state-error-surface: #fdeae8;
+  --color-state-info-surface: #e8eef5;
+
+  /* Badge metin tonları (design.md §10) */
+  --color-state-success-text: #21623f;
+  --color-state-warning-text: #8a5a00;
+  --color-state-error-text: #9b2118;
+  --color-state-info-text: #2d5478;
+
+  /* --- Sözleşme editörü vurguları (design.md §8, Faz 3'te kullanılacak) --- */
+  --color-draft-ai-changed: #fff1f0; /* AI'ın son değiştirdiği satırlar */
+  --color-draft-approved: #e8f3ed; /* kullanıcının onayladığı bölümler */
+
+  /* --- Diğer noktasal renkler --- */
+  --color-primary-disabled: #d6a0a0; /* birincil buton disabled (§10) */
+  --color-cta-muted: #f3d2d0; /* final CTA açıklama metni (§6.8) */
+  --color-admin-bg: #eceae7; /* admin ana arka planı (§9) */
+
+  /* --- Tipografi (design.md §4) --- */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-inter-tight), var(--font-inter), ui-sans-serif,
+    system-ui, sans-serif;
+  --font-contract: var(--font-source-serif), ui-serif, Georgia, serif;
+
+  --text-hero: 4rem; /* 64px — landing hero (56–72) */
+  --text-hero--line-height: 1.06;
+  --text-hero--letter-spacing: -0.022em;
+  --text-hero--font-weight: 700;
+
+  --text-section: 2.5rem; /* 40px — landing bölüm başlığı (36–48) */
+  --text-section--line-height: 1.14;
+  --text-section--letter-spacing: -0.018em;
+  --text-section--font-weight: 700;
+
+  --text-page-title: 1.875rem; /* 30px — dashboard sayfa başlığı (28–32) */
+  --text-page-title--line-height: 1.2;
+  --text-page-title--letter-spacing: -0.012em;
+  --text-page-title--font-weight: 700;
+
+  --text-card-title: 1.0625rem; /* 17px — kart başlığı (16–18) */
+  --text-card-title--line-height: 1.4;
+  --text-card-title--font-weight: 650;
+
+  --text-body: 0.9688rem; /* ~15.5px — gövde metni (15–16) */
+  --text-body--line-height: 1.6;
+
+  --text-helper: 0.8438rem; /* 13.5px — yardımcı metin (13–14) */
+  --text-helper--line-height: 1.5;
+
+  --text-button: 0.9062rem; /* ~14.5px — buton metni (14–15) */
+  --text-button--line-height: 1.2;
+  --text-button--font-weight: 600;
+
+  --text-contract: 1rem; /* 16px — sözleşme metni (15–17) */
+  --text-contract--line-height: 1.7;
+
+  /* --- Gölge: design.md §5, tek ve hafif --- */
+  --shadow-card: 0 4px 16px rgba(13, 13, 15, 0.08);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/*
+  shadcn'in semantik değişkenleri marka token'larına bağlanır; böylece sonradan
+  eklenen her shadcn bileşeni otomatik olarak design.md dilinde gelir.
+*/
+:root {
+  --radius: 10px; /* design.md §5: 8–12 px */
+
+  --background: #faf9f7; /* paper-50 */
+  --foreground: #393633; /* stone-800 */
+
+  --card: #faf9f7; /* paper-50 */
+  --card-foreground: #393633; /* stone-800 */
+  --popover: #faf9f7;
+  --popover-foreground: #393633;
+
+  --primary: #c62828; /* brand-red-600 */
+  --primary-foreground: #faf9f7; /* paper-50 */
+
+  --secondary: #f3f1ee; /* paper-100 */
+  --secondary-foreground: #151518; /* ink-900 */
+
+  --muted: #f3f1ee; /* paper-100 */
+  --muted-foreground: #6d6862; /* stone-600 */
+
+  --accent: #f3f1ee; /* paper-100 — hover yüzeyi */
+  --accent-foreground: #0d0d0f; /* ink-950 */
+
+  --destructive: #b42318; /* design.md §10 tehlikeli buton */
+
+  --border: #e5e1dc; /* stone-200 */
+  --input: #e5e1dc; /* stone-200 */
+  --ring: #c62828; /* brand-red-600 — odak halkası */
+
+  /* Grafikler (design.md §7.3): tek kırmızı vurgu serisi, diğerleri gri. */
+  --chart-1: #c62828;
+  --chart-2: #6d6862;
+  --chart-3: #aaa49d;
+  --chart-4: #393633;
+  --chart-5: #e5e1dc;
+
+  /* Dashboard sidebar (design.md §7.1): koyu yüzey, kırmızı aktif öğe. */
+  --sidebar: #0d0d0f; /* ink-950 */
+  --sidebar-foreground: #aaa49d; /* stone-400 */
+  --sidebar-primary: #c62828; /* brand-red-600 — aktif öğe */
+  --sidebar-primary-foreground: #faf9f7; /* paper-50 */
+  --sidebar-accent: #151518; /* ink-900 — hover */
+  --sidebar-accent-foreground: #faf9f7; /* paper-50 */
+  --sidebar-border: #222226; /* ink-800 */
+  --sidebar-ring: #c62828;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+  }
+  body {
+    @apply bg-background text-foreground text-body;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading text-ink-950;
+  }
+  /* design.md §4: sayılar ve durum değerleri tabular olmalı. */
+  th,
+  td,
+  time,
+  [data-numeric] {
+    font-variant-numeric: tabular-nums;
+  }
+}
