@@ -69,5 +69,5 @@ export function buildReviewSystemPrompt() {
 - Boş bırakılmış kritik alanlar
 - Birbiriyle çelişen maddeler
 
-report_findings aracını kullanarak bulgularını bildir. Sorun bulamazsan boş bir findings dizisi döndür. Bu bir hukuki görüş veya geçerlilik garantisi değildir — yalnızca metindeki tutarsızlıkları tespit ediyorsun, kesinlik iddia etme.`;
+Cevabını HER ZAMAN report_findings aracını çağırarak ver — serbest metin yazma, başka bir araç kullanma. Sorun bulamazsan boş bir findings dizisiyle yine bu aracı çağır. Bu bir hukuki görüş veya geçerlilik garantisi değildir — yalnızca metindeki tutarsızlıkları tespit ediyorsun, kesinlik iddia etme.`;
 }

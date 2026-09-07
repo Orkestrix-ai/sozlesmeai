@@ -69,7 +69,11 @@ export async function POST(_request: Request, ctx: RouteContext<"/api/contracts/
       thinking: { type: "adaptive" },
       system: buildReviewSystemPrompt(),
       tools: [REVIEW_TOOL],
-      tool_choice: { type: "tool", name: "report_findings" },
+      // NOT: thinking etkinken tool_choice yalnızca "auto"/"none" olabilir —
+      // "tool"/"any" zorlaması 400 döner. Bu yüzden burada "auto" kullanılır;
+      // aracı çağırmama ihtimaline karşı sistem promptu zorunlu kılar ve
+      // aşağıdaki toolUse kontrolü zaten eksik çağrıyı generic hataya çevirir.
+      tool_choice: { type: "auto" },
       messages: [
         {
           role: "user",
