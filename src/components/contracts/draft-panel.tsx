@@ -57,6 +57,10 @@ function DraftPanel({
   onApprove,
   approving,
   shareSlot,
+  onGeneratePdf,
+  generatingPdf,
+  pdfUrl,
+  pdfError,
 }: {
   status: "draft" | "review" | "ready" | "shared" | "error";
   sections: ContractSection[];
@@ -73,6 +77,10 @@ function DraftPanel({
   onApprove: () => void;
   approving: boolean;
   shareSlot?: React.ReactNode;
+  onGeneratePdf: () => void;
+  generatingPdf: boolean;
+  pdfUrl: string | null;
+  pdfError: boolean;
 }) {
   const t = useTranslations("dashboard.contractScreen");
   const tStatus = useTranslations("dashboard.status");
@@ -320,8 +328,26 @@ function DraftPanel({
                   {t("approve")}
                 </Button>
               )}
-              {status === "ready" && shareSlot}
+              {status === "ready" && (
+                <>
+                  {pdfUrl ? (
+                    <Button size="sm" asChild>
+                      <a href={pdfUrl} target="_blank" rel="noopener noreferrer">
+                        {t("pdf.download")}
+                      </a>
+                    </Button>
+                  ) : (
+                    <Button size="sm" onClick={onGeneratePdf} disabled={generatingPdf}>
+                      {generatingPdf ? t("pdf.generating") : t("pdf.generate")}
+                    </Button>
+                  )}
+                  {shareSlot}
+                </>
+              )}
             </div>
+          )}
+          {status === "ready" && pdfError && (
+            <p className="w-full text-helper text-state-error">{t("pdf.error")}</p>
           )}
         </div>
       )}

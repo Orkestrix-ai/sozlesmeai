@@ -625,6 +625,12 @@
         "revoke": "İptal et",
         "activeLinks": "Aktif bağlantılar",
         "noActiveLinks": "Aktif paylaşım bağlantısı yok."
+      },
+      "pdf": {
+        "generate": "PDF oluştur",
+        "generating": "Oluşturuluyor…",
+        "download": "PDF'i indir",
+        "error": "PDF oluşturulamadı. Lütfen tekrar dene."
       }
     }
   },

@@ -625,6 +625,12 @@
         "revoke": "Revoke",
         "activeLinks": "Active links",
         "noActiveLinks": "No active share links."
+      },
+      "pdf": {
+        "generate": "Generate PDF",
+        "generating": "Generating…",
+        "download": "Download PDF",
+        "error": "Couldn't generate the PDF. Please try again."
       }
     }
   },

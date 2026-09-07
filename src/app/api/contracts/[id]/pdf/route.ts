@@ -1,7 +1,5 @@
-import { renderToBuffer } from "@react-pdf/renderer";
-
 import { createClient } from "@/lib/supabase/server";
-import { ContractDocument } from "@/lib/pdf/contract-document";
+import { renderContractPdf } from "@/lib/pdf/render";
 import { sectionsSchema } from "@/lib/contracts/schema";
 
 export const dynamic = "force-dynamic";
@@ -71,14 +69,12 @@ export async function POST(_request: Request, ctx: RouteContext<"/api/contracts/
 
   let buffer: Buffer;
   try {
-    buffer = await renderToBuffer(
-      ContractDocument({
-        title: contract.title,
-        versionNo: latestVersion.version_no,
-        generatedAt: new Date(),
-        sections,
-      }),
-    );
+    buffer = await renderContractPdf({
+      title: contract.title,
+      versionNo: latestVersion.version_no,
+      generatedAt: new Date(),
+      sections,
+    });
   } catch (error) {
     console.error("[contracts/pdf] render:", error);
     return Response.json({ error: "generic" }, { status: 500 });

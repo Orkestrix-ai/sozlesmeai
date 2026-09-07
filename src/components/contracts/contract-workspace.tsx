@@ -64,6 +64,10 @@ function ContractWorkspace({
   const [reviewing, setReviewing] = React.useState(false);
   const [reviewError, setReviewError] = React.useState(false);
 
+  const [pdfUrl, setPdfUrl] = React.useState<string | null>(null);
+  const [generatingPdf, setGeneratingPdf] = React.useState(false);
+  const [pdfError, setPdfError] = React.useState(false);
+
   const latestSections = versions[0]?.sections ?? [];
   const viewingVersion = versions.find((v) => v.id === viewingVersionId) ?? null;
   const displayedSections = viewingVersion ? viewingVersion.sections : latestSections;
@@ -174,6 +178,21 @@ function ContractWorkspace({
     if (!result.error) setStatus("ready");
   };
 
+  const handleGeneratePdf = async () => {
+    setGeneratingPdf(true);
+    setPdfError(false);
+    try {
+      const res = await fetch(`/api/contracts/${contractId}/pdf`, { method: "POST" });
+      const data = await res.json();
+      if (!res.ok || !data.url) throw new Error(data?.error ?? "generic");
+      setPdfUrl(data.url);
+    } catch {
+      setPdfError(true);
+    } finally {
+      setGeneratingPdf(false);
+    }
+  };
+
   return (
     <div className="flex h-[70dvh] min-h-[520px] flex-col overflow-hidden rounded-[var(--radius)] border border-stone-200 lg:h-[78dvh] lg:flex-row">
       <div className="flex border-b border-stone-200 bg-paper-50 lg:hidden">
@@ -229,6 +248,10 @@ function ContractWorkspace({
               initialShares={initialShares}
             />
           }
+          onGeneratePdf={handleGeneratePdf}
+          generatingPdf={generatingPdf}
+          pdfUrl={pdfUrl}
+          pdfError={pdfError}
         />
       </div>
     </div>
