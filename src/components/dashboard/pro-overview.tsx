@@ -31,6 +31,10 @@ const KNOWN_REASON_KEYS = [
   "contract_created",
   "adjustment",
   "refund",
+  "draft_generate",
+  "ai_edit",
+  "risk_check",
+  "pdf_generate",
 ] as const;
 
 /**

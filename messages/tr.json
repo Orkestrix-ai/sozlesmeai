@@ -448,7 +448,11 @@
         "monthly_grant": "Aylık kredi yenilemesi",
         "contract_created": "Sözleşme taslağı oluşturuldu",
         "adjustment": "Manuel düzeltme",
-        "refund": "İade"
+        "refund": "İade",
+        "draft_generate": "AI taslağı oluşturuldu",
+        "ai_edit": "AI ile düzenlendi",
+        "risk_check": "Risk kontrolü çalıştırıldı",
+        "pdf_generate": "PDF oluşturuldu"
       }
     },
     "chart": {
@@ -549,6 +553,154 @@
         "nda": "Gizlilik sözleşmesi",
         "freelance": "Serbest çalışma sözleşmesi"
       }
+    },
+    "contractScreen": {
+      "chat": {
+        "title": "Sohbet",
+        "placeholder": "Mesajını yaz…",
+        "send": "Gönder",
+        "empty": "İhtiyacını anlat, taslağın burada şekillensin.",
+        "thinking": "Düşünüyor…",
+        "error": "Mesaj gönderilemedi. Lütfen tekrar dene."
+      },
+      "draft": {
+        "title": "Taslak",
+        "empty": "Sohbet ilerledikçe taslak burada görünecek.",
+        "editToggle": "Elle düzenle",
+        "cancelEdit": "Vazgeç",
+        "save": "Kaydet",
+        "addSection": "Bölüm ekle",
+        "deleteSection": "Bölümü sil",
+        "moveUp": "Yukarı taşı",
+        "moveDown": "Aşağı taşı",
+        "sectionTitlePlaceholder": "Bölüm başlığı",
+        "sectionBodyPlaceholder": "Bölüm metni",
+        "missingLabel": "Eksik",
+        "unsavedWarning": "Kaydedilmemiş değişikliklerin var.",
+        "viewingOldVersion": "Geçmiş bir sürümü görüntülüyorsun.",
+        "backToLatest": "Güncel sürüme dön"
+      },
+      "versions": {
+        "title": "Sürüm geçmişi",
+        "current": "Güncel",
+        "sourceLabels": {
+          "ai_draft": "AI taslağı",
+          "ai_edit": "AI düzenlemesi",
+          "manual": "Elle düzenleme"
+        }
+      },
+      "review": {
+        "run": "Risk kontrolü çalıştır",
+        "rerun": "Yeniden çalıştır",
+        "running": "Kontrol ediliyor…",
+        "title": "Risk ve tutarlılık kontrolü",
+        "empty": "Herhangi bir sorun bulunamadı.",
+        "disclaimer": "Bu kontrol hukuki görüş veya geçerlilik garantisi değildir.",
+        "error": "Kontrol tamamlanamadı. Lütfen tekrar dene.",
+        "findings": {
+          "party_name_mismatch": "Taraf isimlerinde tutarsızlık",
+          "date_inconsistency": "Tarih/süre uyuşmazlığı",
+          "payment_mismatch": "Ödeme tutarı/takvimi uyuşmazlığı",
+          "undefined_term": "Tanımsız terim",
+          "empty_critical_field": "Boş kritik alan",
+          "conflicting_clause": "Çelişen madde",
+          "other": "Diğer"
+        }
+      },
+      "approve": "Onayla",
+      "approved": "Sözleşme onaylandı.",
+      "statusHelp": {
+        "draft": "Taslak üzerinde çalışılıyor.",
+        "review": "Risk kontrolü tamamlandı, onayını bekliyor.",
+        "ready": "Onaylandı."
+      },
+      "share": {
+        "title": "Paylaş",
+        "create": "Paylaşım bağlantısı oluştur",
+        "creating": "Oluşturuluyor…",
+        "onlyReady": "Paylaşım bağlantısı yalnızca onaylanmış sözleşmeler için oluşturulabilir.",
+        "linkLabel": "Paylaşım bağlantısı",
+        "copy": "Kopyala",
+        "copied": "Kopyalandı",
+        "revoke": "İptal et",
+        "activeLinks": "Aktif bağlantılar",
+        "noActiveLinks": "Aktif paylaşım bağlantısı yok."
+      }
     }
+  },
+  "sharedContract": {
+    "readOnlyNote": "Bu, salt okunur bir paylaşım bağlantısıdır.",
+    "downloadPdf": "PDF indir",
+    "pdfNotReady": "Bu sözleşme için henüz bir PDF oluşturulmadı.",
+    "invalid": {
+      "title": "Bağlantı geçerli değil",
+      "body": "Bu paylaşım bağlantısının süresi dolmuş veya iptal edilmiş olabilir."
+    }
+  },
+  "admin": {
+    "sidebar": {
+      "brand": "Yönetici Paneli",
+      "backToApp": "Uygulamaya dön",
+      "users": "Kullanıcılar",
+      "workspaces": "Workspace ve ekipler",
+      "usage": "Kullanım istatistikleri",
+      "auditLog": "İşlem günlükleri",
+      "billing": "Paket ve kullanım yönetimi",
+      "comingSoon": {
+        "templates": "Şablonlar",
+        "notifications": "Sistem bildirimleri",
+        "support": "Destek talepleri"
+      }
+    },
+    "users": {
+      "title": "Kullanıcılar",
+      "description": "Platformdaki tüm kullanıcılar.",
+      "table": { "name": "Ad", "email": "E-posta", "locale": "Dil", "joined": "Katılım" }
+    },
+    "workspaces": {
+      "title": "Workspace ve ekipler",
+      "description": "Tüm çalışma alanları ve paketleri.",
+      "table": {
+        "name": "Ad",
+        "plan": "Paket",
+        "members": "Üye",
+        "balance": "Bakiye",
+        "created": "Oluşturulma"
+      },
+      "personal": "Kişisel"
+    },
+    "usage": {
+      "title": "AI / sözleşme kullanım istatistikleri",
+      "description": "Platform genelinde kullanım özeti.",
+      "metrics": {
+        "totalUsers": "Toplam kullanıcı",
+        "totalWorkspaces": "Toplam workspace",
+        "totalContracts": "Toplam sözleşme",
+        "totalVersions": "Toplam AI/elle sürüm",
+        "totalMessages": "Toplam sohbet mesajı",
+        "creditsConsumed": "Harcanan toplam kredi"
+      }
+    },
+    "auditLog": {
+      "title": "İşlem günlükleri",
+      "description": "Kritik admin aksiyonlarının kaydı.",
+      "table": { "time": "Zaman", "actor": "Aktör", "action": "İşlem", "resource": "Kaynak" },
+      "empty": "Henüz kayıt yok.",
+      "actions": { "add_credits": "Kredi eklendi" }
+    },
+    "billing": {
+      "title": "Paket ve kullanım yönetimi",
+      "description": "Workspace paketleri ve kredi bakiyeleri.",
+      "addCredits": "Kredi ekle",
+      "dialog": {
+        "title": "Kredi ekle",
+        "description": "Bu işlem geri alınamaz ve işlem günlüğüne kaydedilir.",
+        "amountLabel": "Miktar",
+        "confirm": "Ekle",
+        "cancel": "Vazgeç"
+      }
+    },
+    "unauthorizedNote": "Bu alana yalnızca platform yöneticileri erişebilir.",
+    "adminLink": "Admin paneli"
   }
 }

@@ -17,12 +17,274 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          detail: Json
+          id: number
+          resource_id: string | null
+          resource_type: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          detail?: Json
+          id?: never
+          resource_id?: string | null
+          resource_type: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          detail?: Json
+          id?: never
+          resource_id?: string | null
+          resource_type?: string
+        }
+        Relationships: []
+      }
+      platform_admins: {
+        Row: {
+          created_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      contract_shares: {
+        Row: {
+          contract_id: string
+          created_at: string
+          created_by: string | null
+          expires_at: string | null
+          id: string
+          revoked_at: string | null
+          token: string
+        }
+        Insert: {
+          contract_id: string
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          revoked_at?: string | null
+          token: string
+        }
+        Update: {
+          contract_id?: string
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          revoked_at?: string | null
+          token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_shares_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contract_documents: {
+        Row: {
+          contract_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          storage_path: string
+          version_id: string
+        }
+        Insert: {
+          contract_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          storage_path: string
+          version_id: string
+        }
+        Update: {
+          contract_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          storage_path?: string
+          version_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_documents_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contract_documents_version_id_fkey"
+            columns: ["version_id"]
+            isOneToOne: true
+            referencedRelation: "contract_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contract_findings: {
+        Row: {
+          code: string
+          contract_id: string
+          created_at: string
+          detail: string
+          id: number
+          section_key: string | null
+          severity: Database["public"]["Enums"]["finding_severity"]
+          version_id: string | null
+        }
+        Insert: {
+          code: string
+          contract_id: string
+          created_at?: string
+          detail?: string
+          id?: never
+          section_key?: string | null
+          severity: Database["public"]["Enums"]["finding_severity"]
+          version_id?: string | null
+        }
+        Update: {
+          code?: string
+          contract_id?: string
+          created_at?: string
+          detail?: string
+          id?: never
+          section_key?: string | null
+          severity?: Database["public"]["Enums"]["finding_severity"]
+          version_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_findings_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contract_findings_version_id_fkey"
+            columns: ["version_id"]
+            isOneToOne: false
+            referencedRelation: "contract_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contract_messages: {
+        Row: {
+          content: string
+          contract_id: string
+          created_at: string
+          id: number
+          role: Database["public"]["Enums"]["contract_message_role"]
+        }
+        Insert: {
+          content: string
+          contract_id: string
+          created_at?: string
+          id?: never
+          role: Database["public"]["Enums"]["contract_message_role"]
+        }
+        Update: {
+          content?: string
+          contract_id?: string
+          created_at?: string
+          id?: never
+          role?: Database["public"]["Enums"]["contract_message_role"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_messages_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contract_types: {
+        Row: {
+          code: string
+          name_key: string
+          section_keys: string[]
+        }
+        Insert: {
+          code: string
+          name_key: string
+          section_keys: string[]
+        }
+        Update: {
+          code?: string
+          name_key?: string
+          section_keys?: string[]
+        }
+        Relationships: []
+      }
+      contract_versions: {
+        Row: {
+          contract_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          sections: Json
+          source: Database["public"]["Enums"]["contract_version_source"]
+          version_no: number
+        }
+        Insert: {
+          contract_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          sections?: Json
+          source: Database["public"]["Enums"]["contract_version_source"]
+          version_no: number
+        }
+        Update: {
+          contract_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          sections?: Json
+          source?: Database["public"]["Enums"]["contract_version_source"]
+          version_no?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_versions_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contracts: {
         Row: {
           archived_at: string | null
           contract_type: string | null
           created_at: string
           created_by: string | null
+          current_version_id: string | null
           id: string
           status: Database["public"]["Enums"]["contract_status"]
           title: string
@@ -34,6 +296,7 @@ export type Database = {
           contract_type?: string | null
           created_at?: string
           created_by?: string | null
+          current_version_id?: string | null
           id?: string
           status?: Database["public"]["Enums"]["contract_status"]
           title?: string
@@ -45,6 +308,7 @@ export type Database = {
           contract_type?: string | null
           created_at?: string
           created_by?: string | null
+          current_version_id?: string | null
           id?: string
           status?: Database["public"]["Enums"]["contract_status"]
           title?: string
@@ -52,6 +316,20 @@ export type Database = {
           workspace_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "contracts_contract_type_fkey"
+            columns: ["contract_type"]
+            isOneToOne: false
+            referencedRelation: "contract_types"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "contracts_current_version_id_fkey"
+            columns: ["current_version_id"]
+            isOneToOne: false
+            referencedRelation: "contract_versions"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "contracts_workspace_id_fkey"
             columns: ["workspace_id"]
@@ -108,6 +386,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      operation_costs: {
+        Row: {
+          credits: number
+          is_placeholder: boolean
+          operation: string
+        }
+        Insert: {
+          credits: number
+          is_placeholder?: boolean
+          operation: string
+        }
+        Update: {
+          credits?: number
+          is_placeholder?: boolean
+          operation?: string
+        }
+        Relationships: []
       }
       plan_defaults: {
         Row: {
@@ -355,6 +651,25 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_usage_stats: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          credits_consumed: number
+          total_contracts: number
+          total_messages: number
+          total_users: number
+          total_versions: number
+          total_workspaces: number
+        }[]
+      }
+      consume_credits: {
+        Args: {
+          p_contract_id?: string
+          p_operation: string
+          p_workspace_id: string
+        }
+        Returns: undefined
+      }
       ensure_user_bootstrap: { Args: { p_user_id: string }; Returns: string }
       recompute_workspace_credits: {
         Args: { p_workspace_id: string }
@@ -369,8 +684,11 @@ export type Database = {
         | "plan_changed"
         | "credits_granted"
         | "credits_consumed"
+      contract_message_role: "user" | "assistant"
       contract_status: "draft" | "review" | "ready" | "shared" | "error"
+      contract_version_source: "ai_draft" | "ai_edit" | "manual"
       credit_entry_type: "grant" | "consume" | "refund" | "adjustment"
+      finding_severity: "info" | "warning" | "error"
       plan_tier: "starter" | "pro" | "business"
       subscription_status: "trialing" | "active" | "past_due" | "canceled"
       workspace_role: "admin" | "editor" | "viewer"
@@ -509,8 +827,11 @@ export const Constants = {
         "credits_granted",
         "credits_consumed",
       ],
+      contract_message_role: ["user", "assistant"],
       contract_status: ["draft", "review", "ready", "shared", "error"],
+      contract_version_source: ["ai_draft", "ai_edit", "manual"],
       credit_entry_type: ["grant", "consume", "refund", "adjustment"],
+      finding_severity: ["info", "warning", "error"],
       plan_tier: ["starter", "pro", "business"],
       subscription_status: ["trialing", "active", "past_due", "canceled"],
       workspace_role: ["admin", "editor", "viewer"],

@@ -1,0 +1,332 @@
+"use client";
+
+import * as React from "react";
+import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Select } from "@/components/ui/select";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import type { ContractSection } from "@/lib/contracts/schema";
+
+export type VersionEntry = {
+  id: string;
+  versionNo: number;
+  source: "ai_draft" | "ai_edit" | "manual";
+  sections: ContractSection[];
+};
+
+export type Finding = {
+  id: number;
+  code: string;
+  severity: "info" | "warning" | "error";
+  sectionKey: string | null;
+  detail: string;
+};
+
+const FINDING_CODES = [
+  "party_name_mismatch",
+  "date_inconsistency",
+  "payment_mismatch",
+  "undefined_term",
+  "empty_critical_field",
+  "conflicting_clause",
+  "other",
+] as const;
+
+/**
+ * design.md §8 sağ panel — paper-100 zemin, paper-50 belge yüzeyi. AI'ın son
+ * değiştirdiği satırlar `bg-draft-ai-changed`, onaylanan bölümler
+ * `bg-draft-approved` (globals.css'te tanımlı, burada ilk kullanım).
+ */
+function DraftPanel({
+  status,
+  sections,
+  versions,
+  viewingVersionId,
+  onSelectVersion,
+  canEdit,
+  onSaveSections,
+  saving,
+  findings,
+  onRunReview,
+  reviewing,
+  reviewError,
+  onApprove,
+  approving,
+  shareSlot,
+}: {
+  status: "draft" | "review" | "ready" | "shared" | "error";
+  sections: ContractSection[];
+  versions: VersionEntry[];
+  viewingVersionId: string | null;
+  onSelectVersion: (id: string | null) => void;
+  canEdit: boolean;
+  onSaveSections: (sections: ContractSection[]) => Promise<boolean>;
+  saving: boolean;
+  findings: Finding[];
+  onRunReview: () => void;
+  reviewing: boolean;
+  reviewError: boolean;
+  onApprove: () => void;
+  approving: boolean;
+  shareSlot?: React.ReactNode;
+}) {
+  const t = useTranslations("dashboard.contractScreen");
+  const tStatus = useTranslations("dashboard.status");
+  const tVersions = useTranslations("dashboard.contractScreen.versions.sourceLabels");
+  const tFindings = useTranslations("dashboard.contractScreen.review.findings");
+
+  const [editMode, setEditMode] = React.useState(false);
+  const [draft, setDraft] = React.useState<ContractSection[]>(sections);
+  const isViewingHistory = viewingVersionId !== null;
+
+  // `draft` yalnızca editMode true iken okunur (bkz. `displayed` altta) —
+  // startEdit() zaten güncel `sections`'ı kopyalayarak başlatır, bu yüzden
+  // `!editMode` durumunda ayrıca senkronize eden bir efekte gerek yok.
+
+  // Kaydedilmemiş değişiklik varken sekmeyi kapatma uyarısı (FR-06).
+  React.useEffect(() => {
+    if (!editMode) return;
+    const handler = (e: BeforeUnloadEvent) => e.preventDefault();
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [editMode]);
+
+  const startEdit = () => {
+    setDraft(sections);
+    setEditMode(true);
+  };
+
+  const cancelEdit = () => {
+    setDraft(sections);
+    setEditMode(false);
+  };
+
+  const save = async () => {
+    const ok = await onSaveSections(draft);
+    if (ok) setEditMode(false);
+  };
+
+  const updateSection = (index: number, patch: Partial<ContractSection>) => {
+    setDraft((prev) => prev.map((s, i) => (i === index ? { ...s, ...patch } : s)));
+  };
+
+  const moveSection = (index: number, dir: -1 | 1) => {
+    setDraft((prev) => {
+      const next = [...prev];
+      const target = index + dir;
+      if (target < 0 || target >= next.length) return prev;
+      [next[index], next[target]] = [next[target], next[index]];
+      return next;
+    });
+  };
+
+  const removeSection = (index: number) => {
+    setDraft((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const addSection = () => {
+    setDraft((prev) => [
+      ...prev,
+      { key: `section_${prev.length + 1}`, title: "", body: "", status: "draft", missing: [], lastEditedBy: "user" },
+    ]);
+  };
+
+  const displayed = editMode ? draft : sections;
+  // "draft"ta risk kontrolü tek birincil aksiyondur; "review"da onay öne
+  // geçer; "ready"de ikisi de ikincildir (onay zaten verildi, design.md §5:
+  // ekran başına tek birincil aksiyon — burada hiç kalmaması da geçerlidir).
+  const reviewIsPrimary = status === "draft";
+
+  return (
+    <div className="flex h-full flex-col bg-paper-100">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-200 bg-paper-100 p-4">
+        <div className="flex items-center gap-3">
+          <h2 className="text-card-title font-heading text-ink-950">{t("draft.title")}</h2>
+          <StatusBadge status={status}>{tStatus(status)}</StatusBadge>
+        </div>
+        {versions.length > 0 && (
+          <Select
+            className="h-9 w-auto min-w-[10rem]"
+            value={viewingVersionId ?? "latest"}
+            onChange={(e) => onSelectVersion(e.target.value === "latest" ? null : e.target.value)}
+            aria-label={t("versions.title")}
+          >
+            <option value="latest">{t("versions.current")}</option>
+            {versions.map((v) => (
+              <option key={v.id} value={v.id}>
+                v{v.versionNo} — {tVersions(v.source)}
+              </option>
+            ))}
+          </Select>
+        )}
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-4">
+        {isViewingHistory && (
+          <Alert variant="neutral" className="mb-4 flex items-center justify-between gap-3">
+            <AlertDescription>{t("draft.viewingOldVersion")}</AlertDescription>
+            <Button variant="secondary" size="sm" onClick={() => onSelectVersion(null)}>
+              {t("draft.backToLatest")}
+            </Button>
+          </Alert>
+        )}
+
+        {displayed.length === 0 ? (
+          <p className="text-body text-stone-600">{t("draft.empty")}</p>
+        ) : (
+          <div className="space-y-4">
+            {displayed.map((section, index) => (
+              <div
+                key={section.key}
+                className={cn(
+                  "rounded-[var(--radius)] border border-stone-200 bg-paper-50 p-4",
+                  !editMode && section.lastEditedBy === "ai" && "bg-draft-ai-changed",
+                  !editMode && section.status === "approved" && "bg-draft-approved",
+                )}
+              >
+                {editMode ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <input
+                        value={section.title}
+                        onChange={(e) => updateSection(index, { title: e.target.value })}
+                        placeholder={t("draft.sectionTitlePlaceholder")}
+                        className="flex-1 rounded-[var(--radius)] border border-stone-200 bg-paper-50 px-2.5 py-1.5 text-body font-medium text-ink-950 outline-none focus-visible:ring-2 focus-visible:ring-brand-red-600"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => moveSection(index, -1)}
+                        disabled={index === 0}
+                        aria-label={t("draft.moveUp")}
+                        className="flex size-8 items-center justify-center rounded-[var(--radius)] text-stone-600 hover:bg-paper-100 disabled:opacity-30"
+                      >
+                        <ArrowUp className="size-4" aria-hidden="true" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => moveSection(index, 1)}
+                        disabled={index === displayed.length - 1}
+                        aria-label={t("draft.moveDown")}
+                        className="flex size-8 items-center justify-center rounded-[var(--radius)] text-stone-600 hover:bg-paper-100 disabled:opacity-30"
+                      >
+                        <ArrowDown className="size-4" aria-hidden="true" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => removeSection(index)}
+                        aria-label={t("draft.deleteSection")}
+                        className="flex size-8 items-center justify-center rounded-[var(--radius)] text-state-error hover:bg-state-error-surface"
+                      >
+                        <Trash2 className="size-4" aria-hidden="true" />
+                      </button>
+                    </div>
+                    <textarea
+                      value={section.body}
+                      onChange={(e) => updateSection(index, { body: e.target.value })}
+                      placeholder={t("draft.sectionBodyPlaceholder")}
+                      rows={5}
+                      className="w-full resize-y rounded-[var(--radius)] border border-stone-200 bg-paper-50 px-2.5 py-2 font-[family-name:var(--font-contract)] text-contract text-stone-800 outline-none focus-visible:ring-2 focus-visible:ring-brand-red-600"
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <h3 className="text-card-title font-heading text-ink-950">{section.title}</h3>
+                    <p className="mt-2 whitespace-pre-wrap font-[family-name:var(--font-contract)] text-contract text-stone-800">
+                      {section.body}
+                    </p>
+                    {section.missing.length > 0 && (
+                      <p className="mt-3 rounded-[var(--radius)] bg-state-warning-surface px-3 py-2 text-helper text-state-warning-text">
+                        {t("draft.missingLabel")}: {section.missing.join(", ")}
+                      </p>
+                    )}
+                  </>
+                )}
+              </div>
+            ))}
+            {editMode && (
+              <Button variant="secondary" size="sm" onClick={addSection}>
+                <Plus className="size-4" aria-hidden="true" />
+                {t("draft.addSection")}
+              </Button>
+            )}
+          </div>
+        )}
+
+        {findings.length > 0 && !isViewingHistory && (
+          <div className="mt-6 rounded-[var(--radius)] border border-stone-200 bg-paper-50 p-4">
+            <h3 className="text-card-title font-heading text-ink-950">{t("review.title")}</h3>
+            <p className="mt-1 text-helper text-stone-600">{t("review.disclaimer")}</p>
+            <ul className="mt-3 space-y-2">
+              {findings.map((f) => (
+                <li key={f.id} className="flex items-start gap-2 text-body text-stone-800">
+                  <span
+                    className={cn(
+                      "mt-1.5 size-1.5 shrink-0 rounded-full",
+                      f.severity === "error" && "bg-state-error",
+                      f.severity === "warning" && "bg-state-warning",
+                      f.severity === "info" && "bg-stone-400",
+                    )}
+                    aria-hidden="true"
+                  />
+                  <span>
+                    <span className="font-medium">
+                      {tFindings(FINDING_CODES.includes(f.code as (typeof FINDING_CODES)[number]) ? (f.code as (typeof FINDING_CODES)[number]) : "other")}
+                    </span>
+                    {f.detail && <span className="text-stone-600"> — {f.detail}</span>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {reviewError && (
+          <p className="mt-3 text-helper text-state-error">{t("review.error")}</p>
+        )}
+      </div>
+
+      {!isViewingHistory && (
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-stone-200 bg-paper-100 p-4">
+          {editMode ? (
+            <div className="flex gap-2">
+              <Button variant="secondary" size="sm" onClick={cancelEdit} disabled={saving}>
+                {t("draft.cancelEdit")}
+              </Button>
+              <Button size="sm" onClick={save} disabled={saving}>
+                {t("draft.save")}
+              </Button>
+            </div>
+          ) : (
+            <Button variant="secondary" size="sm" onClick={startEdit} disabled={!canEdit || sections.length === 0}>
+              {t("draft.editToggle")}
+            </Button>
+          )}
+
+          {!editMode && canEdit && sections.length > 0 && (
+            <div className="flex items-center gap-2">
+              <Button
+                variant={reviewIsPrimary ? "primary" : "secondary"}
+                size="sm"
+                onClick={onRunReview}
+                disabled={reviewing}
+              >
+                {reviewing ? t("review.running") : findings.length > 0 ? t("review.rerun") : t("review.run")}
+              </Button>
+              {status === "review" && (
+                <Button size="sm" onClick={onApprove} disabled={approving}>
+                  {t("approve")}
+                </Button>
+              )}
+              {status === "ready" && shareSlot}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export { DraftPanel };

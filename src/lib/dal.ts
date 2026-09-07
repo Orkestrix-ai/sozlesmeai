@@ -262,6 +262,64 @@ export const getCreditLedger = cache(async (workspaceId: string, limit = 20) => 
   return data ?? [];
 });
 
+export const getContractMessages = cache(async (contractId: string) => {
+  await verifySession();
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("contract_messages")
+    .select("id, role, content, created_at")
+    .eq("contract_id", contractId)
+    .order("created_at", { ascending: true });
+
+  if (error) throw error;
+  return data ?? [];
+});
+
+/** version_no'ya göre yeniden yeniye — [0] her zaman en güncel sürümdür. */
+export const getContractVersions = cache(async (contractId: string) => {
+  await verifySession();
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("contract_versions")
+    .select("id, version_no, sections, source, created_at")
+    .eq("contract_id", contractId)
+    .order("version_no", { ascending: false });
+
+  if (error) throw error;
+  return data ?? [];
+});
+
+export const getContractShares = cache(async (contractId: string) => {
+  await verifySession();
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("contract_shares")
+    .select("id, token, expires_at, revoked_at, created_at")
+    .eq("contract_id", contractId)
+    .is("revoked_at", null)
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return data ?? [];
+});
+
+export const getContractFindings = cache(async (contractId: string) => {
+  await verifySession();
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("contract_findings")
+    .select("id, code, severity, section_key, detail, created_at")
+    .eq("contract_id", contractId)
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return data ?? [];
+});
+
 /** Son 8 hafta için işaretli/nötr seri — §7.3 tek kırmızı vurgu grafiği. */
 export const getCreditSeries = cache(async (workspaceId: string) => {
   const ledger = await getCreditLedger(workspaceId, 500);
@@ -329,3 +387,20 @@ export async function requireWorkspaceRole(workspaceId: string, roles: Workspace
 
   return data.role as WorkspaceRole;
 }
+
+/** requireWorkspaceRole'ün fırlatmayan hali — contracts/[id] gibi, rolün
+ * yalnızca UI dallanması için okunduğu (RLS zaten yetkiyi zorunlu kıldığı)
+ * yerlerde. */
+export const getMembershipRole = cache(async (workspaceId: string) => {
+  const { userId } = await verifySession();
+  const supabase = await createClient();
+
+  const { data } = await supabase
+    .from("workspace_members")
+    .select("role")
+    .eq("workspace_id", workspaceId)
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  return (data?.role as WorkspaceRole | undefined) ?? null;
+});

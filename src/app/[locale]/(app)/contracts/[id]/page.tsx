@@ -1,16 +1,24 @@
 import { notFound } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 
-import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/button";
-import { StatusBadge } from "@/components/ui/status-badge";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { getContract } from "@/lib/dal";
+import { ContractWorkspace } from "@/components/contracts/contract-workspace";
+import type { ChatMessage } from "@/components/contracts/chat-panel";
+import type { Finding, VersionEntry } from "@/components/contracts/draft-panel";
+import type { ShareEntry } from "@/components/contracts/share-panel";
+import {
+  getContract,
+  getContractFindings,
+  getContractMessages,
+  getContractShares,
+  getContractVersions,
+  getMembershipRole,
+} from "@/lib/dal";
+import { sectionsSchema } from "@/lib/contracts/schema";
+import type { AppLocale } from "@/i18n/routing";
 
 /**
- * Faz 3'e kadar yer tutucu: AI destekli taslak/düzenleme ekranı (design.md
- * §8) burada oluşacak. Şimdilik yalnızca metadata + durum gösterilir — RLS
- * zaten başka bir workspace'in sözleşmesini döndürmez (getContract → null).
+ * design.md §8 — sözleşme oluşturma/düzenleme ekranı. RLS zaten başka bir
+ * workspace'in sözleşmesini döndürmez (getContract → null → notFound).
  */
 export default async function ContractDetailPage({ params }: PageProps<"/[locale]/contracts/[id]">) {
   const { locale, id } = await params;
@@ -19,34 +27,54 @@ export default async function ContractDetailPage({ params }: PageProps<"/[locale
   const contract = await getContract(id);
   if (!contract) notFound();
 
-  const t = await getTranslations("dashboard");
-  const tTypes = await getTranslations("dashboard.newContract.types");
-  const tStatus = await getTranslations("dashboard.status");
-  const tDetail = await getTranslations("dashboard.contracts.detail");
+  const t = await getTranslations("dashboard.contracts");
 
-  const typeLabel =
-    contract.contract_type && ["service", "nda", "freelance"].includes(contract.contract_type)
-      ? tTypes(contract.contract_type as "service" | "nda" | "freelance")
-      : null;
+  const [role, rawMessages, rawVersions, rawFindings, rawShares] = await Promise.all([
+    getMembershipRole(contract.workspace_id),
+    getContractMessages(id),
+    getContractVersions(id),
+    getContractFindings(id),
+    getContractShares(id),
+  ]);
+
+  const messages: ChatMessage[] = rawMessages.map((m) => ({
+    id: String(m.id),
+    role: m.role,
+    content: m.content,
+  }));
+
+  const versions: VersionEntry[] = rawVersions.map((v) => ({
+    id: v.id,
+    versionNo: v.version_no,
+    source: v.source,
+    sections: sectionsSchema.safeParse(v.sections).data ?? [],
+  }));
+
+  const findings: Finding[] = rawFindings.map((f) => ({
+    id: f.id,
+    code: f.code,
+    severity: f.severity,
+    sectionKey: f.section_key,
+    detail: f.detail,
+  }));
+
+  const shares: ShareEntry[] = rawShares.map((s) => ({ id: s.id, token: s.token }));
 
   return (
-    <div className="max-w-2xl">
-      <div className="mb-6 flex flex-wrap items-center gap-3">
-        <h1 className="text-page-title font-heading text-ink-950">
-          {contract.title || t("contracts.untitled")}
-        </h1>
-        <StatusBadge status={contract.status}>{tStatus(contract.status)}</StatusBadge>
-      </div>
-      {typeLabel && <p className="mb-6 text-body text-stone-600">{typeLabel}</p>}
-
-      <Alert variant="neutral">
-        <AlertTitle>{tDetail("stubTitle")}</AlertTitle>
-        <AlertDescription>{tDetail("stubBody")}</AlertDescription>
-      </Alert>
-
-      <Button asChild variant="secondary" className="mt-6">
-        <Link href="/contracts">{tDetail("backToList")}</Link>
-      </Button>
+    <div>
+      <h1 className="mb-4 text-page-title font-heading text-ink-950">
+        {contract.title || t("untitled")}
+      </h1>
+      <ContractWorkspace
+        contractId={id}
+        locale={locale as AppLocale}
+        initialStatus={contract.status}
+        canEdit={role !== null && role !== "viewer"}
+        initialMessages={messages}
+        initialVersions={versions}
+        initialFindings={findings}
+        initialShares={shares}
+      />
     </div>
   );
 }

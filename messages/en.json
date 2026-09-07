@@ -448,7 +448,11 @@
         "monthly_grant": "Monthly credit renewal",
         "contract_created": "Contract draft created",
         "adjustment": "Manual adjustment",
-        "refund": "Refund"
+        "refund": "Refund",
+        "draft_generate": "AI draft generated",
+        "ai_edit": "Edited with AI",
+        "risk_check": "Risk check run",
+        "pdf_generate": "PDF generated"
       }
     },
     "chart": {
@@ -549,6 +553,154 @@
         "nda": "Non-disclosure agreement",
         "freelance": "Freelance services agreement"
       }
+    },
+    "contractScreen": {
+      "chat": {
+        "title": "Chat",
+        "placeholder": "Type your message…",
+        "send": "Send",
+        "empty": "Describe your need and the draft will take shape here.",
+        "thinking": "Thinking…",
+        "error": "Couldn't send the message. Please try again."
+      },
+      "draft": {
+        "title": "Draft",
+        "empty": "The draft will appear here as the conversation progresses.",
+        "editToggle": "Edit manually",
+        "cancelEdit": "Cancel",
+        "save": "Save",
+        "addSection": "Add section",
+        "deleteSection": "Delete section",
+        "moveUp": "Move up",
+        "moveDown": "Move down",
+        "sectionTitlePlaceholder": "Section title",
+        "sectionBodyPlaceholder": "Section text",
+        "missingLabel": "Missing",
+        "unsavedWarning": "You have unsaved changes.",
+        "viewingOldVersion": "You're viewing a past version.",
+        "backToLatest": "Back to latest version"
+      },
+      "versions": {
+        "title": "Version history",
+        "current": "Current",
+        "sourceLabels": {
+          "ai_draft": "AI draft",
+          "ai_edit": "AI edit",
+          "manual": "Manual edit"
+        }
+      },
+      "review": {
+        "run": "Run risk check",
+        "rerun": "Run again",
+        "running": "Checking…",
+        "title": "Risk and consistency check",
+        "empty": "No issues found.",
+        "disclaimer": "This check is not a legal opinion or guarantee of validity.",
+        "error": "The check couldn't complete. Please try again.",
+        "findings": {
+          "party_name_mismatch": "Inconsistent party names",
+          "date_inconsistency": "Date/term discrepancy",
+          "payment_mismatch": "Payment amount/schedule discrepancy",
+          "undefined_term": "Undefined term",
+          "empty_critical_field": "Empty critical field",
+          "conflicting_clause": "Conflicting clause",
+          "other": "Other"
+        }
+      },
+      "approve": "Approve",
+      "approved": "Contract approved.",
+      "statusHelp": {
+        "draft": "The draft is being worked on.",
+        "review": "Risk check complete, awaiting approval.",
+        "ready": "Approved."
+      },
+      "share": {
+        "title": "Share",
+        "create": "Create share link",
+        "creating": "Creating…",
+        "onlyReady": "A share link can only be created for approved contracts.",
+        "linkLabel": "Share link",
+        "copy": "Copy",
+        "copied": "Copied",
+        "revoke": "Revoke",
+        "activeLinks": "Active links",
+        "noActiveLinks": "No active share links."
+      }
     }
+  },
+  "sharedContract": {
+    "readOnlyNote": "This is a read-only shared link.",
+    "downloadPdf": "Download PDF",
+    "pdfNotReady": "A PDF hasn't been generated for this contract yet.",
+    "invalid": {
+      "title": "This link isn't valid",
+      "body": "This share link may have expired or been revoked."
+    }
+  },
+  "admin": {
+    "sidebar": {
+      "brand": "Admin Panel",
+      "backToApp": "Back to app",
+      "users": "Users",
+      "workspaces": "Workspaces & teams",
+      "usage": "Usage statistics",
+      "auditLog": "Activity logs",
+      "billing": "Plans & usage management",
+      "comingSoon": {
+        "templates": "Templates",
+        "notifications": "System notifications",
+        "support": "Support requests"
+      }
+    },
+    "users": {
+      "title": "Users",
+      "description": "All users on the platform.",
+      "table": { "name": "Name", "email": "Email", "locale": "Language", "joined": "Joined" }
+    },
+    "workspaces": {
+      "title": "Workspaces & teams",
+      "description": "All workspaces and their plans.",
+      "table": {
+        "name": "Name",
+        "plan": "Plan",
+        "members": "Members",
+        "balance": "Balance",
+        "created": "Created"
+      },
+      "personal": "Personal"
+    },
+    "usage": {
+      "title": "AI / contract usage statistics",
+      "description": "Platform-wide usage summary.",
+      "metrics": {
+        "totalUsers": "Total users",
+        "totalWorkspaces": "Total workspaces",
+        "totalContracts": "Total contracts",
+        "totalVersions": "Total AI/manual versions",
+        "totalMessages": "Total chat messages",
+        "creditsConsumed": "Total credits consumed"
+      }
+    },
+    "auditLog": {
+      "title": "Activity logs",
+      "description": "Record of critical admin actions.",
+      "table": { "time": "Time", "actor": "Actor", "action": "Action", "resource": "Resource" },
+      "empty": "No entries yet.",
+      "actions": { "add_credits": "Credits added" }
+    },
+    "billing": {
+      "title": "Plans & usage management",
+      "description": "Workspace plans and credit balances.",
+      "addCredits": "Add credits",
+      "dialog": {
+        "title": "Add credits",
+        "description": "This action cannot be undone and is recorded in the activity log.",
+        "amountLabel": "Amount",
+        "confirm": "Add",
+        "cancel": "Cancel"
+      }
+    },
+    "unauthorizedNote": "Only platform administrators can access this area.",
+    "adminLink": "Admin panel"
   }
 }
