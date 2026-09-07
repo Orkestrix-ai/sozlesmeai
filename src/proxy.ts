@@ -25,7 +25,7 @@ import { refreshSession } from "./lib/supabase/proxy";
  */
 const intlMiddleware = createMiddleware(routing);
 
-const PROTECTED = ["/dashboard", "/contracts", "/templates", "/archive", "/reminders", "/settings"];
+const PROTECTED = ["/dashboard", "/contracts", "/templates", "/archive", "/reminders", "/settings", "/admin"];
 const AUTH_ONLY = ["/login", "/signup", "/forgot-password", "/reset-password", "/verify-email"];
 
 export default async function proxy(request: NextRequest) {

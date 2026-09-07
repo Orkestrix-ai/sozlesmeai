@@ -1,11 +1,13 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 
 import { logoutAction } from "@/actions/auth";
+import { Link } from "@/i18n/navigation";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { RoleBadge } from "@/components/dashboard/role-badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCurrentUser, getWorkspaceContext } from "@/lib/dal";
+import { isPlatformAdmin } from "@/lib/admin/dal";
 
 export default async function SettingsPage({ params }: PageProps<"/[locale]/settings">) {
   const { locale } = await params;
@@ -15,10 +17,12 @@ export default async function SettingsPage({ params }: PageProps<"/[locale]/sett
   const tTeam = await getTranslations("dashboard.team");
   const tPlan = await getTranslations("dashboard.plan");
   const tUserMenu = await getTranslations("dashboard.userMenu");
+  const tAdmin = await getTranslations("admin");
 
-  const [currentUser, { workspace, subscription }] = await Promise.all([
+  const [currentUser, { workspace, subscription }, isAdmin] = await Promise.all([
     getCurrentUser(),
     getWorkspaceContext(),
+    isPlatformAdmin(),
   ]);
 
   return (
@@ -43,6 +47,12 @@ export default async function SettingsPage({ params }: PageProps<"/[locale]/sett
             <RoleBadge role={workspace.role}>{tTeam(`role.${workspace.role}`)}</RoleBadge>
           </CardContent>
         </Card>
+
+        {isAdmin && (
+          <Button asChild variant="secondary">
+            <Link href="/admin">{tAdmin("adminLink")}</Link>
+          </Button>
+        )}
 
         <form action={logoutAction}>
           <Button type="submit" variant="secondary">
