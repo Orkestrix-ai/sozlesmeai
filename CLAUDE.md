@@ -61,14 +61,17 @@ messages/{tr,en}.json # ALL visible text
 
 ### Phase Plan
 
-Phase 1 (completed): skeleton, design system, landing page. Next:
+All five phases are code-complete:
 
-- **Phase 2** — Subbase: auth, workspace/membership scheme, RLS, dashboard shell, and package-based dashboards (design.md §7)
-- **Phase 3** — Contract creation screen (design.md §8) + Claude API (`claude-opus-5`, adaptive thinking, streaming); PRD FR-02…FR-07
+- **Phase 1** — skeleton, design system, bilingual landing page.
+- **Phase 2** — Supabase auth, workspace/membership scheme, RLS, dashboard shell, package-based dashboards (design.md §7).
+- **Phase 3** — Contract creation screen (design.md §8) + Claude API (`claude-opus-5`, adaptive thinking, streaming); PRD FR-02…FR-07.
+- **Phase 4** — PDF (Puppeteer/Chromium, not react-pdf — see below), archive, sharing (PRD FR-08), credit/package accounting.
+- **Phase 5** — Admin panel (design.md §9).
 
-- **Phase 4** — PDF, archive, sharing (PRD FR-08) + credit/package accounting
+**Standing caveat:** Phase 3's AI chat/review round-trip (`/api/contracts/[id]/turn`, `/api/contracts/[id]/review`) has never been exercised against the real Anthropic API in this environment — `ANTHROPIC_API_KEY` in `.env` has stayed a placeholder throughout. Everything adjacent (auth, workspace, DB writes, credit consumption, PDF generation, sharing, admin) has been live-verified end-to-end via manual/manual-equivalent paths. The user explicitly decided to close this out as done without live AI verification; if odd behavior shows up in the chat/review flow once a real key is in place, start there.
 
-- **Phase 5** — Admin panel (design.md §9)
+**PDF library:** `@react-pdf/renderer`/`fontkit` has a confirmed upstream bug rendering Turkish dotless-ı (U+0131) as the digit "1" (reproduced across three font families). Switched to Puppeteer: render HTML with embedded `@fontsource` fonts via headless Chromium (`src/lib/pdf/contract-html.ts` + `render.ts`), which shapes text correctly since it uses Chromium's own engine, not fontkit.
 
 ## Design guidelines (non-negotiable)
 
@@ -86,4 +89,31 @@ When you finish a screen, go through the **QA list in design.md §12** one by on
 
 The `ink-950` / `ink-900` fields in design.md (navbar, hero, sidebar, final CTA, left panel of the contract screen) are **brand surfaces** that live inside the open theme. Write them with open utilities like `bg-ink-950`; not with `dark:`.
 
-The line `@custom-variant dark (&:is(.dark *))` in `globals.css` is intentionally left: it binds the `dark:` variant to a `.dark` class that is never added, so `dark:` classes from shadcn components remain dead. **Do not delete** — if deleted, Tailwind v4 default (`prefers-color
+The line `@custom-variant dark (&:is(.dark *))` in `globals.css` is intentionally left: it binds the `dark:` variant to a `.dark` class that is never added, so `dark:` classes from shadcn components remain dead. **Do not delete** — if deleted, Tailwind v4 falls back to `prefers-color-scheme` and the palette silently breaks for visitors whose OS is in dark mode.
+
+Tailwind's built-in `stone` palette is also deliberately cleared (`--color-stone-*: initial`). Writing an off-palette shade (e.g. `stone-500`) then generates no class at all — visibly broken is preferred over silently wrong.
+
+## Package naming — resolved conflict
+
+`prd.md` names the packages **Starter / Pro / Business**; `design.md` §6.6 and §7 say Free / Pay-as-you-go / Business. **The PRD governs.** design.md's design intent maps as follows (the document itself is not corrected; this mapping is what the code follows):
+
+| design.md | Code / UI | Design intent (design.md §7) |
+|---|---|---|
+| Free | **Starter** | Simple, instructional, low density; 2–3 metrics; calm inline upgrade nudge |
+| Pay-as-you-go | **Pro** | Usage/cost transparency; credit summary, transaction history, single red accent-series charts |
+| Business | **Business** | Team management, KPI cards, role badges, advanced filters, API area |
+
+## Product principles
+
+- **AI output is never shown as automatically "final".** Draft / review / approved states are visually distinct (design.md §8). Every output is editable and subject to user approval.
+- Unknown information is **never fabricated**; missing/ambiguous fields are marked explicitly (PRD FR-04).
+- The risk/consistency check is not legal advice or a validity guarantee (PRD FR-07).
+- **Out of MVP scope:** electronic signatures, secure-link signing, signature-status tracking, signed-document archive, an advanced client portal. Don't present these as available features in primary navigation (design.md §7.1); mark them "coming soon" only where needed.
+
+## Open items
+
+- **Prices and credit amounts are still placeholders.** The Pro price in `messages/*.json` (₺499 / $19), Starter being free, and the `operation_costs` table's per-operation credit costs (draft_generate=1, ai_edit/risk_check/pdf_generate=0) are none of them defined in the PRD — update via a single new migration (`operation_costs`) and the message files together once real numbers are decided. Business stays "Get a quote".
+- The footer's corporate/legal links (About, Contact, Privacy, Terms) still point to in-page sections, not real pages — `HREFS` in `src/components/landing/site-footer.tsx`.
+- Email sending has no configured provider, so sharing is link-based only ("copy link"); email delivery is marked "coming soon" in `messages/*.json`.
+- `prd.md` cuts off at FR-08; archive, sharing, credit accounting, and the admin panel followed design.md §7/§9 and the MVP scope list instead of a written FR — noted here since there's no PRD text to cross-check against.
+- See the Phase Plan section above for the standing Phase 3 live-AI-verification caveat.
