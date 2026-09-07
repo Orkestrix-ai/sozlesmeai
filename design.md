@@ -1,398 +1,392 @@
-# AI Destekli Sözleşme SaaS - Design System
+# AI-Powered Contract SaaS - Design System
 
-## 1. Tasarım yönü
+## 1. Design Aspect
 
-Bu ürün; sözleşme hazırlama, belge yönetimi ve ileride elektronik imza süreçlerini yöneten profesyonel bir SaaS platformudur.
+This product is a professional SaaS platform that manages contract drafting, document management, and future electronic signature processes.
 
-### Tasarım hedefleri
+### Design Goals
 
-- Güvenilir ve profesyonel görünüm
-- Hukuki belge ürünlerine uygun ciddiyet
-- Modern ama yapay zekâ ürünü klişelerine düşmeyen arayüz
-- Kırmızı ve siyahı güçlü vurgu renkleri olarak kullanma
-- Fazla gradient, neon, cam efekti ve rastgele renk kullanımından kaçınma
-- Kullanıcıyı sözleşme oluşturma akışına hızlıca yönlendirme
-- Dashboard ve admin ekranlarında yoğun bilgiyi sakin ve anlaşılır sunma
+- Reliable and professional appearance
+- Seriousness appropriate for legal document products
+- Modern interface that doesn't fall into AI clichés
+- Using red and black as strong accent colors
+- Avoiding excessive gradients, neon, glass effects, and random color usage
+- Quickly guiding the user to the contract creation flow
+- Presenting dense information calmly and clearly on the dashboard and admin screens
 
-### Kaçınılacak görünüm
+### Appearance to Avoid
 
-- Mor-mavi neon “AI” renk paleti
-- Fazla gradient ve parlak ışık efektleri
-- Her bölümde farklı renk kullanımı
-- Aşırı yuvarlatılmış, oyuncak gibi kartlar
-- Büyük robot, beyin, sihirli değnek veya soyut AI görselleri
-- İçeriği desteklemeyen dekoratif 3D illüstrasyonlar
-- Her butonda veya etikette kırmızı kullanımı
+- Purple-blue neon “AI” color palette
+- Excessive gradients and bright light effects
+- Using different colors in each section
+- Overly rounded, toy-like cards
+- Large robot, brain, magic wand, or abstract AI visuals
+- Decorative 3D illustrations that don't support the content
+- Use of red on every button or label
 
-## 2. Marka renk paleti
+## 2. Brand Color Palette
 
-Ana renk sistemi kırmızı, kömür siyahı, sıcak beyaz ve nötr gri tonlarından oluşur.
+The main color system consists of red, charcoal black, warm white, and neutral gray tones.
 
-### Ana renkler
+### Main Colors
 
-| Token | Hex | Kullanım |
+| Token | Hex | Usage |
 |---|---|---|
-| `brand-red-600` | `#C62828` | Ana CTA, aktif durum, önemli aksiyonlar |
-| `brand-red-700` | `#A61B1B` | Hover, pressed state, koyu vurgu |
-| `brand-red-500` | `#D83A3A` | İkincil vurgu, grafik serisi |
-| `ink-950` | `#0D0D0F` | Ana siyah, dark hero, başlıklar |
-| `ink-900` | `#151518` | Koyu yüzeyler, sidebar |
-| `ink-800` | `#222226` | Dark kartlar ve sınırlar |
+| `brand-red-600` | `#C62828` | Main CTA, active state, important actions |
+| `brand-red-700` | `#A61B1B` | Hover, pressed state, dark highlight |
+| `brand-red-500` | `#D83A3A` | Secondary highlight, graphic series |
+| `ink-950` | `#0D0D0F` | Main black, dark hero, titles |
+| `ink-900` | `#151518` | Dark surfaces, sidebar |
+| `ink-800` | `#222226` | Dark cards and borders |
 
-### Nötr renkler
+### Neutral colors
 
-| Token | Hex | Kullanım |
+| Token | Hex | Usage |
 |---|---|---|
-| `paper-50` | `#FAF9F7` | Ana açık arka plan |
-| `paper-100` | `#F3F1EE` | Bölüm arka planı, hover yüzeyleri |
+| `paper-50` | `#FAF9F7` | Main open background |
+| `paper-100` | `#F3F1EE` | Section background, hover surfaces |
 | `stone-200` | `#E5E1DC` | Border, divider |
-| `stone-400` | `#AAA49D` | Placeholder, ikincil ikonlar |
-| `stone-600` | `#6D6862` | Yardımcı metin |
-| `stone-800` | `#393633` | Ana gövde metni |
+| `stone-400` | `#AAA49D` | Placeholder, secondary icons |
+| `stone-600` | `#6D6862` | Auxiliary text |
+| `stone-800` | `#393633` | Main body text |
 
-### Durum renkleri
+### Status colors
 
-Durum renkleri kırmızıdan ayrışmalı; yalnızca hata için kırmızıyı kullanın.
+Status colors should be separated from red; use red only for errors.
 
-| Durum | Hex | Kullanım |
+| Status | Hex | Usage |
 |---|---|---|
-| Başarılı | `#287A55` | Oluşturuldu, tamamlandı, aktif |
-| Bilgi | `#35658F` | Bilgilendirme ve sistem mesajları |
-| Uyarı | `#B7791F` | Eksik bilgi, yaklaşan bitiş tarihi |
-| Hata | `#B42318` | Başarısız işlem, kritik uyarı |
-| Başarılı açık yüzey | `#E8F3ED` | Başarı badge ve alert arka planı |
-| Uyarı açık yüzey | `#FFF4D6` | Uyarı badge ve alert arka planı |
-| Hata açık yüzey | `#FDEAE8` | Hata badge ve alert arka planı |
+| Successful | `#287A55` | Created, completed, active |
+| Information | `#35658F` | Information and system messages |
+| Warning | `#B7791F` | Missing information, upcoming expiry date |
+| Error | `#B42318` | Failed operation, critical alert |
+| Successful open surface | `#E8F3ED` | Success badge and alert background |
+| Alert open surface | `#FFF4D6` | Alert badge and alert background |
+| Error open surface | `#FDEAE8` | Error badge and alert background |
 
-## 3. Renk kullanım oranı
+## 3. Color Usage Rate
 
-Genel oran:
+Overall rate:
 
-- **%60:** Sıcak beyaz ve açık nötr yüzeyler
-- **%25:** Siyah ve kömür tonları
-- **%10:** Gri metinler, borderlar ve yardımcı yüzeyler
-- **%5:** Marka kırmızısı
+- **60%:** Warm white and light neutral surfaces
+- **25%:** Black and charcoal tones
+- **10%:** Gray text, borders and auxiliary surfaces
+- **5%:** Brand red
 
-Kırmızı bir dekorasyon rengi değil, aksiyon ve önem göstergesidir. Kullanıcıyı aynı anda birden fazla kırmızı CTA ile karşılaştırmayın.
+Red is not a decorative color, it is an indicator of action and importance. Do not confront the user with multiple red CTAs at once.
 
-## 4. Tipografi
+## 4. Typography
 
-### Önerilen font yaklaşımı
+### Proposed Font Approach
 
-- Başlıklar: karakteri güçlü, modern grotesk sans-serif
-- Gövde metni: yüksek okunabilirlikte nötr sans-serif
-- Sözleşme metni: belge okumasına uygun, daha sakin bir serif veya yüksek okunabilirlikte sans-serif
-- Sayılar ve durum değerleri: tabular numerals destekli font
+- Headings: strong character, modern grotesque sans-serif
+- Body text: highly readable neutral sans-serif
+- Contract text: a quieter serif suitable for document reading or a highly readable sans-serif
+- Numbers and case values: tabular numerals supported font
 
-### Tipografik ölçek
+### Typographic Scale
 
-| Kullanım | Boyut | Ağırlık |
+| Usage | Size | Weight |
 |---|---:|---:|
-| Landing hero başlığı | 56–72 px | 700 |
-| Landing bölüm başlığı | 36–48 px | 700 |
-| Dashboard sayfa başlığı | 28–32 px | 700 |
-| Kart başlığı | 16–18 px | 650 |
-| Gövde metni | 15–16 px | 400 |
-| Yardımcı metin | 13–14 px | 400 |
-| Buton metni | 14–15 px | 600 |
-| Sözleşme metni | 15–17 px | 400 |
+| Landing hero title | 56–72 px | 700 |
+| Landing section title | 36–48 px | 700 |
+| Dashboard page title | 28–32 px | 700 |
+| Card title | 16–18 px | 650 |
+| Body text | 15–16 px | 400 |
+| Auxiliary text | 13–14 px | 400 |
+| Button text | 14–15 px | 600 |
+| Contract text | 15–17 px | 400 |
 
-## 5. Genel UI prensipleri
+## 5. General UI principles
 
-- Arayüz, “AI ile sihirli bir şey yapılıyor” mesajı yerine somut ilerlemeyi göstermeli.
-- Her AI çıktısı düzenlenebilir, açıklanabilir ve kullanıcı onayına tabi olmalı.
-- Birincil aksiyon her ekranda tek ve belirgin olmalı.
-- Border kullanımı gölge kullanımından daha baskın olmalı.
-- Kartlar bilgi gruplamak için kullanılmalı; her içerik kart içine konulmamalı.
-- Border radius genel olarak 8–12 px aralığında tutulmalı.
-- Büyük pazarlama alanlarında 16–20 px kullanılabilir; dashboard’da daha kontrollü kalınmalı.
-- Gölgeler hafif olmalı: `0 4px 16px rgba(13, 13, 15, 0.08)`.
-- İkonlar çizgi tabanlı, sade ve aynı stroke ağırlığında olmalı.
+- The interface should show tangible progress instead of conveying the message "something magical is being done with AI."
+- Every AI output should be editable, explainable, and subject to user approval.
+- The primary action should be unique and distinct on every screen.
+- Border usage should be more dominant than shadow usage.
+- Cards should be used to group information; not all content should be placed inside a card.
+- Border radius should generally be kept between 8–12 px.
+- 16–20 px can be used in large marketing areas; more control should be maintained in the dashboard.
+- Shadows should be light: `0 4px 16px rgba(13, 13, 15, 0.08)`.
+- Icons should be line-based, simple, and have the same stroke weight.
 
-## 6. Landing page tasarımı
+## 6. Landing page design
 
-### Genel görsel dil
+### General visual language
 
-Landing page; üst bölümde koyu siyah zemin, aşağıda sıcak beyaz ve açık nötr bölümler kullanmalı. Kırmızı, yalnızca ana aksiyonlarda ve stratejik vurgularda yer almalı.
+The landing page should use a dark black background at the top, and warm white and light neutral sections below. Red should only be used in main actions and strategic highlights.
 
-### Bölüm yapısı
+### Section Structure
 
 #### 6.1 Navbar
 
-- Arka plan: `ink-950`
+- Background: `ink-950`
 - Logo: `paper-50`
-- Navigasyon metni: `stone-400`
-- Hover metni: `paper-50`
-- Ana buton: `brand-red-600`
-- Ana buton hover: `brand-red-700`
-- Menü yapısı sade: Ürün, Nasıl çalışır, Paketler, SSS
+- Navigation text: `stone-400`
+- Hover text: `paper-50`
+- Main button: `brand-red-600`
+- Main button hover: `brand-red-700`
+- Simple menu structure: Product, How it works, Packages, FAQ
 
 #### 6.2 Hero
 
-- Arka plan: `ink-950`
-- Ana başlık: `paper-50`
-- Açıklama: `stone-400`
-- Vurgulanan kısa ifade: `brand-red-500`
-- Birincil CTA: `brand-red-600` zemin, `paper-50` metin
-- İkincil CTA: şeffaf zemin, `stone-200` border, `paper-50` metin
-- Sağ tarafta gerçek ürün ekranını andıran sözleşme oluşturma paneli kullanılmalı.
-- Soyut AI görseli yerine; soru-cevap, belge taslağı ve ilerleme adımlarını gösteren UI kullanılmalı.
+- Background: `ink-950`
+- Main title: `paper-50`
+- Description: `stone-400`
+- Highlighted short phrase: `brand-red-500`
+- Primary CTA: `brand-red-600` background, `paper-50` text
+- Secondary CTA: transparent background, `stone-200` border, `paper-50` Text
+- A contract creation panel resembling the actual product screen should be used on the right side. - Instead of an abstract AI visualization, a UI showing questions and answers, document drafts, and progress steps should be used.
 
-#### 6.3 Problem bölümü
+#### 6.3 Problem Section
 
-- Arka plan: `paper-50`
-- Başlık: `ink-950`
-- Metin: `stone-600`
-- Problem ikonları: `ink-800`
-- Kritik vurgu: ince `brand-red-600` çizgi veya küçük etiket
+- Background: `paper-50`
+- Heading: `ink-950`
+- Text: `stone-600`
+- Problem Icons: `ink-800`
+- Critical Highlight: thin `brand-red-600` line or small label
 
-#### 6.4 Ürün akışı
+#### 6.4 Product Flow
 
-Dört veya beş adımlı yatay/dikey süreç:
+Four or five-step horizontal/vertical process:
 
-1. İhtiyacını anlat
-2. Eksik bilgileri tamamla
-3. Taslağı düzenle
-4. PDF’yi oluştur
-5. Müşterinle paylaş
+1. Describe your need
+2. Complete any missing information
+3. Edit the draft
+4. Create the PDF
+5. Share with your customer
 
-- Adım numarası: `ink-950`
-- Aktif adım: `brand-red-600`
-- Tamamlanan adım: `#287A55`
-- Bağlantı çizgileri: `stone-200`
-- Her adımda kısa, somut açıklama olmalı.
+- Step number: `ink-950`
+- Active step: `brand-red-600`
+- Completed step: `#287A55`
+- Connecting lines: `stone-200`
+- Each step should include a short, concrete description.
 
-#### 6.5 Özellikler
+#### 6.5 Features
 
-- Arka plan: `paper-100`
-- Kartlar: `paper-50`
-- Kart border: `stone-200`
-- İkon: `ink-900`
-- Öne çıkan kart: `ink-950` zemin, `paper-50` metin ve küçük kırmızı vurgu
+- Background: `paper-100`
+- Cards: `paper-50`
+- Card border: `stone-200`
+- Icon: `ink-900`
+- Featured card: `ink-950` background, `paper-50` text and small red highlight
 
-#### 6.6 Paketler
+#### 6.6 Packs
 
-Üç paket yan yana gösterilebilir; fiyat ve özellik karşılaştırması sade olmalı.
+Three packs can be displayed side-by-side; price and feature comparisons should be straightforward.
 
-- **Free:** `paper-50` zemin, `stone-200` border
-- **Pay-as-you-go:** `paper-50` zemin, `ink-950` border
-- **Business:** `ink-950` zemin, `paper-50` metin, `brand-red-600` CTA
-- “En popüler” etiketi: kırmızı dolgu yerine açık kırmızı yüzey `#FDEAE8` ve `brand-red-700` metin
-- Paket kartlarında en fazla 5–6 temel fark gösterilmeli.
+- **Free:** `paper-50` background, `stone-200` border
+- **Pay-as-you-go:** `paper-50` background, `ink-950` border
+- **Business:** `ink-950` background, `paper-50` text, `brand-red-600` CTA
+- “Most Popular” tag: light red background instead of red fill `#FDEAE8` and `brand-red-700` text
+- Package cards should show a maximum of 5–6 key differences.
 
-#### 6.7 Güven bölümü
+#### 6.7 Trust Section
 
-- Arka plan: `paper-50`
-- Güven mesajları: veri kontrolü, sürüm geçmişi, belge arşivi, kullanıcı onayı
-- Kırmızı yalnızca kritik vurgu için kullanılmalı.
-- Hukuki garanti veya “tamamen hatasız sözleşme” gibi iddialardan kaçınılmalı.
+- Background: `paper-50`
+- Trust messages: data control, version history, document archive, user confirmation
+- Red should only be used for critical emphasis. - Avoid claims such as legal guarantees or “completely error-free contract”.
 
 #### 6.8 Final CTA
 
-- Arka plan: `brand-red-700` veya `ink-950`
-- Başlık: `paper-50`
-- Açıklama: `#F3D2D0`
-- CTA: `paper-50` zemin, `ink-950` metin
+- Background: `brand-red-700` or `ink-950`
 
-## 7. Paket bazlı dashboard tasarımı
+- Title: `paper-50`
 
-Dashboard, paket farklarını renk karmaşasıyla değil; yetenek, limit ve kullanım alanlarıyla göstermeli.
+- Description: `#F3D2D0`
 
-### 7.1 Ortak dashboard yapısı
+- CTA: `paper-50` background, `ink-950` text
+
+## 7. Package-based dashboard design
+
+The dashboard should show package differences not with a chaotic mix of colors, but with capabilities, limitations, and usage areas.
+
+### 7.1 Common Dashboard Structure
 
 - Sidebar: `ink-950`
-- Sidebar aktif öğe: `brand-red-600`
-- Ana içerik: `paper-50`
-- Kart yüzeyi: `paper-50`
+- Sidebar Active Item: `brand-red-600`
+- Main Content: `paper-50`
+- Card Surface: `paper-50`
 - Border: `stone-200`
-- Başlık: `ink-950`
-- Gövde: `stone-800`
-- Yardımcı metin: `stone-600`
-- Birincil aksiyon: `brand-red-600`
-- Başarı durumu: `#287A55`
+- Header: `ink-950`
+- Body: `stone-800`
+- Auxiliary Text: `stone-600`
+- Primary Action: `brand-red-600`
+- Success Status: `#287A55`
 
-Ortak menü:
+Common Menu:
 
-- Genel bakış
-- Sözleşmeler
-- Yeni sözleşme oluştur
-- Şablonlar
-- Arşiv
-- Hatırlatmalar
-- Ayarlar
+- Overview
+- Contracts
+- Create New Contract
+- Templates
+- Archive
+- Reminders
+- Settings
 
-İmza özellikleri daha sonraki fazda menüye eklenmeli; MVP’de aktif olmayan bir özelliği ana navigasyonda öne çıkarmayın.
+Signature features should be added to the menu in a later phase; do not highlight a feature that is not active in the MVP in the main navigation.
 
-### 7.2 Free dashboard
+### 7.2 Free Dashboard
 
-Amaç: Kullanıcıyı ilk sözleşmesini oluşturmaya ve ürünü anlamaya yönlendirmek.
+Purpose: To guide the user to create their first contract and understand the product.
 
-- Ton: sade, öğretici, düşük yoğunluklu
+- Tone: simple, educational, low-density
 - Sidebar: `ink-900`
-- Ana CTA: `brand-red-600`
-- Kullanım limiti: ince progress bar; doluluk kırmızıya yaklaştıkça `brand-red-500`
-- Boş durumlar: beyaz yüzey, basit ikon, tek CTA
-- Paket yükseltme mesajları: agresif banner yerine sakin inline mesaj
-- İstatistikler: 2–3 temel metrikten fazla gösterilmemeli
+- Main CTA: `brand-red-600`
+- Usage limit: thin progress bar; `brand-red-500` as occupancy approaches red
+- Empty states: white surface, simple icon, single CTA
+- Package upgrade messages: calm inline message instead of aggressive banner
+- Statistics: should not display more than 2-3 key metrics
 
 ### 7.3 Pay-as-you-go dashboard
 
-Amaç: Oluşturulan belgeleri ve kullanım maliyetini şeffaf göstermek.
+Purpose: To provide transparency regarding generated documents and usage costs.
 
-- Ana vurgu: kullanım ve işlem geçmişi
-- Kredi/işlem özeti: `ink-950` kart veya açık nötr kart
-- Harcama ve kullanım grafikleri: `brand-red-600` tek vurgu serisi, diğer seriler gri
-- Belge durumu: tamamlandı için yeşil, bekliyor için amber, hata için kırmızı
-- Ödeme/işlem geçmişi sade tablo görünümünde olmalı
-- Her belge satırında net durum ve sonraki aksiyon bulunmalı
+- Main emphasis: usage and transaction history
+- Credit/transaction summary: `ink-950` card or clear neutral card
+- Spending and usage graphs: `brand-red-600` single emphasis series, other series gray
+- Document status: green for completed, amber for pending, red for error
+- Payment/transaction history should be in a simple table view
+- Each document line should have a clear status and next action
 
 ### 7.4 Business dashboard
 
-Amaç: Ekip yönetimi, ortak çalışma, belge arşivi ve operasyonel görünürlük.
+Purpose: Team management, collaboration, document archiving, and operational visibility.
 
 - Sidebar: `ink-950`
-- Üst navigasyon ve workspace seçici: `ink-900`
-- KPI kartları: açık yüzey, güçlü tipografi, az dekorasyon
-- Ekip aktivitesi: gri taban, kırmızı yalnızca önemli aksiyonlarda
-- Rol ve yetki badge’leri: nötr tonlar; admin için `ink-900`, editör için `brand-red-100` benzeri açık kırmızı yüzey, görüntüleyici için `paper-100`
-- Gelişmiş filtreler: border tabanlı, kırmızı sadece seçili filtrede
-- API ve entegrasyon alanı: teknik ama sade; monospaced metin yalnızca gerçek kod veya anahtar gösteriminde
+- Top navigation and workspace selector: `ink-900`
+- KPI cards: clear surface, strong typography, minimal decoration
+- Team activity: gray background, red only for significant actions
+- Role and authority badges: neutral tones; - For the admin: `ink-900`, for the editor: `brand-red-100` (like a bright red surface), for the viewer: `paper-100`
+- Advanced filters: border-based, red only on selected filter
+- API and integration area: technical but simple; monospaced text only in actual code or key representation
 
-## 8. Sözleşme oluşturma ekranı
+## 8. Contract creation screen
 
-Bu ekran ürünün merkezidir.
+This screen is the heart of the product.
 
-### Sol panel: AI sohbeti / bilgi toplama
+### Left panel: AI chat / information gathering
 
-- Arka plan: `ink-950`
-- AI mesajı: `ink-800` yüzey, `paper-50` metin
-- Kullanıcı mesajı: `brand-red-700` yüzey, `paper-50` metin
-- Soru başlığı: `paper-50`
-- Eksik alan uyarısı: `#FFF4D6` yüzey, `#8A5A00` metin
+- Background: `ink-950`
+- AI message: `ink-800` surface, `paper-50` text
+- User message: `brand-red-700` surface, `paper-50` text
+- Question title: `paper-50`
+- Missing field warning: `#FFF4D6` surface, `#8A5A00` text
 
-### Sağ panel: sözleşme taslağı
+### Right panel: Draft contract
 
-- Arka plan: `paper-100`
-- Belge yüzeyi: `paper-50`
-- Başlık: `ink-950`
-- Metin: `stone-800`
-- AI tarafından son değiştirilen satırlar: çok açık kırmızı zemin, örneğin `#FFF1F0`
-- Kullanıcı tarafından onaylanan bölümler: çok açık yeşil vurgu, örneğin `#E8F3ED`
-- Düzenle butonu: outline `ink-800`
-- PDF oluştur: `brand-red-600`
+- Background: `paper-100`
+- Document surface: `paper-50`
+- Title: `ink-950`
+- Text: `stone-800`
+- Last modified lines by AI: very light red background, e.g., `#FFF1F0`
+- Sections approved by the user: very light green highlight, e.g., `#E8F3ED`
+- Edit button: outline `ink-800`
+- Generate PDF: `brand-red-600`
 
-AI çıktısı hiçbir zaman otomatik olarak “nihai” gösterilmemeli. Taslak, gözden geçirme ve kullanıcı onayı durumları açıkça ayrılmalı.
+AI output should never be automatically displayed as “final”. Draft, revision, and user approval statuses should be clearly separated.
 
-## 9. Admin paneli tasarımı
+## 9. Admin Panel Design
 
-Admin paneli, son kullanıcı dashboard’undan daha yoğun ve operasyonel olmalı; ancak marka dilini korumalıdır.
+The admin panel should be more robust and operational than the end-user dashboard; however, it should maintain the brand language.
 
-### Admin renkleri
+### Admin Colors
 
-- Ana arka plan: `#ECEAE7`
+- Main background: `#ECEAE7`
 - Sidebar: `ink-950`
-- Sidebar aktif öğe: `brand-red-600`
-- İçerik yüzeyi: `paper-50`
-- Tablo header: `paper-100`
+- Sidebar active element: `brand-red-600`
+- Content surface: `paper-50`
+- Table header: `paper-100`
 - Border: `stone-200`
-- Ana metin: `ink-950`
-- Yardımcı metin: `stone-600`
-- Kritik aksiyon: `#B42318`
-- Sistem başarılı: `#287A55`
-- Sistem uyarısı: `#B7791F`
+- Main text: `ink-950`
+- Auxiliary text: `stone-600`
+- Critical action: `#B42318`
+- System success: `#287A55`
+- System alert: `#B7791F`
 
-### Admin bölümleri
+### Admin Sections
 
-- Kullanıcılar
-- Workspace ve ekipler
-- Sözleşme şablonları
-- AI kullanım istatistikleri
-- Belge işlem günlükleri
-- Sistem bildirimleri
-- Paket ve kullanım yönetimi
-- Destek talepleri
-- Güvenlik ve erişim kayıtları
+- Users
+- Workspaces and Teams
+- Contract Templates
+- AI Usage Statistics
+- Document Processing Logs
+- System Notifications
+- Package and Usage Management
+- Support Requests
+- Security and Access Logs
 
-### Admin özel kuralları
+### Admin Special Rules
 
-- Silme ve geri döndürülemez işlemler kırmızı outline veya koyu hata rengiyle gösterilmeli.
-- Yönetici arayüzünde kırmızı, normal navigasyon rengi değil; kritik aksiyon rengi olmalı.
-- Tablolarda zebra satır yerine border ve boşluk kullanımı tercih edilmeli.
-- Kullanıcı verileri ve belge içerikleri için açık erişim değil, rol tabanlı yetki mesajları gösterilmeli.
-- Audit log ekranlarında zaman, aktör, işlem ve kaynak ayrı kolonlar halinde sunulmalı.
+- Deletions and irreversible actions should be shown with a red outline or a dark error color. - In the admin interface, red should be the color for critical actions, not the normal navigation color. - Tables should use borders and spacing instead of zebra rows. - Role-based authorization messages should be displayed for user data and document content, not open access messages. - Audit log screens should present time, actor, action, and source in separate columns.
 
-## 10. Buton ve durum sistemi
+## 10. Button and Status System
 
-### Birincil buton
+### Primary Button
 
-- Zemin: `brand-red-600`
-- Metin: `paper-50`
+- Background: `brand-red-600`
+- Text: `paper-50`
 - Hover: `brand-red-700`
 - Disabled: `#D6A0A0`
 
-### İkincil buton
+### Secondary Button
 
-- Zemin: transparent
-- Border: `stone-400` veya `ink-800`
-- Metin: `ink-900`
-- Hover zemin: `paper-100`
+- Background: transparent
+- Border: `stone-400` or `ink-800`
 
-### Tehlikeli buton
+- Text: `ink-900`
 
-- Zemin: `#B42318`
-- Metin: `paper-50`
-- Onay modalı zorunlu
+- Hover Background: `paper-100`
 
-### Durum badge’leri
+### Dangerous Button
 
-- Taslak: `paper-100` zemin, `stone-800` metin
-- İnceleniyor: `#FFF4D6` zemin, `#8A5A00` metin
-- Hazır: `#E8F3ED` zemin, `#21623F` metin
-- Paylaşıldı: `#E8EEF5` zemin, `#2D5478` metin
-- Hata: `#FDEAE8` zemin, `#9B2118` metin
+- Background: `#B42318`
+- Text: `paper-50`
 
-## 11. Responsive tasarım
+- Approval mode required
 
-### Mobil
+### Status Badges
 
-- Sidebar bottom navigation veya açılır drawer’a dönüşmeli.
-- Sözleşme oluşturma ekranı tek kolonlu akışa geçmeli.
-- Taslak ve AI sohbeti sekmeli görünümle ayrılmalı.
-- Paket kartları yatay kaydırılabilir veya dikey listelenmeli.
-- Admin tabloları kart görünümüne dönüşmeli.
+- Draft: `paper-100` background, `stone-800` text
+- Under Review: `#FFF4D6` background, `#8A5A00` text
+- Ready: `#E8F3ED` background, `#21623F` text
+- Shared: `#E8EEF5` background, `#2D5478` text
+- Error: `#FDEAE8` background, `#9B2118` text
+
+## 11. Responsive Design
+
+### Mobile
+
+- Sidebar bottom navigation or dropdown drawer should be enabled. - Contract creation screen should switch to a single-column flow. - Draft and AI chat should be separated by a tabbed view. - Package cards should be horizontally scrollable or vertically listed. - Admin tables should be converted to card view.
 
 ### Tablet
 
-- Dashboard iki kolonlu yapıyı koruyabilir.
-- Sözleşme editöründe AI paneli daraltılabilir olmalı.
+- Dashboard can maintain a two-column structure. - AI panel in contract editor should be collapsible.
 
-### Masaüstü
+### Desktop
 
-- Maksimum içerik genişliği: 1280–1440 px
-- Sözleşme ekranında AI paneli ve belge paneli yan yana
-- Landing hero için geniş, nefes alan düzen
+- Maximum content width: 1280–1440 px
+- AI panel and document panel side-by-side on the contract screen
+- Spacious, breathable layout for the landing hero
 
-## 12. Tasarım kalite kontrol listesi
+## 12. Design Quality Checklist
 
-- [ ] Kırmızı sadece aksiyon ve önem göstergesi olarak kullanılıyor mu?
-- [ ] Mor-mavi neon veya genel AI renkleri kullanılmıyor mu?
-- [ ] Her ekranda tek bir ana CTA var mı?
-- [ ] AI taslağı ile kullanıcı onayı görsel olarak ayrılıyor mu?
-- [ ] Sözleşme metni rahat okunuyor mu?
-- [ ] Free, Pay-as-you-go ve Business farkları anlaşılır mı?
-- [ ] Admin ekranında kritik işlemler güvenli şekilde ayrıştırılmış mı?
-- [ ] Boş durumlar kullanıcıyı bir sonraki adıma yönlendiriyor mu?
-- [ ] Mobilde sözleşme oluşturma akışı kullanılabilir mi?
-- [ ] İmza özellikleri MVP dışındaysa arayüzde ana özellik gibi gösterilmiyor mu?
+- [ ] Is red only used as an indicator of action and importance?
+- [ ] Are purple-blue neon or general AI colors not used?
+- [ ] Is there a single main CTA on each screen?
+- [ ] Are AI draft and user approval visually separated?
+- [ ] Is the contract text easy to read?
+- [ ] Are the differences between Free, Pay-as-you-go, and Business clear?
+- [ ] Are critical actions securely separated on the admin screen?
+- [ ] Do empty states redirect the user to the next step? - [ ] Is the contract creation flow usable on mobile?
+- [ ] Are signature features not shown as main features in the interface if they are outside the MVP?
 
-## 13. Kısa tasarım özeti
+## 13. Brief Design Summary
 
-**Renk karakteri:** Kömür siyahı, sıcak beyaz, kontrollü kırmızı.
+**Color Character:** Charcoal black, warm white, controlled red.
 
-**Görsel karakter:** Profesyonel, sakin, belge odaklı, güven veren.
+**Visual Character:** Professional, calm, document-focused, trustworthy.
 
-**Kırmızı kullanım amacı:** CTA, aktif durum, kritik vurgu.
+**Purpose of Red:** CTA, active status, critical emphasis.
 
-**Kaçınılacak yaklaşım:** Mor-mavi AI gradyanları, neon parlamalar, yapay zekâ klişeleri ve gereksiz dekorasyon.
+**Approach to Avoid:** Purple-blue AI gradients, neon glows, AI clichés, and unnecessary decoration.
 
-**Ana ürün hissi:** Kullanıcı boş bir sayfaya bırakılmaz; sistem onu adım adım kullanılabilir bir sözleşmeye götürür.
+**Main Product Feel:** The user is not left with a blank page; the system guides them step-by-step to a usable agreement.

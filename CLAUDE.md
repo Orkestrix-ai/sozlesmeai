@@ -14,7 +14,7 @@ AI-powered **contract SaaS**: the user describes their needs in natural language
 
 Two documents are the source of this project and **precede the code**:
 
-- **`design.md`** (Turkish) — Design system. Color tokens, typography, landing sections, package-based dashboards, contract screen, admin panel, button/status system, responsive rules, design QA list in §12. Ready to implement and binding.
+- **`design.md`** (English) — Design system. Color tokens, typography, landing sections, package-based dashboards, contract screen, admin panel, button/status system, responsive rules, design QA list in §12. Ready to implement and binding. Originally authored in Turkish; translated to English in place — the section numbering (§1…§13) is unchanged, so every `design.md §N` cross-reference elsewhere in this file still resolves.
 - **`prd.md`** (English) — Product requirements. **Cut off in FR-08 (PDF)**: No written requirements for archiving, sharing, package/credit accounting, and admin panel; only mentioned in the §3 MVP scope list. Ask the user before making assumptions in these areas.
 
 ## Commands
