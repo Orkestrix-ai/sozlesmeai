@@ -95,13 +95,11 @@ Tailwind's built-in `stone` palette is also deliberately cleared (`--color-stone
 
 ## Package naming — resolved conflict
 
-`prd.md` names the packages **Starter / Pro / Business**; `design.md` §6.6 and §7 say Free / Pay-as-you-go / Business. **The PRD governs.** design.md's design intent maps as follows (the document itself is not corrected; this mapping is what the code follows):
+`prd.md` names the packages **Starter / Pro / Business**; `design.md` §6.6 and §7 still say **Free** for the entry tier (design.md's Pro and Business already match code 1:1 — the pay-as-you-go billing method and its "Pay-as-you-go" package name were removed from design.md directly). **The PRD governs.** The one remaining naming gap:
 
 | design.md | Code / UI | Design intent (design.md §7) |
 |---|---|---|
 | Free | **Starter** | Simple, instructional, low density; 2–3 metrics; calm inline upgrade nudge |
-| Pay-as-you-go | **Pro** | Usage/cost transparency; credit summary, transaction history, single red accent-series charts |
-| Business | **Business** | Team management, KPI cards, role badges, advanced filters, API area |
 
 ## Product principles
 

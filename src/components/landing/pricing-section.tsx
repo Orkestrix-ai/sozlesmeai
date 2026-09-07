@@ -10,8 +10,9 @@ import { cn } from "@/lib/utils";
  * design.md §6.6 — üç paket yan yana, kart başına en fazla 5–6 fark.
  *
  * PAKET ADLARI: PRD'deki Starter / Pro / Business geçerlidir.
- * design.md'deki Free / Pay-as-you-go / Business karşılıkları sırasıyla
- * bunlardır; kart stilleri design.md'den birebir alındı.
+ * design.md'nin Pro/Business adları koddakiyle zaten birebir aynı; yalnızca
+ * design.md'nin "Free"si kodun "Starter"ına karşılık gelir (bkz. CLAUDE.md
+ * "Package naming"). Kart stilleri design.md'den birebir alındı.
  *
  * Kırmızı CTA yalnızca Business kartındadır (design.md §6.6). Diğer iki kart
  * ikincil buton kullanır — böylece bölümde tek bir kırmızı aksiyon kalır

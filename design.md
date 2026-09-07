@@ -174,7 +174,7 @@ Four or five-step horizontal/vertical process:
 Three packs can be displayed side-by-side; price and feature comparisons should be straightforward.
 
 - **Free:** `paper-50` background, `stone-200` border
-- **Pay-as-you-go:** `paper-50` background, `ink-950` border
+- **Pro:** `paper-50` background, `ink-950` border
 - **Business:** `ink-950` background, `paper-50` text, `brand-red-600` CTA
 - “Most Popular” tag: light red background instead of red fill `#FDEAE8` and `brand-red-700` text
 - Package cards should show a maximum of 5–6 key differences.
@@ -236,7 +236,7 @@ Purpose: To guide the user to create their first contract and understand the pro
 - Package upgrade messages: calm inline message instead of aggressive banner
 - Statistics: should not display more than 2-3 key metrics
 
-### 7.3 Pay-as-you-go dashboard
+### 7.3 Pro dashboard
 
 Purpose: To provide transparency regarding generated documents and usage costs.
 
@@ -244,7 +244,7 @@ Purpose: To provide transparency regarding generated documents and usage costs.
 - Credit/transaction summary: `ink-950` card or clear neutral card
 - Spending and usage graphs: `brand-red-600` single emphasis series, other series gray
 - Document status: green for completed, amber for pending, red for error
-- Payment/transaction history should be in a simple table view
+- Credit/transaction history should be in a simple table view
 - Each document line should have a clear status and next action
 
 ### 7.4 Business dashboard
@@ -374,7 +374,7 @@ The admin panel should be more robust and operational than the end-user dashboar
 - [ ] Is there a single main CTA on each screen?
 - [ ] Are AI draft and user approval visually separated?
 - [ ] Is the contract text easy to read?
-- [ ] Are the differences between Free, Pay-as-you-go, and Business clear?
+- [ ] Are the differences between Free, Pro, and Business clear?
 - [ ] Are critical actions securely separated on the admin screen?
 - [ ] Do empty states redirect the user to the next step? - [ ] Is the contract creation flow usable on mobile?
 - [ ] Are signature features not shown as main features in the interface if they are outside the MVP?
