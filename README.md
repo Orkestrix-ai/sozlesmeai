@@ -1,31 +1,29 @@
-# AI Destekli Sözleşme SaaS
+# AI-Powered Contract SaaS
 
-Kullanıcı ihtiyacını doğal dille anlatır; sistem eksik bilgileri sorar, düzenlenebilir bir sözleşme taslağı üretir, PDF'e çevirir ve arşivler.
+The user describes their needs in natural language; the system prompts for missing information, generates an editable contract draft, converts it to PDF, and archives it.
 
-## Kaynak dokümanlar
+## Source Documents
 
-- **`design.md`** — Tasarım sistemi (renk, tipografi, bölüm ve ekran tasarımları, QA listesi). Bağlayıcıdır.
-- **`prd.md`** — Ürün gereksinimleri. FR-08'de kesiliyor; arşiv, paket/kredi ve admin için yazılı gereksinim yok.
-- **`CLAUDE.md`** — Mimari kararlar, tasarım kuralları ve çözülmüş çelişkiler.
+- **`design.md`** — Design system (color, typography, section and screen designs, QA list). Binding.
+- **`prd.md`** — Product requirements. Cut off in FR-08; no written requirements for archiving, package/credits, and admin.
+- **`CLAUDE.md`** — Architectural decisions, design rules, and resolved conflicts.
 
-## Başlangıç
-
+## Getting Started
 ```bash
 npm install
-cp .env.example .env.local   # Faz 1'de değerler okunmuyor
+cp .env.example .env.local # Values ​​not read in Phase 1
 npm run dev
 ```
+- <http://localhost:3000> → redirects to `/tr`
+- <http://localhost:3000/en> → English
+- <http://localhost:3000/tr/style-guide> → internal design reference
 
-- <http://localhost:3000> → `/tr`'ye yönlenir
-- <http://localhost:3000/en> → İngilizce
-- <http://localhost:3000/tr/style-guide> → dahili tasarım referansı
-
-## Yığın
+## Stack
 
 Next.js 16 (App Router) · React 19 · TypeScript · Tailwind v4 · shadcn/ui (Radix) · next-intl
 
-## Durum
+## Status
 
-**Faz 1 tamamlandı:** proje iskeleti, design system, iki dilli landing page.
+**Phase 1 completed:** project skeleton, design system, bilingual landing page.
 
-Sırada: Faz 2 Supabase (auth, workspace, RLS, dashboard'lar) → Faz 3 sözleşme oluşturma ekranı + Claude API → Faz 4 PDF/arşiv → Faz 5 admin paneli.
+Next up: Phase 2 Supabase (auth, workspace, RLS, dashboards) → Phase 3 contract creation screen + Claude API → Phase 4 PDF/archive → Phase 5 admin panel.

@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/landing/container";
 import { LocaleSwitcher } from "@/components/landing/locale-switcher";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
@@ -58,12 +59,12 @@ export function SiteHeader() {
 
         <div className="hidden items-center gap-4 lg:flex">
           <LocaleSwitcher />
-          <a
-            href="#pricing"
+          <Link
+            href="/login"
             className="text-helper text-stone-400 transition-colors hover:text-paper-50"
           >
             {t("login")}
-          </a>
+          </Link>
           {/*
             Sticky header CTA bilerek İKİNCİL: hero'nun kırmızı CTA'sı ile aynı
             anda ekranda olduğu için kırmızı olsaydı design.md §3 ("aynı anda

@@ -244,5 +244,311 @@
     },
     "rights": "All rights reserved.",
     "disclaimer": "This product does not provide legal advice."
+  },
+  "common": {
+    "actions": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "back": "Back",
+      "close": "Close",
+      "copy": "Copy",
+      "copied": "Copied",
+      "retry": "Retry",
+      "viewAll": "View all",
+      "loading": "Loading…"
+    },
+    "notAvailableYet": "This feature is not available yet.",
+    "comingSoon": "Coming soon"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "network": "Could not connect. Check your internet connection.",
+    "unauthorized": "You don't have permission to do this.",
+    "notFound": "The page you're looking for could not be found.",
+    "unexpected": "An unexpected error occurred."
+  },
+  "validation": {
+    "required": "This field is required.",
+    "emailInvalid": "Enter a valid email address.",
+    "passwordTooShort": "Password must be at least 8 characters.",
+    "passwordsDoNotMatch": "Passwords do not match.",
+    "nameTooShort": "Name must be at least 2 characters.",
+    "nameTooLong": "Name can be at most 80 characters.",
+    "titleRequired": "A title is required.",
+    "titleTooLong": "Title can be at most 140 characters."
+  },
+  "auth": {
+    "brandPanel": {
+      "title": "Describe your contract, get a working draft",
+      "body": "Describe it in plain language, let the system ask what's missing, get an editable draft.",
+      "bullets": {
+        "b1": "Every output is editable and waits for your approval",
+        "b2": "It never invents information it doesn't have — missing fields are flagged",
+        "b3": "You only reach workspace data you're authorized for"
+      }
+    },
+    "login": {
+      "title": "Log in",
+      "description": "Log in to continue to your workspace.",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submit": "Log in",
+      "forgotPassword": "Forgot your password?",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Create an account"
+    },
+    "signup": {
+      "title": "Create an account",
+      "description": "Set up in a few minutes and create your first draft.",
+      "nameLabel": "Full name",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submit": "Create account",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Log in"
+    },
+    "forgotPassword": {
+      "title": "Reset your password",
+      "description": "Enter your email address and we'll send a reset link.",
+      "emailLabel": "Email",
+      "submit": "Send link",
+      "sentTitle": "Check your email",
+      "sentBody": "If that address is registered, a password reset link has been sent.",
+      "backToLogin": "Back to log in"
+    },
+    "resetPassword": {
+      "title": "Set a new password",
+      "description": "Create a new password for your account.",
+      "passwordLabel": "New password",
+      "confirmPasswordLabel": "New password (confirm)",
+      "submit": "Update password"
+    },
+    "verifyEmail": {
+      "title": "Check your email",
+      "body": "Click the link we sent you to verify your account.",
+      "resend": "Resend email",
+      "resent": "Email sent again."
+    },
+    "authError": {
+      "expired": "This link has expired.",
+      "invalid": "This link is invalid.",
+      "cta": "Try again"
+    },
+    "errors": {
+      "invalidCredentials": "Email or password is incorrect.",
+      "emailNotConfirmed": "You need to verify your email address first.",
+      "emailTaken": "An account with this email already exists.",
+      "weakPassword": "Password is too weak. Use at least 8 characters.",
+      "rateLimited": "Too many attempts. Try again in a moment.",
+      "expiredLink": "This link has expired.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "dashboardNav": {
+    "overview": "Overview",
+    "contracts": "Contracts",
+    "newContract": "Create new contract",
+    "templates": "Templates",
+    "archive": "Archive",
+    "reminders": "Reminders",
+    "settings": "Settings",
+    "mainNavLabel": "Main navigation",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "skipToContent": "Skip to content"
+  },
+  "dashboard": {
+    "greeting": "Hello, {name}",
+    "plan": {
+      "starter": "Starter",
+      "pro": "Pro",
+      "business": "Business"
+    },
+    "planNote": {
+      "placeholder": "Limits are placeholders and will be updated once plan terms are finalized."
+    },
+    "pages": {
+      "overview": { "title": "Overview", "description": "A summary of your workspace." },
+      "contracts": { "title": "Contracts", "description": "All of your contracts." },
+      "newContract": { "title": "Create new contract", "description": "Start a new contract draft." },
+      "templates": { "title": "Templates", "description": "Your ready-made contract templates." },
+      "archive": { "title": "Archive", "description": "Archived documents." },
+      "reminders": { "title": "Reminders", "description": "Your upcoming dates and tasks." },
+      "settings": { "title": "Settings", "description": "Your account and workspace settings." }
+    },
+    "metrics": {
+      "total": "Total contracts",
+      "drafts": "Drafts",
+      "ready": "Ready",
+      "createdThisMonth": "Created this month",
+      "activeMembers": "Active members",
+      "remainingCredits": "Remaining credits"
+    },
+    "usage": {
+      "title": "Usage",
+      "usedOf": "{used} / {total} credits used",
+      "resetsOn": "Resets on {date}",
+      "helper": "Credits are spent on actions like generating a draft.",
+      "placeholderNote": "Limits are placeholders."
+    },
+    "upgrade": {
+      "message": "You're approaching your plan's limit.",
+      "link": "View plans"
+    },
+    "empty": {
+      "contracts": {
+        "title": "No contracts yet",
+        "body": "Start by creating your first contract.",
+        "cta": "Create new contract"
+      },
+      "archive": {
+        "title": "Archive is empty",
+        "body": "Documents you archive will appear here.",
+        "cta": "Go to contracts"
+      },
+      "templates": {
+        "title": "No templates yet",
+        "body": "Templates will be listed here in the future.",
+        "cta": "Create new contract"
+      },
+      "reminders": {
+        "title": "No reminders",
+        "body": "Upcoming dates and tasks will appear here.",
+        "cta": "Go to contracts"
+      },
+      "activity": {
+        "title": "No activity yet",
+        "body": "Team activity will be listed here.",
+        "cta": "Go to contracts"
+      },
+      "members": {
+        "title": "No members yet",
+        "body": "Members who join the workspace will be listed here.",
+        "cta": "Go to contracts"
+      },
+      "ledger": {
+        "title": "No transactions yet",
+        "body": "Your credit transactions will be listed here.",
+        "cta": "Go to contracts"
+      }
+    },
+    "credits": {
+      "title": "Credit summary",
+      "balance": "Balance",
+      "spentThisMonth": "Spent this month",
+      "topUp": "Add credits",
+      "ledger": {
+        "date": "Date",
+        "description": "Transaction",
+        "amount": "Amount",
+        "balance": "Balance"
+      },
+      "reasons": {
+        "signup_starter_grant": "Signup credit",
+        "monthly_grant": "Monthly credit renewal",
+        "contract_created": "Contract draft created",
+        "adjustment": "Manual adjustment",
+        "refund": "Refund"
+      }
+    },
+    "chart": {
+      "title": "Weekly usage",
+      "legendCurrent": "This month",
+      "legendPrevious": "Last month",
+      "noData": "No data yet.",
+      "srCaption": "Credit usage by week"
+    },
+    "contracts": {
+      "table": {
+        "title": "Document",
+        "type": "Type",
+        "status": "Status",
+        "updated": "Updated",
+        "nextAction": "Next action"
+      },
+      "nextAction": {
+        "draft": "Continue editing",
+        "review": "Review",
+        "ready": "Generate PDF",
+        "shared": "View share",
+        "error": "Retry"
+      },
+      "untitled": "Untitled contract",
+      "actions": {
+        "archive": "Archive",
+        "restore": "Restore"
+      },
+      "detail": {
+        "stubTitle": "Contract content coming soon",
+        "stubBody": "The AI-assisted draft editor will live here once Phase 3 ships.",
+        "backToList": "Back to contracts"
+      }
+    },
+    "status": {
+      "draft": "Draft",
+      "review": "In review",
+      "ready": "Ready",
+      "shared": "Shared",
+      "error": "Error"
+    },
+    "team": {
+      "title": "Team",
+      "role": {
+        "admin": "Admin",
+        "editor": "Editor",
+        "viewer": "Viewer"
+      },
+      "memberSince": "Member since {date}"
+    },
+    "activity": {
+      "title": "Activity",
+      "kinds": {
+        "member_joined": "{name} joined the workspace",
+        "contract_created": "{name} created a new contract",
+        "contract_status_changed": "A contract's status changed",
+        "plan_changed": "Plan changed",
+        "credits_granted": "Credits granted",
+        "credits_consumed": "Credits spent"
+      }
+    },
+    "filters": {
+      "title": "Filters",
+      "status": "Status",
+      "type": "Type",
+      "dateRange": "Date range",
+      "member": "Member",
+      "all": "All",
+      "clear": "Clear"
+    },
+    "api": {
+      "title": "API & integrations",
+      "body": "Your workspace ID is below. API access is not available yet.",
+      "workspaceId": "Workspace ID",
+      "copy": "Copy",
+      "comingSoon": "API access coming soon"
+    },
+    "workspaceSwitcher": {
+      "label": "Workspace",
+      "personal": "Personal",
+      "create": "New workspace",
+      "createTitle": "Create a new workspace",
+      "nameLabel": "Workspace name",
+      "submit": "Create"
+    },
+    "userMenu": {
+      "settings": "Settings",
+      "signOut": "Sign out"
+    },
+    "newContract": {
+      "titleLabel": "Title",
+      "typeLabel": "Contract type",
+      "typePlaceholder": "Choose a type",
+      "submit": "Create draft",
+      "types": {
+        "service": "Service agreement",
+        "nda": "Non-disclosure agreement",
+        "freelance": "Freelance services agreement"
+      }
+    }
   }
 }

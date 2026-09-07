@@ -1,0 +1,10 @@
+import { setRequestLocale } from "next-intl/server";
+
+import { SignupForm } from "@/components/auth/signup-form";
+
+export default async function SignupPage({ params }: PageProps<"/[locale]/signup">) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  return <SignupForm />;
+}

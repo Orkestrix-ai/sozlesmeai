@@ -244,5 +244,311 @@
     },
     "rights": "Tüm hakları saklıdır.",
     "disclaimer": "Bu ürün hukuki danışmanlık hizmeti değildir."
+  },
+  "common": {
+    "actions": {
+      "save": "Kaydet",
+      "cancel": "Vazgeç",
+      "back": "Geri",
+      "close": "Kapat",
+      "copy": "Kopyala",
+      "copied": "Kopyalandı",
+      "retry": "Yeniden dene",
+      "viewAll": "Tümünü gör",
+      "loading": "Yükleniyor…"
+    },
+    "notAvailableYet": "Bu özellik henüz aktif değil.",
+    "comingSoon": "Yakında"
+  },
+  "errors": {
+    "generic": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
+    "network": "Bağlantı kurulamadı. İnternet bağlantınızı kontrol edin.",
+    "unauthorized": "Bu işlem için yetkiniz yok.",
+    "notFound": "Aradığınız sayfa bulunamadı.",
+    "unexpected": "Beklenmeyen bir hata oluştu."
+  },
+  "validation": {
+    "required": "Bu alan zorunludur.",
+    "emailInvalid": "Geçerli bir e-posta adresi girin.",
+    "passwordTooShort": "Parola en az 8 karakter olmalı.",
+    "passwordsDoNotMatch": "Parolalar eşleşmiyor.",
+    "nameTooShort": "Ad en az 2 karakter olmalı.",
+    "nameTooLong": "Ad en fazla 80 karakter olabilir.",
+    "titleRequired": "Başlık gerekli.",
+    "titleTooLong": "Başlık en fazla 140 karakter olabilir."
+  },
+  "auth": {
+    "brandPanel": {
+      "title": "Sözleşmeni anlat, taslağın hazır olsun",
+      "body": "Doğal dille anlat, sistem eksik bilgileri sorsun, düzenleyebileceğin bir taslak üretsin.",
+      "bullets": {
+        "b1": "Her çıktı düzenlenebilir ve senin onayına tabidir",
+        "b2": "Bilmediği bilgiyi uydurmaz; eksik alanları işaretler",
+        "b3": "Yalnızca yetkili olduğun çalışma alanı verilerine erişirsin"
+      }
+    },
+    "login": {
+      "title": "Giriş yap",
+      "description": "Çalışma alanına devam etmek için giriş yap.",
+      "emailLabel": "E-posta",
+      "passwordLabel": "Parola",
+      "submit": "Giriş yap",
+      "forgotPassword": "Parolanı mı unuttun?",
+      "noAccount": "Hesabın yok mu?",
+      "signupLink": "Hesap oluştur"
+    },
+    "signup": {
+      "title": "Hesap oluştur",
+      "description": "Birkaç dakikada kurulum yap, ilk taslağını oluştur.",
+      "nameLabel": "Ad Soyad",
+      "emailLabel": "E-posta",
+      "passwordLabel": "Parola",
+      "submit": "Hesap oluştur",
+      "hasAccount": "Zaten hesabın var mı?",
+      "loginLink": "Giriş yap"
+    },
+    "forgotPassword": {
+      "title": "Parolanı sıfırla",
+      "description": "E-posta adresini gir, sıfırlama bağlantısı gönderelim.",
+      "emailLabel": "E-posta",
+      "submit": "Bağlantı gönder",
+      "sentTitle": "E-postanı kontrol et",
+      "sentBody": "Bu adres kayıtlıysa, parola sıfırlama bağlantısı gönderildi.",
+      "backToLogin": "Girişe dön"
+    },
+    "resetPassword": {
+      "title": "Yeni parola belirle",
+      "description": "Hesabın için yeni bir parola oluştur.",
+      "passwordLabel": "Yeni parola",
+      "confirmPasswordLabel": "Yeni parola (tekrar)",
+      "submit": "Parolayı güncelle"
+    },
+    "verifyEmail": {
+      "title": "E-postanı kontrol et",
+      "body": "Hesabını doğrulamak için sana gönderdiğimiz bağlantıya tıkla.",
+      "resend": "E-postayı tekrar gönder",
+      "resent": "E-posta tekrar gönderildi."
+    },
+    "authError": {
+      "expired": "Bu bağlantının süresi dolmuş.",
+      "invalid": "Bu bağlantı geçersiz.",
+      "cta": "Yeniden dene"
+    },
+    "errors": {
+      "invalidCredentials": "E-posta veya parola hatalı.",
+      "emailNotConfirmed": "Önce e-posta adresini doğrulaman gerekiyor.",
+      "emailTaken": "Bu e-posta adresiyle zaten bir hesap var.",
+      "weakPassword": "Parola çok zayıf. En az 8 karakter kullan.",
+      "rateLimited": "Çok fazla deneme yaptın. Biraz sonra tekrar dene.",
+      "expiredLink": "Bu bağlantının süresi dolmuş.",
+      "generic": "Bir şeyler ters gitti. Lütfen tekrar dene."
+    }
+  },
+  "dashboardNav": {
+    "overview": "Genel bakış",
+    "contracts": "Sözleşmeler",
+    "newContract": "Yeni sözleşme oluştur",
+    "templates": "Şablonlar",
+    "archive": "Arşiv",
+    "reminders": "Hatırlatmalar",
+    "settings": "Ayarlar",
+    "mainNavLabel": "Ana navigasyon",
+    "openMenu": "Menüyü aç",
+    "closeMenu": "Menüyü kapat",
+    "skipToContent": "İçeriğe geç"
+  },
+  "dashboard": {
+    "greeting": "Merhaba, {name}",
+    "plan": {
+      "starter": "Starter",
+      "pro": "Pro",
+      "business": "Business"
+    },
+    "planNote": {
+      "placeholder": "Limitler geçicidir; gerçek paket koşulları belirlenince güncellenecektir."
+    },
+    "pages": {
+      "overview": { "title": "Genel bakış", "description": "Çalışma alanının özeti." },
+      "contracts": { "title": "Sözleşmeler", "description": "Tüm sözleşmelerin." },
+      "newContract": { "title": "Yeni sözleşme oluştur", "description": "Yeni bir sözleşme taslağı başlat." },
+      "templates": { "title": "Şablonlar", "description": "Hazır sözleşme şablonların." },
+      "archive": { "title": "Arşiv", "description": "Arşivlenen belgeler." },
+      "reminders": { "title": "Hatırlatmalar", "description": "Yaklaşan tarih ve görevlerin." },
+      "settings": { "title": "Ayarlar", "description": "Hesap ve çalışma alanı ayarların." }
+    },
+    "metrics": {
+      "total": "Toplam sözleşme",
+      "drafts": "Taslak",
+      "ready": "Hazır",
+      "createdThisMonth": "Bu ay oluşturulan",
+      "activeMembers": "Aktif üye",
+      "remainingCredits": "Kalan kredi"
+    },
+    "usage": {
+      "title": "Kullanım",
+      "usedOf": "{used} / {total} kredi kullanıldı",
+      "resetsOn": "Yenilenme: {date}",
+      "helper": "Kredi, taslak oluşturma gibi işlemlerde harcanır.",
+      "placeholderNote": "Limitler geçicidir."
+    },
+    "upgrade": {
+      "message": "Paketinin sınırına yaklaşıyorsun.",
+      "link": "Paketleri gör"
+    },
+    "empty": {
+      "contracts": {
+        "title": "Henüz sözleşme yok",
+        "body": "İlk sözleşmeni oluşturarak başla.",
+        "cta": "Yeni sözleşme oluştur"
+      },
+      "archive": {
+        "title": "Arşiv boş",
+        "body": "Arşivlediğin belgeler burada görünecek.",
+        "cta": "Sözleşmelere git"
+      },
+      "templates": {
+        "title": "Henüz şablon yok",
+        "body": "Şablonlar ileride burada listelenecek.",
+        "cta": "Yeni sözleşme oluştur"
+      },
+      "reminders": {
+        "title": "Hatırlatma yok",
+        "body": "Yaklaşan tarih ve görevler burada görünecek.",
+        "cta": "Sözleşmelere git"
+      },
+      "activity": {
+        "title": "Henüz aktivite yok",
+        "body": "Ekip aktiviteleri burada listelenecek.",
+        "cta": "Sözleşmelere git"
+      },
+      "members": {
+        "title": "Henüz üye yok",
+        "body": "Çalışma alanına katılan üyeler burada listelenecek.",
+        "cta": "Sözleşmelere git"
+      },
+      "ledger": {
+        "title": "Henüz işlem yok",
+        "body": "Kredi işlemlerin burada listelenecek.",
+        "cta": "Sözleşmelere git"
+      }
+    },
+    "credits": {
+      "title": "Kredi özeti",
+      "balance": "Bakiye",
+      "spentThisMonth": "Bu ay harcanan",
+      "topUp": "Kredi yükle",
+      "ledger": {
+        "date": "Tarih",
+        "description": "İşlem",
+        "amount": "Tutar",
+        "balance": "Bakiye"
+      },
+      "reasons": {
+        "signup_starter_grant": "Kayıt kredisi",
+        "monthly_grant": "Aylık kredi yenilemesi",
+        "contract_created": "Sözleşme taslağı oluşturuldu",
+        "adjustment": "Manuel düzeltme",
+        "refund": "İade"
+      }
+    },
+    "chart": {
+      "title": "Haftalık kullanım",
+      "legendCurrent": "Bu ay",
+      "legendPrevious": "Geçen ay",
+      "noData": "Henüz veri yok.",
+      "srCaption": "Haftalara göre kredi kullanımı"
+    },
+    "contracts": {
+      "table": {
+        "title": "Belge",
+        "type": "Tür",
+        "status": "Durum",
+        "updated": "Güncellendi",
+        "nextAction": "Sonraki aksiyon"
+      },
+      "nextAction": {
+        "draft": "Düzenlemeye devam et",
+        "review": "Gözden geçir",
+        "ready": "PDF oluştur",
+        "shared": "Paylaşımı gör",
+        "error": "Yeniden dene"
+      },
+      "untitled": "Adsız sözleşme",
+      "actions": {
+        "archive": "Arşivle",
+        "restore": "Geri al"
+      },
+      "detail": {
+        "stubTitle": "Sözleşme içeriği yakında",
+        "stubBody": "AI destekli taslak oluşturma ve düzenleme ekranı Faz 3'te burada olacak.",
+        "backToList": "Sözleşmelere dön"
+      }
+    },
+    "status": {
+      "draft": "Taslak",
+      "review": "İnceleniyor",
+      "ready": "Hazır",
+      "shared": "Paylaşıldı",
+      "error": "Hata"
+    },
+    "team": {
+      "title": "Ekip",
+      "role": {
+        "admin": "Admin",
+        "editor": "Editör",
+        "viewer": "Görüntüleyici"
+      },
+      "memberSince": "Katılım: {date}"
+    },
+    "activity": {
+      "title": "Aktivite",
+      "kinds": {
+        "member_joined": "{name} çalışma alanına katıldı",
+        "contract_created": "{name} yeni bir sözleşme oluşturdu",
+        "contract_status_changed": "Bir sözleşmenin durumu değişti",
+        "plan_changed": "Paket değişti",
+        "credits_granted": "Kredi tanımlandı",
+        "credits_consumed": "Kredi harcandı"
+      }
+    },
+    "filters": {
+      "title": "Filtreler",
+      "status": "Durum",
+      "type": "Tür",
+      "dateRange": "Tarih aralığı",
+      "member": "Üye",
+      "all": "Tümü",
+      "clear": "Temizle"
+    },
+    "api": {
+      "title": "API ve entegrasyon",
+      "body": "Çalışma alanı kimliğin aşağıdadır. API erişimi henüz aktif değil.",
+      "workspaceId": "Çalışma alanı ID'si",
+      "copy": "Kopyala",
+      "comingSoon": "API erişimi yakında"
+    },
+    "workspaceSwitcher": {
+      "label": "Çalışma alanı",
+      "personal": "Kişisel",
+      "create": "Yeni çalışma alanı",
+      "createTitle": "Yeni çalışma alanı oluştur",
+      "nameLabel": "Çalışma alanı adı",
+      "submit": "Oluştur"
+    },
+    "userMenu": {
+      "settings": "Ayarlar",
+      "signOut": "Çıkış yap"
+    },
+    "newContract": {
+      "titleLabel": "Başlık",
+      "typeLabel": "Sözleşme türü",
+      "typePlaceholder": "Bir tür seç",
+      "submit": "Taslak oluştur",
+      "types": {
+        "service": "Hizmet sözleşmesi",
+        "nda": "Gizlilik sözleşmesi",
+        "freelance": "Serbest çalışma sözleşmesi"
+      }
+    }
   }
 }

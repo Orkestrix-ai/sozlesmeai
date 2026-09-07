@@ -1,6 +1,21 @@
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Container } from "@/components/landing/container";
+import { Input } from "@/components/ui/input";
+import { Field } from "@/components/ui/field";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 
 /**
  * DAHİLİ GELİŞTİRİCİ REFERANSI — son kullanıcıya yönelik bir sayfa değildir.
@@ -16,10 +31,21 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
+async function noopServerAction() {
+  "use server";
+  // ConfirmDialog demo'su için — bu sayfa Server Component olduğundan
+  // Client Component'e düz bir arrow function geçirilemez.
+}
+
 const BRAND = [
   { name: "brand-red-500", hex: "#D83A3A", className: "bg-brand-red-500" },
   { name: "brand-red-600", hex: "#C62828", className: "bg-brand-red-600" },
   { name: "brand-red-700", hex: "#A61B1B", className: "bg-brand-red-700" },
+  {
+    name: "brand-red-100",
+    hex: "#FDEAE8",
+    className: "bg-brand-red-100",
+  },
   { name: "ink-800", hex: "#222226", className: "bg-ink-800" },
   { name: "ink-900", hex: "#151518", className: "bg-ink-900" },
   { name: "ink-950", hex: "#0D0D0F", className: "bg-ink-950" },
@@ -199,6 +225,14 @@ export default function StyleGuidePage() {
                 45.000,00 / 11.111,11 / 90.909,09
               </p>
             </div>
+            <div>
+              <p className="text-helper text-stone-600">
+                font-mono · yalnızca gerçek kod/anahtar gösteriminde (§7.4)
+              </p>
+              <p className="font-mono text-body text-stone-800">
+                8b2f6e10-4a3c-4e9d-9c1a-2f7d6b0e5c31
+              </p>
+            </div>
           </div>
         </section>
 
@@ -248,6 +282,121 @@ export default function StyleGuidePage() {
             <StatusBadge status="ready">Hazır</StatusBadge>
             <StatusBadge status="shared">Paylaşıldı</StatusBadge>
             <StatusBadge status="error">Hata</StatusBadge>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="font-heading text-[1.5rem] font-bold text-ink-950">
+            Form alanları
+          </h2>
+          <div className="mt-6 max-w-sm space-y-4 rounded-[var(--radius)] border border-stone-200 bg-paper-50 p-6">
+            <Field id="sg-email" label="E-posta">
+              <Input type="email" placeholder="ad@sirket.com" />
+            </Field>
+            <Field id="sg-name" label="Ad Soyad" error="Bu alan zorunludur.">
+              <Input placeholder="Ad Soyad" />
+            </Field>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="font-heading text-[1.5rem] font-bold text-ink-950">
+            Kartlar
+          </h2>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>Açık kart</CardTitle>
+                <CardDescription>Varsayılan yüzey — border tabanlı.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-body text-stone-800">İçerik alanı.</p>
+              </CardContent>
+            </Card>
+            <Card tone="dark">
+              <CardHeader>
+                <CardTitle className="text-paper-50">Koyu kart</CardTitle>
+                <CardDescription tone="dark">§7.3 kredi özeti gibi.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-body text-paper-50">İçerik alanı.</p>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="font-heading text-[1.5rem] font-bold text-ink-950">
+            Kullanım çubuğu ve bildirimler
+          </h2>
+          <div className="mt-6 space-y-4">
+            <div className="rounded-[var(--radius)] border border-stone-200 bg-paper-50 p-6">
+              <p className="mb-2 text-helper text-stone-600">1 / 3 kredi kullanıldı</p>
+              <Progress value={33} indicatorClassName="bg-ink-800" />
+            </div>
+            <Alert variant="neutral">
+              <AlertDescription>
+                Paketinin sınırına yaklaştın.{" "}
+                <span className="text-brand-red-700 underline underline-offset-4">
+                  Yükselt
+                </span>
+              </AlertDescription>
+            </Alert>
+            <Alert variant="error">
+              <AlertTitle>Hata</AlertTitle>
+              <AlertDescription>İşlem tamamlanamadı.</AlertDescription>
+            </Alert>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="font-heading text-[1.5rem] font-bold text-ink-950">
+            Tablo, menü ve onay modalı
+          </h2>
+          <div className="mt-6 space-y-4">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Belge</TableHead>
+                  <TableHead>Durum</TableHead>
+                  <TableHead className="text-right">Tutar</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Hizmet sözleşmesi</TableCell>
+                  <TableCell>
+                    <StatusBadge status="ready">Hazır</StatusBadge>
+                  </TableCell>
+                  <TableCell className="text-right" data-numeric>
+                    1 kredi
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="secondary">Menü aç</Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>Hesap</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Ayarlar</DropdownMenuItem>
+                  <DropdownMenuItem>Çıkış yap</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <ConfirmDialog
+                trigger={<Button variant="danger">Sözleşmeyi sil</Button>}
+                title="Sözleşmeyi sil"
+                description="Bu işlem geri alınamaz."
+                confirmLabel="Sil"
+                cancelLabel="Vazgeç"
+                onConfirm={noopServerAction}
+              />
+            </div>
           </div>
         </section>
 

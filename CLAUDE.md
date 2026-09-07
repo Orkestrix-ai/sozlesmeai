@@ -4,108 +4,86 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 @AGENTS.md
 
-## Proje
+## Basic Working Rule
+- **Follow the rules:** ALWAYS read the existing files before performing any operation.
+- **Ask if you are unsure:** Never guess, stop the operation, or ask a question directly in the face of unclear or incomplete information. - **Do not make assumptions:** Do not guess code, file paths, or variables.
 
-AI destekli **sözleşme SaaS**'ı: kullanıcı ihtiyacını doğal dille anlatır, sistem eksik bilgileri sorar, düzenlenebilir bir sözleşme taslağı üretir, PDF'e çevirir ve arşivler.
+## Project
 
-İki doküman bu projenin kaynağıdır ve **koddan önce gelir**:
+AI-powered **contract SaaS**: the user describes their needs in natural language, the system asks for missing information, generates an editable contract draft, converts it to PDF, and archives it.
 
-- **`design.md`** (Türkçe) — Tasarım sistemi. Renk token'ları, tipografi, landing bölümleri, paket bazlı dashboard'lar, sözleşme ekranı, admin paneli, buton/durum sistemi, responsive kurallar, §12'de tasarım QA listesi. Uygulanmaya hazır ve bağlayıcıdır.
-- **`prd.md`** (İngilizce) — Ürün gereksinimleri. **FR-08'de (PDF) kesiliyor**: arşiv, paylaşım, paket/kredi muhasebesi ve admin paneli için yazılı gereksinim yok, yalnızca §3 MVP kapsam listesinde adı geçiyor. Bu alanlarda varsayım üretmeden önce kullanıcıya sorun.
+Two documents are the source of this project and **precede the code**:
 
-## Komutlar
+- **`design.md`** (Turkish) — Design system. Color tokens, typography, landing sections, package-based dashboards, contract screen, admin panel, button/status system, responsive rules, design QA list in §12. Ready to implement and binding.
+- **`prd.md`** (English) — Product requirements. **Cut off in FR-08 (PDF)**: No written requirements for archiving, sharing, package/credit accounting, and admin panel; only mentioned in the §3 MVP scope list. Ask the user before making assumptions in these areas.
+
+## Commands
 
 ```bash
-npm run dev        # geliştirme sunucusu (Turbopack)
-npm run build      # üretim derlemesi + TypeScript kontrolü
-npm run lint       # ESLint (tüm proje)
-npm run start      # derlenmiş uygulamayı çalıştır
+npm run dev # development server (Turbopack)
+npm run build # production build + TypeScript check
+npm run lint # ESLint (entire project)
+npm run start # run compiled application
 
-npx eslint src/components/landing/hero.tsx   # tek dosya
-npx tsc --noEmit                             # yalnızca tip kontrolü
+npx eslint src/components/landing/hero.tsx # single file
+npx tsc --noEmit # type check only
 ```
 
-Test altyapısı henüz kurulmadı (Faz 1 kapsamı dışıydı). `npm run build` şu an tip güvenliğinin tek kapısıdır.
+The test infrastructure is not yet established (it was outside the scope of Phase 1). `npm run build` is currently the only gateway for type safety.
 
-## Mimari
+## Architecture
 
 **Next.js 16.3.4 + React 19 + TypeScript + Tailwind v4 + shadcn/ui (Radix) + next-intl.**
 
-Next.js 16 eğitim verinizden farklıdır. Kod yazmadan önce `node_modules/next/dist/docs/` altındaki ilgili rehberi okuyun. Şimdiye kadar ısırdığı yerler:
+Next.js 16 is different from your tutorial. Read the relevant guide under `node_modules/next/dist/docs/` before writing code. Here are some things it has bitten off on:
 
-- **`middleware.ts` artık `proxy.ts`.** Dosya `src/proxy.ts`, export adı `proxy` veya default. İşlev aynı.
-- **`params` bir Promise'tir** — `const { locale } = await params`.
-- **`PageProps<'/[locale]'>` ve `LayoutProps<'/[locale]'>`** global tip yardımcılarıdır; kendi props arayüzünüzü yazmayın.
-- `next/root-params` ile locale prop-drilling olmadan okunabilir (Server Component'lerde).
+- **`middleware.ts` is now `proxy.ts`.** The file is `src/proxy.ts`, export name is `proxy` or default. The function is the same.
+- **`params` is a Promise** — `const { locale } = await params`.
+- **`PageProps<'/[locale]'>` and `LayoutProps<'/[locale]'>` are global type helpers; don't write your own props interface. - Readable without locale prop-drilling via `next/root-params` (in Server Components).
 
-### Klasörler
+### Folders
 
 ```
-src/app/[locale]/          # kök layout burada (html/body), tüm rotalar altında
-src/app/[locale]/style-guide/   # dahili tasarım referansı, i18n dışı
-src/components/landing/    # landing bölümleri, her biri ayrı bileşen
-src/components/ui/         # design.md §10'a bağlı primitifler (button, status-badge)
-src/i18n/                  # routing, navigation, request yapılandırması
-src/proxy.ts               # locale algılama (eski adıyla middleware)
-messages/{tr,en}.json      # TÜM görünür metin
+src/app/[locale]/ # root layout here (html/body), all routes under
+src/app/[locale]/style-guide/ # internal design reference, non-i18n
+src/components/landing/ # landing sections, each a separate component
+src/components/ui/ # primitives (button, status-badge) according to design.md §10
+src/i18n/ # routing, navigation, request configuration
+src/proxy.ts # locale detection (formerly middleware)
+messages/{tr,en}.json # ALL visible text
 ```
 
 ### i18n
 
-- Diller: `tr` (varsayılan) ve `en`. Yapılandırma tek yerde: `src/i18n/routing.ts`.
-- **Görünür hiçbir string bileşene gömülmez** — hepsi `messages/*.json` içinde. Tek istisna `style-guide` sayfası (dahili geliştirici referansı).
-- Uygulama içi bağlantılarda `next/link` DEĞİL, `@/i18n/navigation`'daki `Link` / `redirect` / `useRouter` kullanılır; aksi halde dil öneki kaybolur.
-- Yeni bir metin eklerken **her iki dosyayı birden** güncelleyin; eksik anahtar üretimde çalışma zamanı hatasıdır.
+- Languages: `tr` (default) and `en`. Configuration in one place: `src/i18n/routing.ts`.
+- **No visible strings are embedded in the component** — all are in `messages/*.json`. The only exception is the `style-guide` page (internal developer reference).
+- In-app links, use `Link` / `redirect` / `useRouter` in `@/i18n/navigation` NOT `next/link`; otherwise, the language prefix will be lost. - Update **both files** when adding new text; missing key is a runtime error in production.
 
-### Faz planı
+### Phase Plan
 
-Faz 1 (tamamlandı): iskelet, design system, landing page. Sırada:
+Phase 1 (completed): skeleton, design system, landing page. Next:
 
-- **Faz 2** — Supabase: auth, workspace/üyelik şeması, RLS, dashboard kabuğu ve paket bazlı dashboard'lar (design.md §7)
-- **Faz 3** — Sözleşme oluşturma ekranı (design.md §8) + Claude API (`claude-opus-5`, adaptive thinking, streaming); PRD FR-02…FR-07
-- **Faz 4** — PDF, arşiv, paylaşım (PRD FR-08) + kredi/paket muhasebesi
-- **Faz 5** — Admin paneli (design.md §9)
+- **Phase 2** — Subbase: auth, workspace/membership scheme, RLS, dashboard shell, and package-based dashboards (design.md §7)
+- **Phase 3** — Contract creation screen (design.md §8) + Claude API (`claude-opus-5`, adaptive thinking, streaming); PRD FR-02…FR-07
 
-## Tasarım kuralları (pazarlık edilemez)
+- **Phase 4** — PDF, archive, sharing (PRD FR-08) + credit/package accounting
 
-design.md §1, §3, §5 ve §12'nin özü. Bir ekran yazarken bunlar önceliklidir:
+- **Phase 5** — Admin panel (design.md §9)
 
-- **Kırmızı bir dekorasyon rengi değil, aksiyon ve önem göstergesidir.** Genel oran %60 açık nötr / %25 koyu / %10 gri / **%5 kırmızı**. Kullanıcıyı aynı anda birden fazla kırmızı CTA ile karşılaştırmayın.
-- **Her ekranda tek bir birincil aksiyon** bulunur.
-- **Yasak görsel dil:** mor-mavi neon "AI" paleti, gradient, neon parlama, cam efekti, aşırı yuvarlatılmış oyuncak kartlar, robot/beyin/sihirli değnek görselleri, içeriği desteklemeyen 3D illüstrasyonlar.
-- **Border, gölgeden baskındır.** Tek gölge `shadow-card`; radius 8–12 px (`--radius: 10px`), yalnızca büyük pazarlama alanlarında 16–20 px.
-- İkonlar çizgi tabanlı ve aynı stroke ağırlığında (`lucide-react`).
-- Hukuki garanti ya da "tamamen hatasız sözleşme" iddiası içeren metin yazmayın.
+## Design guidelines (non-negotiable)
 
-Bir ekranı bitirdiğinizde **design.md §12'deki QA listesini** tek tek geçin.
+Essence of design.md §1, §3, §5, and §12. These are priorities when writing a screen:
 
-### Koyu yüzeyler dark mode DEĞİLDİR
+- **Red is not a decorative color, but an indicator of action and importance.** Overall ratio: 60% light neutral / 25% dark / 10% gray / **5% red**. Do not expose the user to multiple red CTAs simultaneously.
+- **Each screen has only one primary action.**
+- **Forbidden visual language:** purple-blue neon "AI" palette, gradients, neon glow, glass effects, overly rounded toy cards, robot/brain/magic wand images, 3D illustrations that do not support the content.
+- **Border is dominant over shadow.** Single shadow `shadow-card`; radius 8–12 px (`--radius: 10px`), 16–20 px only in large marketing areas. - Icons are line-based and have the same stroke weight (`lucide-react`).
+- Do not write text that includes legal guarantees or claims of a "completely error-free contract".
 
-design.md'deki `ink-950` / `ink-900` alanlar (navbar, hero, sidebar, final CTA, sözleşme ekranının sol paneli) açık temanın içinde yaşayan **marka yüzeyleridir**. `bg-ink-950` gibi açık utility'lerle yazın; `dark:` ile değil.
+When you finish a screen, go through the **QA list in design.md §12** one by one.
 
-`globals.css` içindeki `@custom-variant dark (&:is(.dark *))` satırı bilerek duruyor: `dark:` varyantını hiçbir zaman eklenmeyen bir `.dark` sınıfına bağlar, böylece shadcn bileşenlerinden gelen `dark:` sınıfları ölü kalır. **Silmeyin** — silinirse Tailwind v4 varsayılanına (`prefers-color-scheme`) döner ve işletim sistemi koyu temadaki ziyaretçilerde palet sessizce bozulur.
+### Dark surfaces are NOT dark mode
 
-Tailwind'in yerleşik `stone` paleti de bilerek temizlendi (`--color-stone-*: initial`). Palet dışı bir ton (`stone-500` gibi) yazıldığında sınıf hiç üretilmez — sessizce yanlış renk gelmesindense görünür şekilde kırılması tercih edildi.
+The `ink-950` / `ink-900` fields in design.md (navbar, hero, sidebar, final CTA, left panel of the contract screen) are **brand surfaces** that live inside the open theme. Write them with open utilities like `bg-ink-950`; not with `dark:`.
 
-## Paket adlandırma — çözülmüş çelişki
-
-`prd.md` paketleri **Starter / Pro / Business** diye adlandırır; `design.md` §6.6 ve §7 ise Free / Pay-as-you-go / Business der. **PRD geçerlidir.** design.md'nin tasarım niyeti şöyle eşlenir (dokümanı düzeltmiyoruz, kodda bu eşleme geçerli):
-
-| design.md | Kod / UI | Tasarım niyeti (design.md §7) |
-|---|---|---|
-| Free | **Starter** | Sade, öğretici, düşük yoğunluk; 2–3 metrik; sakin inline yükseltme mesajı |
-| Pay-as-you-go | **Pro** | Kullanım/maliyet şeffaflığı; kredi özeti, işlem geçmişi, tek kırmızı seri grafikler |
-| Business | **Business** | Ekip yönetimi, KPI kartları, rol badge'leri, gelişmiş filtreler, API alanı |
-
-## Ürün ilkeleri
-
-- **AI çıktısı hiçbir zaman otomatik olarak "nihai" gösterilmez.** Taslak / inceleme / onay durumları görsel olarak ayrılır (design.md §8). Her çıktı düzenlenebilir ve kullanıcı onayına tabidir.
-- Bilinmeyen bilgi **uydurulmaz**; eksik ve belirsiz alanlar açıkça işaretlenir (PRD FR-04).
-- Risk/tutarlılık kontrolü hukuki görüş veya geçerlilik garantisi değildir (PRD FR-07).
-- **MVP dışı:** elektronik imza, güvenli bağlantıyla imzalama, imza durumu takibi, imzalı belge arşivi, gelişmiş müşteri portalı. Bunları ana navigasyonda mevcut özellik gibi göstermeyin (design.md §7.1); gerekirse yalnızca "yakında" olarak.
-
-## Açık konular
-
-- **Fiyatlar yer tutucudur.** `messages/*.json` içindeki Pro fiyatı (₺499 / $19) ve Starter'ın ücretsiz olması PRD'de tanımlı değil; gerçek fiyatlandırma kararı verilince güncellenmeli. Business "Teklif alın" olarak duruyor.
-- Footer'daki kurumsal/yasal bağlantılar (Hakkımızda, İletişim, Gizlilik, Kullanım koşulları) henüz gerçek sayfalara değil, sayfa içi bölümlere işaret ediyor — `src/components/landing/site-footer.tsx` içindeki `HREFS`.
-- Paket başına kredi miktarları ve hangi işlemin kaç kredi harcadığı tanımlı değil (PRD'de FR olarak yazılmamış).
+The line `@custom-variant dark (&:is(.dark *))` in `globals.css` is intentionally left: it binds the `dark:` variant to a `.dark` class that is never added, so `dark:` classes from shadcn components remain dead. **Do not delete** — if deleted, Tailwind v4 default (`prefers-color
