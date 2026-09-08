@@ -1,13 +1,14 @@
 import "server-only";
 
-import type Anthropic from "@anthropic-ai/sdk";
+import type { LlmToolDef } from "@/lib/ai/provider";
 
 /**
  * strict:true + additionalProperties:false + required — claude-api skill'in
  * "yapılandırılmış çıktı" kuralı. Şema src/lib/contracts/schema.ts'teki zod
  * tanımıyla ELLE senkron tutulur (strict tool şemaları zod'dan otomatik
  * türetilmiyor); sunucu tarafında tool sonucu yine de sectionSchema'dan
- * geçirilir (bkz. app/api/contracts/[id]/turn/route.ts).
+ * geçirilir (bkz. app/api/contracts/[id]/turn/route.ts). `strict` bayrağının
+ * kendisi artık sağlayıcı adaptörlerinin işi (bkz. src/lib/ai/provider/).
  */
 const sectionInputSchema = {
   type: "object",
@@ -29,13 +30,12 @@ const sectionInputSchema = {
   additionalProperties: false,
 } as const;
 
-export const CONTRACT_TOOLS: Anthropic.Tool[] = [
+export const CONTRACT_TOOLS: LlmToolDef[] = [
   {
     name: "propose_contract_type",
     description:
       "Kullanıcının anlattığı ihtiyaca göre uygun sözleşme türünü önerir (FR-03). Kullanıcı onaylayana veya değiştirene kadar tür kesinleşmiş sayılmaz.",
-    strict: true,
-    input_schema: {
+    inputSchema: {
       type: "object",
       properties: {
         code: { type: "string", enum: ["service", "nda", "freelance"] },
@@ -49,8 +49,7 @@ export const CONTRACT_TOOLS: Anthropic.Tool[] = [
     name: "ask_missing_info",
     description:
       "Taslak için eksik olan bilgileri kullanıcıya kısa ve sıralı sorular halinde sorar (FR-02). Aynı bilgiyi tekrar sorma — sohbet geçmişinde zaten cevaplanmışsa bu aracı kullanma.",
-    strict: true,
-    input_schema: {
+    inputSchema: {
       type: "object",
       properties: {
         questions: {
@@ -69,8 +68,7 @@ export const CONTRACT_TOOLS: Anthropic.Tool[] = [
     name: "upsert_sections",
     description:
       "Sözleşme taslağının bir veya daha fazla bölümünü yazar/günceller (FR-04, FR-05). Yeni bir taslak oluştururken TÜM bölümleri; bir düzenleme isteğinde YALNIZCA değişen bölümleri gönder.",
-    strict: true,
-    input_schema: {
+    inputSchema: {
       type: "object",
       properties: {
         sections: { type: "array", items: sectionInputSchema, minItems: 1 },

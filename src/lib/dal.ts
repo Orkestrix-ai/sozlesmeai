@@ -7,6 +7,7 @@ import { getLocale } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/lib/supabase/types";
+import { DbError } from "@/lib/db/errors";
 
 type PlanTier = Database["public"]["Enums"]["plan_tier"];
 type WorkspaceRole = Database["public"]["Enums"]["workspace_role"];
@@ -69,7 +70,7 @@ export const getWorkspaceList = cache(async () => {
     .select("role, workspaces(id, name, slug, is_personal)")
     .eq("user_id", userId);
 
-  if (error) throw error;
+  if (error) throw new DbError("dal:getWorkspaceList", error);
 
   return (data ?? [])
     .filter((row) => row.workspaces)
@@ -112,7 +113,7 @@ export const getWorkspaceContext = cache(async () => {
   if (subError || !subscription) {
     throw new Error("getWorkspaceContext: abonelik bulunamadı.");
   }
-  if (creditsError) throw creditsError;
+  if (creditsError) throw new DbError("dal:getWorkspaceContext", creditsError);
 
   const { data: planDefault, error: planError } = await supabase
     .from("plan_defaults")
@@ -151,7 +152,7 @@ export const getWorkspaceMembers = cache(async (workspaceId: string) => {
     .eq("workspace_id", workspaceId)
     .order("created_at", { ascending: true });
 
-  if (error) throw error;
+  if (error) throw new DbError("dal:getWorkspaceMembers", error);
 
   return (data ?? []).map((row) => ({
     userId: row.user_id,
@@ -174,7 +175,7 @@ export const getContractStats = cache(async (workspaceId: string) => {
       .is("archived_at", null);
     if (status) query = query.eq("status", status);
     const { count, error } = await query;
-    if (error) throw error;
+    if (error) throw new DbError("dal:getContractStats", error);
     return count ?? 0;
   };
 
@@ -192,7 +193,7 @@ export const getContractStats = cache(async (workspaceId: string) => {
       .eq("workspace_id", workspaceId)
       .gte("created_at", startOfMonth.toISOString())
       .then(({ count, error }) => {
-        if (error) throw error;
+        if (error) throw new DbError("dal:getContractStats", error);
         return count ?? 0;
       }),
   ]);
@@ -212,7 +213,7 @@ export const getRecentContracts = cache(async (workspaceId: string, limit = 10) 
     .order("updated_at", { ascending: false })
     .limit(limit);
 
-  if (error) throw error;
+  if (error) throw new DbError("dal:getRecentContracts", error);
   return data ?? [];
 });
 
@@ -227,7 +228,7 @@ export const getContract = cache(async (contractId: string) => {
     .eq("id", contractId)
     .maybeSingle();
 
-  if (error) throw error;
+  if (error) throw new DbError("dal:getContract", error);
   return data;
 });
 
@@ -243,7 +244,7 @@ export const getArchivedContracts = cache(async (workspaceId: string, limit = 50
     .order("archived_at", { ascending: false })
     .limit(limit);
 
-  if (error) throw error;
+  if (error) throw new DbError("dal:getArchivedContracts", error);
   return data ?? [];
 });
 
@@ -258,7 +259,7 @@ export const getCreditLedger = cache(async (workspaceId: string, limit = 20) => 
     .order("created_at", { ascending: false })
     .limit(limit);
 
-  if (error) throw error;
+  if (error) throw new DbError("dal:getCreditLedger", error);
   return data ?? [];
 });
 
@@ -272,7 +273,7 @@ export const getContractMessages = cache(async (contractId: string) => {
     .eq("contract_id", contractId)
     .order("created_at", { ascending: true });
 
-  if (error) throw error;
+  if (error) throw new DbError("dal:getContractMessages", error);
   return data ?? [];
 });
 
@@ -287,7 +288,7 @@ export const getContractVersions = cache(async (contractId: string) => {
     .eq("contract_id", contractId)
     .order("version_no", { ascending: false });
 
-  if (error) throw error;
+  if (error) throw new DbError("dal:getContractVersions", error);
   return data ?? [];
 });
 
@@ -302,7 +303,7 @@ export const getContractShares = cache(async (contractId: string) => {
     .is("revoked_at", null)
     .order("created_at", { ascending: false });
 
-  if (error) throw error;
+  if (error) throw new DbError("dal:getContractShares", error);
   return data ?? [];
 });
 
@@ -316,7 +317,7 @@ export const getContractFindings = cache(async (contractId: string) => {
     .eq("contract_id", contractId)
     .order("created_at", { ascending: false });
 
-  if (error) throw error;
+  if (error) throw new DbError("dal:getContractFindings", error);
   return data ?? [];
 });
 
@@ -358,7 +359,7 @@ export const getWorkspaceActivity = cache(async (workspaceId: string, limit = 12
     .order("created_at", { ascending: false })
     .limit(limit);
 
-  if (error) throw error;
+  if (error) throw new DbError("dal:getWorkspaceActivity", error);
 
   return (data ?? []).map((row) => ({
     id: row.id,

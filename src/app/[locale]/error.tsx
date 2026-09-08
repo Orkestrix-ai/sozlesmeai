@@ -9,10 +9,15 @@ import { Button } from "@/components/ui/button";
 import { StatusView } from "@/components/feedback/status-view";
 
 /**
- * Next.js 16.3 — prop adı `retry` (eski `reset` değil, bkz. error.js dosya
- * kuralı). Hata boundary'si Client Component OLMAK ZORUNDA.
+ * plan §4 Katman 2 — landing, `(auth)`, `s/[token]` ve Katman 1'in kendisini
+ * kapsar. `error.js` aynı segmentteki `not-found.js`'i SARAR ama `layout.js`'i
+ * sarmaz (bkz. Next.js docs, error.md:96); kök layout çökerse `global-error.tsx`
+ * devreye girer.
+ *
+ * Next.js 16.3 — prop adı `retry` (eski `reset` değil). `(app)/error.tsx` ile
+ * aynı kalıp.
  */
-export default function AppError({
+export default function LocaleError({
   error,
   retry,
 }: {
@@ -30,14 +35,13 @@ export default function AppError({
 
   return (
     <StatusView
-      fullScreen={false}
       icon={<CircleAlert />}
       title={t("unexpected.title")}
       description={t("unexpected.description")}
       primaryAction={<Button onClick={() => retry()}>{tCommon("retry")}</Button>}
       secondaryAction={
         <Button variant="secondary" asChild>
-          <Link href="/dashboard">{t("actions.dashboard")}</Link>
+          <Link href="/">{t("actions.home")}</Link>
         </Button>
       }
       reference={

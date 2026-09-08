@@ -2,49 +2,49 @@
 
 import { revalidatePath } from "next/cache";
 
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
 import { requirePlatformAdmin } from "@/lib/admin/dal";
+import { addCreditsSchema, adminAddCreditsResultSchema } from "@/lib/db/schemas";
+import { dbRpc } from "@/lib/db/safe";
 
 /**
  * Plan D1/D3 — kritik admin aksiyonu, onay modalı ile birlikte kullanılır
- * (bkz. src/components/admin/add-credits-dialog.tsx). Service-role RLS'i
- * atlar; bu yüzden yetki kontrolü BURADA yapılır ve her çağrı bir
- * admin_audit_log satırı bırakır — service-role kullanan tek yazma yolu bu
- * ikisinin birlikte garanti edildiği yerdir (bkz. migration'daki yorum).
+ * (bkz. src/components/admin/add-credits-dialog.tsx).
+ *
+ * Güvenlik sertleştirmesi: artık service-role İSTEMCİSİ KULLANMIYOR.
+ * Defter kaydı + denetim kaydı `admin_add_credits` RPC'sinde TEK
+ * transaction'da yazılıyor (B9 — eskiden iki ayrı service-role çağrısıydı;
+ * ikincisi (audit log) başarısız olursa yalnızca console.error'a yazılıp
+ * başarı dönülüyordu, migration'ın verdiği "birlikte garanti" gerçek
+ * değildi). Yetki kontrolü hem burada (requirePlatformAdmin) hem RPC
+ * içinde (private.is_platform_admin()) — savunma derinliği.
  */
 export async function addCreditsAction(
   workspaceId: string,
   amount: number,
 ): Promise<{ error?: string }> {
-  const { userId } = await requirePlatformAdmin();
+  await requirePlatformAdmin();
 
-  if (!Number.isInteger(amount) || amount <= 0) {
+  const parsed = addCreditsSchema.safeParse({ workspaceId, amount });
+  if (!parsed.success) {
     return { error: "invalid_amount" };
   }
 
-  const admin = createAdminClient();
+  const supabase = await createClient();
 
-  const { error: ledgerError } = await admin.from("credit_ledger").insert({
-    workspace_id: workspaceId,
-    actor_id: userId,
-    entry_type: "adjustment",
-    amount,
-    reason: "adjustment",
-  });
-  if (ledgerError) {
-    console.error("[admin] addCreditsAction ledger:", ledgerError.code, ledgerError.message);
-    return { error: "generic" };
-  }
+  const result = await dbRpc(
+    "admin:addCreditsAction",
+    () =>
+      supabase.rpc("admin_add_credits", {
+        p_workspace_id: parsed.data.workspaceId,
+        p_amount: parsed.data.amount,
+        p_idempotency_key: crypto.randomUUID(),
+      }),
+    adminAddCreditsResultSchema,
+  );
 
-  const { error: logError } = await admin.from("admin_audit_log").insert({
-    actor_id: userId,
-    action: "add_credits",
-    resource_type: "workspace",
-    resource_id: workspaceId,
-    detail: { amount },
-  });
-  if (logError) {
-    console.error("[admin] addCreditsAction audit log:", logError.code, logError.message);
+  if (!result.ok) {
+    return { error: result.code };
   }
 
   revalidatePath("/admin/billing");

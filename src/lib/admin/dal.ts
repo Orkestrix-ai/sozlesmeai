@@ -7,6 +7,7 @@ import { redirect } from "@/i18n/navigation";
 import type { AppLocale } from "@/i18n/routing";
 import { createClient } from "@/lib/supabase/server";
 import { verifySession } from "@/lib/dal";
+import { DbError } from "@/lib/db/errors";
 
 /** Sayfa kapısı — admin olmayan kullanıcıyı sessizce dashboard'a döndürür
  * (design.md §9: "açık erişim değil, rol tabanlı yetki mesajları" — burada
@@ -52,7 +53,7 @@ export const getAdminUsers = cache(async () => {
     .select("id, email, full_name, locale, created_at")
     .order("created_at", { ascending: false });
 
-  if (error) throw error;
+  if (error) throw new DbError("admin/dal:getAdminUsers", error);
   return data ?? [];
 });
 
@@ -67,7 +68,7 @@ export const getAdminWorkspaces = cache(async () => {
     )
     .order("created_at", { ascending: false });
 
-  if (error) throw error;
+  if (error) throw new DbError("admin/dal:getAdminWorkspaces", error);
 
   return (data ?? []).map((w) => ({
     id: w.id,
@@ -94,7 +95,7 @@ export const getAdminUsageStats = cache(async () => {
   const supabase = await createClient();
 
   const { data, error } = await supabase.rpc("admin_usage_stats");
-  if (error) throw error;
+  if (error) throw new DbError("admin/dal:getAdminUsageStats", error);
   const row = data?.[0];
 
   return {
@@ -117,6 +118,6 @@ export const getAdminAuditLog = cache(async (limit = 50) => {
     .order("created_at", { ascending: false })
     .limit(limit);
 
-  if (error) throw error;
+  if (error) throw new DbError("admin/dal:getAdminAuditLog", error);
   return data ?? [];
 });

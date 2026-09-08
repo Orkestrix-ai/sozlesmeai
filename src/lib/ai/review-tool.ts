@@ -1,7 +1,8 @@
 import "server-only";
 
-import type Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
+
+import type { LlmToolDef } from "@/lib/ai/provider";
 
 /**
  * FR-07 — risk/tutarlılık kontrolü. `code` sabit bir enum: her değerin
@@ -18,12 +19,11 @@ export const FINDING_CODES = [
   "other",
 ] as const;
 
-export const REVIEW_TOOL: Anthropic.Tool = {
+export const REVIEW_TOOL: LlmToolDef = {
   name: "report_findings",
   description:
     "Taslaktaki tutarsızlıkları ve riskli noktaları raporlar (FR-07). Bu bir hukuki görüş veya geçerlilik garantisi DEĞİLDİR — yalnızca metindeki tutarsızlıkları işaretler.",
-  strict: true,
-  input_schema: {
+  inputSchema: {
     type: "object",
     properties: {
       findings: {

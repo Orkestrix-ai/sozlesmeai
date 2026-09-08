@@ -9,6 +9,8 @@ import { createClient } from "@/lib/supabase/server";
 import { getWorkspaceContext, verifySession } from "@/lib/dal";
 import { validateContractTitle, type FieldErrors } from "@/lib/validation";
 import { sectionToolInputSchema, type ContractSection } from "@/lib/contracts/schema";
+import { uuidSchema, createContractVersionResultSchema } from "@/lib/db/schemas";
+import { dbRpc } from "@/lib/db/safe";
 import { z } from "zod";
 
 export type ContractFormState =
@@ -62,31 +64,46 @@ export async function createContractAction(
   redirect({ href: `/contracts/${data.id}`, locale });
 }
 
-export async function archiveContractAction(formData: FormData) {
-  const contractId = String(formData.get("contractId") ?? "");
-  if (!contractId) return;
+// archiveContractAction/restoreContractAction bir <form action={...}>'a
+// DOĞRUDAN bağlanıyor (bkz. contracts-table.tsx, archive/page.tsx) — bu,
+// dönüş tipini `void | Promise<void>` ile sınırlar (TS'in "void kabul eden
+// fonksiyon tipi her şeyi kabul eder" istisnası Promise<T> için GEÇERLİ
+// DEĞİL). Buradaki sertleştirme dönüş DEĞERİNDE değil: eskiden hiçbir
+// kimlik/girdi kontrolü yoktu (yalnızca RLS'e güveniliyordu) ve DB hatası
+// sessizce yutuluyordu (yalnızca console.error, revalidate her koşulda
+// çalışıyordu). Şimdi geçersiz contractId RLS'e/DB'ye hiç gitmiyor.
+
+export async function archiveContractAction(formData: FormData): Promise<void> {
+  await verifySession();
+  const parsed = uuidSchema.safeParse(formData.get("contractId"));
+  if (!parsed.success) return;
 
   const supabase = await createClient();
   const { error } = await supabase
     .from("contracts")
     .update({ archived_at: new Date().toISOString() })
-    .eq("id", contractId);
+    .eq("id", parsed.data);
 
-  if (error) console.error("[contracts] archiveContractAction:", error.code, error.message);
+  if (error) {
+    console.error("[contracts] archiveContractAction:", error.code, error.message);
+  }
   revalidatePath("/", "layout");
 }
 
-export async function restoreContractAction(formData: FormData) {
-  const contractId = String(formData.get("contractId") ?? "");
-  if (!contractId) return;
+export async function restoreContractAction(formData: FormData): Promise<void> {
+  await verifySession();
+  const parsed = uuidSchema.safeParse(formData.get("contractId"));
+  if (!parsed.success) return;
 
   const supabase = await createClient();
   const { error } = await supabase
     .from("contracts")
     .update({ archived_at: null })
-    .eq("id", contractId);
+    .eq("id", parsed.data);
 
-  if (error) console.error("[contracts] restoreContractAction:", error.code, error.message);
+  if (error) {
+    console.error("[contracts] restoreContractAction:", error.code, error.message);
+  }
   revalidatePath("/", "layout");
 }
 
@@ -95,49 +112,48 @@ const manualSectionsInputSchema = z.array(sectionToolInputSchema).min(1);
 /**
  * FR-06 — elle düzenleme. İstemci TÜM bölüm dizisini (ekleme/silme/sıra
  * dahil) tek seferde gönderir, tek bir "manual" sürüm olarak kaydedilir.
- * RLS contract_versions_insert politikası admin/editor dışını zaten reddeder.
+ *
+ * Güvenlik sertleştirmesi: artık `create_contract_version` RPC'sinden
+ * geçer (bu, `contract_versions` INSERT grant'inin authenticated'tan
+ * kaldırılmasının doğrudan sonucu — tek yazma yolu RPC). Elle düzenleme
+ * AI kredisi yakmaz (bugüne kadarki davranışla aynı): RPC 'manual'
+ * kaynağını 'manual_edit' işlem koduna eşler, o işlemin maliyeti 0'dır.
  */
 export async function saveManualSectionsAction(
   contractId: string,
   sections: ContractSection[],
 ): Promise<{ error?: string; sections?: ContractSection[] }> {
-  const parsed = manualSectionsInputSchema.safeParse(sections);
-  if (!parsed.success) return { error: "generic" };
+  const parsedId = uuidSchema.safeParse(contractId);
+  if (!parsedId.success) return { error: "invalid_input" };
 
-  const { userId } = await verifySession();
+  const parsedSections = manualSectionsInputSchema.safeParse(sections);
+  if (!parsedSections.success) return { error: "invalid_input" };
+
+  await verifySession();
   const supabase = await createClient();
 
-  const { data: latestVersion } = await supabase
-    .from("contract_versions")
-    .select("version_no")
-    .eq("contract_id", contractId)
-    .order("version_no", { ascending: false })
-    .limit(1)
-    .maybeSingle();
+  // İstemci TÜM bölüm dizisini (ekleme/silme/sıra dahil) tek seferde
+  // gönderir — mevcut sürümle BİRLEŞTİRİLMEZ, olduğu gibi yeni sürüm olur.
+  const merged: ContractSection[] = parsedSections.data.map((s) => ({ ...s, lastEditedBy: "user" as const }));
 
-  const versionNo = (latestVersion?.version_no ?? 0) + 1;
-  const withEditor: ContractSection[] = parsed.data.map((s) => ({ ...s, lastEditedBy: "user" }));
+  const result = await dbRpc(
+    "contracts:saveManualSectionsAction",
+    () =>
+      supabase.rpc("create_contract_version", {
+        p_contract_id: parsedId.data,
+        p_sections: merged,
+        p_source: "manual",
+        p_idempotency_key: crypto.randomUUID(),
+      }),
+    createContractVersionResultSchema,
+  );
 
-  const { data: version, error } = await supabase
-    .from("contract_versions")
-    .insert({
-      contract_id: contractId,
-      version_no: versionNo,
-      sections: withEditor,
-      source: "manual",
-      created_by: userId,
-    })
-    .select("id")
-    .maybeSingle();
-
-  if (error || !version) {
-    console.error("[contracts] saveManualSectionsAction:", error?.code, error?.message);
-    return { error: "generic" };
+  if (!result.ok) {
+    return { error: result.code };
   }
 
-  await supabase.from("contracts").update({ current_version_id: version.id }).eq("id", contractId);
-  revalidatePath(`/contracts/${contractId}`);
-  return { sections: withEditor };
+  revalidatePath(`/contracts/${parsedId.data}`);
+  return { sections: merged };
 }
 
 /**
@@ -146,17 +162,21 @@ export async function saveManualSectionsAction(
  * aksiyon geçirir, hiçbir AI tool çağrısı otomatik geçiremez.
  */
 export async function approveContractAction(contractId: string): Promise<{ error?: string }> {
+  await verifySession();
+  const parsed = uuidSchema.safeParse(contractId);
+  if (!parsed.success) return { error: "invalid_input" };
+
   const supabase = await createClient();
   const { error } = await supabase
     .from("contracts")
     .update({ status: "ready" })
-    .eq("id", contractId)
+    .eq("id", parsed.data)
     .in("status", ["draft", "review"]);
 
   if (error) {
     console.error("[contracts] approveContractAction:", error.code, error.message);
     return { error: "generic" };
   }
-  revalidatePath(`/contracts/${contractId}`);
+  revalidatePath(`/contracts/${parsed.data}`);
   return {};
 }

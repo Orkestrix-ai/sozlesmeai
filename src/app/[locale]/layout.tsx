@@ -51,8 +51,12 @@ export default async function LocaleLayout({
 }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
 
-  // `[locale]` bilinmeyen rotalar için catch-all gibi davranır; geçersiz
-  // değerlerde 404 döndür, varsayılana sessizce düşme.
+  // `[locale]` catch-all DEĞİL, TEK segmentlik bir dinamik segment (bu yüzden
+  // yalnızca `/xx` gibi tek segmentli yollarda bu layout çalışır ve buraya
+  // gelir; `/xx/herhangi-bir-şey` gibi iki+ segmentli hiçbir page.tsx'e
+  // karşılık gelmeyen yollar bu layout'a HİÇ uğramadan doğrudan
+  // `src/app/global-not-found.tsx`'e düşer — bkz. o dosyadaki not).
+  // Geçersiz tek-segment locale'lerde 404 döndür, varsayılana sessizce düşme.
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }

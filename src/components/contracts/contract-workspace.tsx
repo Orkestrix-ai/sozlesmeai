@@ -87,7 +87,7 @@ function ContractWorkspace({
         body: JSON.stringify({ message: text, locale }),
       });
 
-      if (!res.body) throw new Error("no_stream");
+      if (!res.ok || !res.body) throw new Error("no_stream");
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let buffer = "";

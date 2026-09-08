@@ -265,7 +265,25 @@
     "network": "Could not connect. Check your internet connection.",
     "unauthorized": "You don't have permission to do this.",
     "notFound": "The page you're looking for could not be found.",
-    "unexpected": "An unexpected error occurred."
+    "unexpected": "An unexpected error occurred.",
+    "page": {
+      "notFound": {
+        "title": "This page isn't where we expected",
+        "description": "The link may have moved or the address may have changed. You can pick up where you left off below."
+      },
+      "unexpected": {
+        "title": "Something didn't go to plan",
+        "description": "This is usually temporary. Trying once more is often all it takes."
+      },
+      "actions": {
+        "home": "Back to home",
+        "dashboard": "Back to dashboard",
+        "back": "Go to previous page"
+      },
+      "quickLinksTitle": "Popular pages",
+      "reference": "Reference no: {code}",
+      "referenceHint": "Share this code if you contact support."
+    }
   },
   "validation": {
     "required": "This field is required.",

@@ -265,7 +265,25 @@
     "network": "Bağlantı kurulamadı. İnternet bağlantınızı kontrol edin.",
     "unauthorized": "Bu işlem için yetkiniz yok.",
     "notFound": "Aradığınız sayfa bulunamadı.",
-    "unexpected": "Beklenmeyen bir hata oluştu."
+    "unexpected": "Beklenmeyen bir hata oluştu.",
+    "page": {
+      "notFound": {
+        "title": "Bu sayfa yerinde görünmüyor",
+        "description": "Bağlantı taşınmış ya da adres değişmiş olabilir. Aşağıdan kaldığınız yere dönebilirsiniz."
+      },
+      "unexpected": {
+        "title": "Küçük bir aksilik oldu",
+        "description": "Bu genellikle geçici bir durumdur. Bir kez daha denemek çoğu zaman yeterli oluyor."
+      },
+      "actions": {
+        "home": "Ana sayfaya dön",
+        "dashboard": "Panele dön",
+        "back": "Önceki sayfaya git"
+      },
+      "quickLinksTitle": "Sık kullanılan sayfalar",
+      "reference": "Referans no: {code}",
+      "referenceHint": "Destek ekibimizle görüşürseniz bu kodu paylaşın."
+    }
   },
   "validation": {
     "required": "Bu alan zorunludur.",
