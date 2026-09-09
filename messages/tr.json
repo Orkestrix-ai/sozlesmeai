@@ -5,7 +5,7 @@
   },
   "nav": {
     "skipToContent": "İçeriğe geç",
-    "brand": "Sözleşme Stüdyosu",
+    "brand": "Cntrsign",
     "product": "Ürün",
     "how": "Nasıl çalışır",
     "pricing": "Paketler",
@@ -252,9 +252,9 @@
     "effectiveDate": "9 Eylül 2026",
     "entity": {
       "legalNameLabel": "Ticaret unvanı",
-      "legalName": "Sözleşme Stüdyosu",
+      "legalName": "",
       "tradeNameLabel": "İşletme adı",
-      "tradeName": "",
+      "tradeName": "Cntrsign",
       "addressLabel": "Adres",
       "address": "",
       "mersisLabel": "MERSİS numarası",

@@ -51,11 +51,19 @@ const ENTITY_IDENTITY: LegalBlock = {
   ],
 };
 
-/** Son maddedeki iletişim künyesi. `legalName` dolu olduğu için hiç boşalmaz. */
+/**
+ * Son maddedeki iletişim künyesi.
+ *
+ * `tradeName` burada ZORUNLU: ticaret unvanı henüz kurulmadığı için
+ * `legalName` boş, adres/e-posta/KEP/web sitesi de boş. `tradeName` olmasaydı
+ * satırların hepsi elenir, `dl` `null` döner ve maddenin "iletişim bilgileri
+ * aşağıdadır" cümlesi altında hiçbir şey olmadan asılı kalırdı.
+ */
 const ENTITY_CONTACT: LegalBlock = {
   kind: "dl",
   rows: [
     { label: "legal.entity.legalNameLabel", value: "legal.entity.legalName" },
+    { label: "legal.entity.tradeNameLabel", value: "legal.entity.tradeName" },
     { label: "legal.entity.addressLabel", value: "legal.entity.address" },
     { label: "legal.entity.emailLabel", value: "legal.entity.email" },
     { label: "legal.entity.kepLabel", value: "legal.entity.kep" },

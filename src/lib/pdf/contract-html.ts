@@ -123,7 +123,7 @@ export function buildContractHtml(params: {
 export function buildContractFooterTemplate(): string {
   return `
     <div style="width: 100%; font-size: 8px; color: #888; padding: 0 56px; display: flex; justify-content: space-between; font-family: sans-serif;">
-      <span>Sözleşme Stüdyosu</span>
+      <span>Cntrsign</span>
       <span><span class="pageNumber"></span> / <span class="totalPages"></span></span>
     </div>`;
 }

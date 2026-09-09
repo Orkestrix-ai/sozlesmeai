@@ -29,6 +29,7 @@ export default async function SharedContractPage({ params }: PageProps<"/[locale
 
   const t = await getTranslations("sharedContract");
   const tStatus = await getTranslations("dashboard.status");
+  const tNav = await getTranslations("nav");
 
   const parsedToken = shareTokenSchema.safeParse(rawToken);
 
@@ -75,7 +76,7 @@ export default async function SharedContractPage({ params }: PageProps<"/[locale
   return (
     <div className="min-h-dvh bg-paper-100">
       <header className="border-b border-stone-200 bg-paper-50 px-6 py-4">
-        <span className="text-card-title font-heading text-ink-950">Sözleşme Stüdyosu</span>
+        <span className="text-card-title font-heading text-ink-950">{tNav("brand")}</span>
       </header>
       <main className="mx-auto max-w-3xl px-6 py-10">
         <Alert variant="neutral" className="mb-6">

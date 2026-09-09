@@ -5,7 +5,7 @@
   },
   "nav": {
     "skipToContent": "Skip to content",
-    "brand": "Contract Studio",
+    "brand": "Cntrsign",
     "product": "Product",
     "how": "How it works",
     "pricing": "Pricing",
@@ -252,9 +252,9 @@
     "effectiveDate": "9 September 2026",
     "entity": {
       "legalNameLabel": "Legal name",
-      "legalName": "Contract Studio",
+      "legalName": "",
       "tradeNameLabel": "Trading name",
-      "tradeName": "",
+      "tradeName": "Cntrsign",
       "addressLabel": "Address",
       "address": "",
       "mersisLabel": "MERSIS number",
