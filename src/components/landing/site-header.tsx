@@ -66,13 +66,13 @@ export function SiteHeader() {
             {t("login")}
           </Link>
           {/*
-            Sticky header CTA bilerek İKİNCİL: hero'nun kırmızı CTA'sı ile aynı
-            anda ekranda olduğu için kırmızı olsaydı design.md §3 ("aynı anda
-            birden fazla kırmızı CTA") ve §5 ("ekranda tek birincil aksiyon")
-            ihlal edilirdi. Her bölüm kendi tek birincil aksiyonunu taşır.
+            Navbar'ın ana butonu design.md §6.1 uyarınca brand-red-600'dür ve
+            doğrudan kayıt akışına (/signup) götürür. Hero'nun kırmızı CTA'sı ile
+            aynı anda görünür olması bilinçli bir tercihtir: header'daki tek
+            aksiyon budur, diğer bölümler kendi tek birincil aksiyonunu taşır.
           */}
-          <Button size="sm" variant="onDark" asChild>
-            <a href="#final-cta">{t("cta")}</a>
+          <Button size="sm" asChild>
+            <Link href="/signup">{t("signup")}</Link>
           </Button>
         </div>
 
@@ -112,11 +112,20 @@ export function SiteHeader() {
           ))}
           <div className="mt-2 flex items-center justify-between gap-3 border-t border-ink-800 pt-4">
             <LocaleSwitcher />
-            <Button size="sm" variant="onDark" asChild>
-              <a href="#final-cta" onClick={() => setOpen(false)}>
-                {t("cta")}
-              </a>
-            </Button>
+            <div className="flex items-center gap-4">
+              <Link
+                href="/login"
+                onClick={() => setOpen(false)}
+                className="text-helper text-stone-400 transition-colors hover:text-paper-50"
+              >
+                {t("login")}
+              </Link>
+              <Button size="sm" asChild>
+                <Link href="/signup" onClick={() => setOpen(false)}>
+                  {t("signup")}
+                </Link>
+              </Button>
+            </div>
           </div>
         </Container>
       </div>

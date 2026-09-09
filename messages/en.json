@@ -11,13 +11,13 @@
     "pricing": "Pricing",
     "faq": "FAQ",
     "login": "Log in",
-    "cta": "Create a draft",
+    "signup": "Create account",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
   },
   "localeSwitcher": {
     "label": "Language",
-    "tr": "Türkçe",
+    "tr": "Turkish",
     "en": "English"
   },
   "hero": {
@@ -245,6 +245,272 @@
     "rights": "All rights reserved.",
     "disclaimer": "This product does not provide legal advice."
   },
+  "legal": {
+    "backHome": "Back to home",
+    "tocTitle": "Contents",
+    "effectiveDateLabel": "Effective date",
+    "effectiveDate": "9 September 2026",
+    "entity": {
+      "legalNameLabel": "Legal name",
+      "legalName": "Contract Studio",
+      "tradeNameLabel": "Trading name",
+      "tradeName": "",
+      "addressLabel": "Address",
+      "address": "",
+      "mersisLabel": "MERSIS number",
+      "mersis": "",
+      "taxOfficeLabel": "Tax office and number",
+      "taxOffice": "",
+      "emailLabel": "Email",
+      "email": "",
+      "kepLabel": "Registered electronic mail (KEP)",
+      "kep": "",
+      "websiteLabel": "Website",
+      "website": ""
+    },
+    "terms": {
+      "title": "Terms of Use",
+      "metaDescription": "Scope of the service, account use, package and credit rules, responsibility for generated content, and termination.",
+      "intro": "These Terms of Use govern the relationship between the User who registers for the Service and the Company. They set out how the account may be used, what the generated contract drafts are and are not, and what each party is responsible for.",
+      "articles": {
+        "parties": {
+          "title": "Parties and subject matter",
+          "p1": "These Terms of Use are concluded between the business identified below (the “Company”) and the natural or legal person who creates an account on the Service (the “User”).",
+          "p2": "By ticking the consent boxes during registration, the User confirms having read and accepted these Terms in full. Anyone who does not accept them should not use the Service."
+        },
+        "definitions": {
+          "title": "Definitions",
+          "p1": "The following terms are used throughout this document.",
+          "i1": "Service: the online application provided by the Company for preparing and editing contract drafts with the assistance of artificial intelligence.",
+          "i2": "User: the natural or legal person who creates an account on the Service and uses it.",
+          "i3": "Workspace: the unit that holds contracts, members and the credit balance, and to which access is granted by authorisation.",
+          "i4": "Draft: a contract text produced through the Service on the basis of the information the User provides.",
+          "i5": "Version: the stored state of a Draft at a given moment. Every edit is retained as a new version.",
+          "i6": "Credit: the unit of use deducted from a Workspace balance in order to carry out certain operations.",
+          "i7": "Package: the subscription tier that determines the features and credit allowance available to a Workspace."
+        },
+        "account": {
+          "title": "Accounts and workspaces",
+          "p1": "To create an account the User must have legal capacity and be at least eighteen years old. A natural person opening an account on behalf of a legal entity represents that they are authorised to accept these Terms on its behalf.",
+          "p2": "The User is responsible for the accuracy of the information provided at registration. Account credentials are the User's responsibility, and the User bears the consequences of sharing them with third parties. Any suspected unauthorised access must be reported to the Company without delay.",
+          "p3": "A personal Workspace is created for every account at registration. Members of a Workspace hold the role of admin, editor or viewer, and access and permissions follow from that role. A Workspace admin is responsible for ensuring that the members they invite use the Service in accordance with these Terms."
+        },
+        "nature": {
+          "title": "Nature of the service",
+          "p1": "The Service is a software tool that assists in preparing contract drafts. The Company does not provide legal assistance within the meaning of the Turkish Attorneyship Act No. 1136; the Service is not a legal service, legal advice or a legal opinion.",
+          "p2": "No text produced through the Service carries any warranty of legality, validity or of achieving a particular outcome. No text should be treated as ready for use before the circumstances of the specific matter, the relationship between the parties and the applicable law have been assessed.",
+          "p3": "Before signing a text produced through the Service, presenting it to third parties or using it in a way that creates legal effect, the User must have it reviewed by a qualified legal professional."
+        },
+        "aiOutput": {
+          "title": "AI output and user responsibility",
+          "p1": "Every output produced in the Service is a draft and is subject to the User's approval. Outputs are editable, and no text is treated as final until the User approves it.",
+          "p2": "The system does not invent information it has not been given. Fields that remain missing or ambiguous are marked explicitly in the text, and resolving those markers is the User's responsibility.",
+          "p3": "The consistency and risk check offered by the Service is an automated review intended to draw attention to possible issues. It is not a legal opinion, it does not claim to identify every risk, and it does not confirm the validity of the text.",
+          "p4": "Language models can produce output that is incorrect, incomplete or unsuited to the context. Reviewing the generated text, verifying its accuracy and deciding whether to use it rest with the User."
+        },
+        "acceptableUse": {
+          "title": "Acceptable use",
+          "p1": "The User undertakes to use the Service in accordance with applicable law, good faith and these Terms. The following are prohibited.",
+          "i1": "Producing or uploading content that is unlawful, criminal, or infringes the rights of third parties.",
+          "i2": "Entering personal data belonging to third parties into the Service without authorisation to process it.",
+          "i3": "Reverse engineering the Service in order to access its source code or work out how it operates.",
+          "i4": "Sending requests beyond ordinary use through automated tools, overloading the system, or attempting to circumvent security measures.",
+          "i5": "Sharing the account or credentials with third parties, or transferring or renting the account.",
+          "i6": "Using the Service in a way that prevents other users from benefiting from it.",
+          "p2": "Where a breach of these rules is identified, the Company reserves the right to remove the content concerned, restrict access, or suspend the account."
+        },
+        "plans": {
+          "title": "Packages, credits and fees",
+          "p1": "The Service is offered in packages of differing scope. Current package contents and fees are published on the Service's pricing page, which forms an annex to these Terms.",
+          "p2": "Certain operations are carried out by deducting from the Workspace credit balance. The Service shows how many credits each operation consumes. Where the balance is insufficient, the operation is not started.",
+          "p3": "The free tier offers limited use, the scope of which is determined by the Company, and carries no particular availability commitment.",
+          "p4": "Credits are assigned to a Workspace; they are non-transferable and cannot be exchanged for money. What happens to unused credits at the end of a period is governed by the terms of the relevant package.",
+          "p5": "The Company reserves the right to change fees and package contents. Changes made during a current subscription period are not applied to the User's detriment before that period ends, and are notified to the User in advance.",
+          "p6": "For Users who qualify as consumers, the rights of withdrawal and refund arising under the Turkish Consumer Protection Act No. 6502 and related legislation are reserved."
+        },
+        "ip": {
+          "title": "Intellectual property",
+          "p1": "Intellectual and industrial property rights in the software, interface, design, trade marks and content that make up the Service belong to the Company or its licensors. These Terms grant the User a limited, non-exclusive and non-transferable right to use the Service, and nothing beyond that is assigned.",
+          "p2": "Rights in the information the User enters into the Service and in the contract texts the User produces through it remain with the User. The Company may process that content solely for the purpose of providing, maintaining and securing the Service, and only to that extent.",
+          "p3": "The Company does not make User content available to third parties for marketing purposes. Which service providers the content is transmitted to, and why, is explained in the Privacy Policy."
+        },
+        "sharing": {
+          "title": "Share links",
+          "p1": "The User can create a public share link for a contract that is in the ready state. The link contains a random key that is hard to guess, but anyone who holds the link can view the contract's title, its text and its PDF output without signing in.",
+          "p2": "A share link is not pinned to the state of the contract at the time of sharing. Each time the link is opened it shows the most recent version, so edits made after sharing become visible through the existing link.",
+          "p3": "Links are valid without a time limit. The User may revoke a link at any time; revocation cannot be undone, and a new link must be created for the same contract. The link also stops working if the contract leaves the ready state.",
+          "p4": "Controlling who a link is shared with is the User's responsibility. The Company cannot be held liable for access by third parties who obtain the link."
+        },
+        "availability": {
+          "title": "Availability and changes to the service",
+          "p1": "The Company does not warrant that the Service will be provided without interruption or error. Temporary interruptions may occur due to maintenance, updates, infrastructure faults or causes originating with third-party providers.",
+          "p2": "The Company reserves the right to develop, change or discontinue features of the Service. Material changes that operate to the User's detriment are announced in the Service or by email a reasonable time in advance.",
+          "p3": "Planned maintenance is carried out, as far as possible, during periods of low usage."
+        },
+        "liability": {
+          "title": "Limitation of liability",
+          "p1": "The Company provides the Service as it stands. No express or implied undertaking is given that the Service is fit for a particular purpose or will achieve a particular result.",
+          "p2": "The Company's liability is limited to fault attributable to it. The Company is not liable for the content of generated drafts, for the User's use of those drafts without review, or for the consequences of such use.",
+          "p3": "The Company cannot be held liable for indirect damage, loss of profit, loss of data or business interruption to the extent these were not foreseeable.",
+          "p4": "The limitations in this article do not apply in cases of the Company's intent or gross negligence, nor to liability arising under consumer protection legislation."
+        },
+        "termination": {
+          "title": "Suspension and termination",
+          "p1": "The User may stop using the Service at any time.",
+          "p2": "The Company may suspend the account or terminate the agreement in the event of a material breach of these Terms, unlawful use, failure to meet payment obligations, or conduct that threatens the security of the Service. Suspension is, as far as possible, preceded by notice.",
+          "p3": "The User can archive contracts; archiving does not mean the record is deleted. Credit entries, workspace activity records and administrator action logs are kept in an unalterable form for accountability purposes and cannot be deleted through the Service. Details of storage and deletion are set out in the Privacy Policy."
+        },
+        "changes": {
+          "title": "Changes to these terms",
+          "p1": "The Company may update these Terms. The updated text is published on this page and the effective date at the top of the page is changed.",
+          "p2": "Material changes that operate to the User's detriment are announced a reasonable time before they take effect. Continuing to use the Service after such an announcement means the updated Terms are accepted."
+        },
+        "law": {
+          "title": "Governing law and disputes",
+          "p1": "These Terms are governed by the laws of the Republic of Türkiye.",
+          "p2": "The parties will first make an effort to resolve any dispute between them in good faith and through negotiation.",
+          "p3": "For Users who qualify as consumers, the jurisdiction of the Consumer Arbitration Committees and the Consumer Courts is reserved according to the applicable monetary thresholds. Other disputes fall to the courts and enforcement offices competent under the general provisions of law."
+        },
+        "contact": {
+          "title": "Contact",
+          "p1": "The Company's contact details for questions and notices relating to these Terms are set out below.",
+          "p2": "The Company sends notices to the User at the email address registered on the account or by an announcement within the Service."
+        }
+      }
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "metaDescription": "What personal data is processed, on what purposes and legal bases, transfers to AI providers, cookies, retention periods and your rights.",
+      "intro": "This Privacy Policy explains which personal data is processed when you use the Service, for what purposes and on what legal basis, who the data is shared with, and what rights you have as a data subject. It is written to meet the disclosure obligation under the Turkish Personal Data Protection Act No. 6698 and the information obligation under the EU General Data Protection Regulation together.",
+      "articles": {
+        "controller": {
+          "title": "Controller and scope",
+          "p1": "Your personal data is processed by the business identified below, acting as data controller within the meaning of Act No. 6698 and the General Data Protection Regulation.",
+          "p2": "This Policy covers all processing carried out through the Service's web application and forms an integral part of the Terms of Use."
+        },
+        "dataCategories": {
+          "title": "Personal data we process",
+          "p1": "The following categories of data are processed in connection with the Service.",
+          "i1": "Identity data: first name and surname.",
+          "i2": "Contact data: email address.",
+          "i3": "Security data: session information, an irreversible hash of your password, and server access logs.",
+          "i4": "User content: the instructions and chat messages you enter, the text of the contract sections produced, the versions retained on every edit, and the PDF files generated.",
+          "i5": "Transaction and usage records: credit entries, workspace activity records and audit logs of administrator actions.",
+          "i6": "Preference data: interface language and the workspace you last used.",
+          "i7": "Consent records: the time at which you accepted the Terms of Use and this Privacy Policy.",
+          "p2": "The Service is not intended to collect special categories of personal data. We recommend not entering such data into contract texts; the content you enter remains under your control."
+        },
+        "collection": {
+          "title": "How data is collected",
+          "p1": "Data is collected in two ways: directly from you, through the registration form, account screens and the contract preparation screen; and automatically, through cookies and server logs generated as you use the Service.",
+          "p2": "Processing takes place by wholly or partly automated means, in electronic form."
+        },
+        "purposes": {
+          "title": "Purposes and legal bases",
+          "p1": "Your personal data is processed for the following purposes, on the legal bases indicated.",
+          "i1": "Creating the account, authenticating you and providing the Service — necessary for entering into and performing the contract (KVKK art. 5/2-c; GDPR art. 6(1)(b)).",
+          "i2": "Preparing, editing and versioning contract drafts and producing PDF output — performance of the contract (KVKK art. 5/2-c; GDPR art. 6(1)(b)).",
+          "i3": "Tracking package and credit usage and keeping the records that underpin billing — performance of the contract and compliance with a legal obligation (KVKK art. 5/2-c and 5/2-ç; GDPR art. 6(1)(b) and 6(1)(c)).",
+          "i4": "Keeping the Service secure, preventing misuse and diagnosing faults — legitimate interests (KVKK art. 5/2-f; GDPR art. 6(1)(f)).",
+          "i5": "Meeting statutory retention and disclosure obligations — compliance with a legal obligation (KVKK art. 5/2-ç; GDPR art. 6(1)(c)).",
+          "i6": "Sending service messages that are necessary for the Service — performance of the contract (KVKK art. 5/2-c; GDPR art. 6(1)(b)).",
+          "p2": "Your personal data is not used for purposes other than those set out in this Policy and is not sold to third parties for marketing."
+        },
+        "aiProviders": {
+          "title": "Transfers to AI providers",
+          "p1": "The drafting, editing and risk-check features of the Service run on large language models operated by external providers. When you use those features, the chat history for the contract concerned and the text of its sections are transmitted to the model provider.",
+          "p2": "The transfer happens only in order to carry out the operation you requested, and is limited to it. Unless you start a chat or run a risk check, your contract content is not sent to a model provider.",
+          "p3": "The model providers currently used are:",
+          "i1": "Anthropic PBC — large language model inference (United States).",
+          "i2": "Groq, Inc. — large language model inference (United States).",
+          "p4": "Transmitted content is subject to the provider's own service and data processing terms. The Company is not in a position to give an independent undertaking about how long a provider retains data in its own systems. For that reason we recommend not writing identity, contact or financial details into contract texts unless they are needed.",
+          "p5": "This section is updated whenever the provider in use changes."
+        },
+        "cookies": {
+          "title": "Cookies",
+          "p1": "The Service uses only first-party cookies that are necessary for it to function.",
+          "r1Label": "Session cookies",
+          "r1Value": "Used for authentication and to keep you signed in. Signing in is not possible without them.",
+          "r2Label": "Language cookie",
+          "r2Value": "Remembers the interface language you selected for later visits.",
+          "r3Label": "Workspace cookie",
+          "r3Value": "Remembers the workspace you last used. It records a preference only; access rights are determined by server-side authorisation rules, not by this cookie.",
+          "p2": "No advertising, profiling or third-party tracking cookies are used. The Service contains no third-party analytics or advertising tools."
+        },
+        "transfers": {
+          "title": "Where data is held and international transfers",
+          "p1": "The database, authentication and file storage infrastructure of the Service is hosted on servers located in the European Union (Ireland) region.",
+          "p2": "Transfers to AI model providers, together with application hosting, result in data being transferred outside Türkiye.",
+          "p3": "Transfers abroad are made within the framework of article 9 of Act No. 6698, where the transfer is necessary in order to provide the service and appropriate safeguards are in place. Under the General Data Protection Regulation, transfers rely on the Regulation's provisions on international transfers."
+        },
+        "retention": {
+          "title": "Retention periods",
+          "p1": "Your personal data is retained for as long as your account is open and the data is needed to provide the Service.",
+          "p2": "You can archive your contracts. Archiving removes a record from your lists; it does not mean the data is deleted. Earlier versions of a contract, the chat history and the generated PDF files are unaffected by archiving.",
+          "p3": "Credit entries, workspace activity records and administrator action logs are kept in an unalterable form for accountability purposes. These records cannot be deleted or corrected through the Service.",
+          "p4": "Records that must be retained for a set period under applicable law are kept for that period. Once the reason for retention no longer applies, data is deleted, destroyed or anonymised."
+        },
+        "sharing": {
+          "title": "Share links and visibility",
+          "p1": "When you create a share link for a contract, anyone holding that link can view the contract's title, the text of its most recent version and its PDF output without signing in.",
+          "p2": "A share link does not expose the account holder's name or email address, the chat history, or the findings of the risk check.",
+          "p3": "Links have no expiry and can be revoked at any time; revocation cannot be undone. Controlling who the link is sent to remains with you."
+        },
+        "security": {
+          "title": "Data security",
+          "p1": "Administrative and technical measures are applied to protect personal data.",
+          "i1": "Row-level access rules are enforced in the database, so each record is visible only to authorised members of the relevant workspace.",
+          "i2": "Generated PDF files are held in non-public storage and served only through short-lived signed links.",
+          "i3": "Passwords are stored irreversibly by the authentication provider; the Company cannot view them.",
+          "i4": "System components are authorised on a least-privilege basis, and access beyond those limits is restricted.",
+          "p2": "Despite these measures, no method of transmission over the internet or of electronic storage is completely secure. Using a strong password unique to this Service is an important part of keeping your account safe."
+        },
+        "rights": {
+          "title": "Your rights",
+          "p1": "Under article 11 of Act No. 6698 you have the following rights.",
+          "i1": "To learn whether your personal data is being processed and, if so, to request information about it.",
+          "i2": "To learn the purpose of processing and whether the data is used in line with that purpose.",
+          "i3": "To know the third parties, in Türkiye or abroad, to whom your data is transferred.",
+          "i4": "To request correction of data that is incomplete or inaccurate.",
+          "i5": "To request erasure or destruction of your data where the conditions for it are met.",
+          "i6": "To request that correction, erasure or destruction be notified to the third parties to whom the data was transferred.",
+          "i7": "To object to a result reached to your detriment through analysis carried out solely by automated means.",
+          "i8": "To claim compensation where you suffer damage because of unlawful processing.",
+          "p2": "Where the General Data Protection Regulation applies to you, you additionally have the rights of access, data portability, restriction of processing, objection to processing, and lodging a complaint with the competent supervisory authority.",
+          "p3": "You can send your requests through the contact channels at the end of this Policy. Requests are answered within the periods prescribed by law.",
+          "p4": "Deleting an account in full is not currently an operation that runs by itself from within the Service; such requests are handled on application. Records that must be retained under applicable law, and the transaction logs held in unalterable form, fall outside the scope of such a request."
+        },
+        "processors": {
+          "title": "Service providers",
+          "p1": "The following service providers are used in order to deliver the Service. They process data only on the Company's instructions and only for the purpose for which it was given to them.",
+          "r1Label": "Supabase",
+          "r1Value": "Authentication, database, file storage and delivery of transactional email. The infrastructure is in the European Union (Ireland) region.",
+          "r2Label": "Anthropic PBC",
+          "r2Value": "Large language model inference for contract drafting and risk checking.",
+          "r3Label": "Groq, Inc.",
+          "r3Value": "Large language model inference for contract drafting and risk checking.",
+          "r4Label": "Application hosting provider",
+          "r4Value": "Running the web application and serving it to end users.",
+          "p2": "PDF output is produced on the Company's own server without being sent to an external service. Interface fonts are served together with the application, so no request goes to a third-party server while a page is displayed.",
+          "p3": "This section is updated whenever the list of providers changes."
+        },
+        "children": {
+          "title": "Children's data",
+          "p1": "The Service is not directed at people under the age of eighteen, and personal data is not knowingly collected from them. If we establish that data belonging to someone under that age has been processed, it is deleted."
+        },
+        "changes": {
+          "title": "Changes to this policy",
+          "p1": "This Policy may be updated. The updated text is published on this page and the effective date at the top of the page is changed.",
+          "p2": "Where there is a material change in the purposes of processing or in the parties data is transferred to, separate notice is given before the change takes effect."
+        },
+        "contact": {
+          "title": "Contact and requests",
+          "p1": "The Company's contact details for questions, requests and applications under this Policy are set out below.",
+          "p2": "Sending your request together with information that verifies your identity helps us resolve it more quickly."
+        }
+      }
+    }
+  },
   "common": {
     "actions": {
       "save": "Save",
@@ -293,7 +559,9 @@
     "nameTooShort": "Name must be at least 2 characters.",
     "nameTooLong": "Name can be at most 80 characters.",
     "titleRequired": "A title is required.",
-    "titleTooLong": "Title can be at most 140 characters."
+    "titleTooLong": "Title can be at most 140 characters.",
+    "termsRequired": "You must accept the Terms of Use to continue.",
+    "privacyRequired": "You must accept the Privacy Policy to continue."
   },
   "auth": {
     "brandPanel": {
@@ -321,6 +589,9 @@
       "nameLabel": "Full name",
       "emailLabel": "Email",
       "passwordLabel": "Password",
+      "termsConsentLabel": "I have read and accept the <link>Terms of Use</link>.",
+      "privacyConsentLabel": "I have read and accept the <link>Privacy Policy</link>.",
+      "opensInNewTab": "(opens in a new tab)",
       "submit": "Create account",
       "hasAccount": "Already have an account?",
       "loginLink": "Log in"

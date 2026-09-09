@@ -9,6 +9,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { CheckboxField } from "@/components/ui/checkbox-field";
 
 export function SignupForm() {
   const t = useTranslations("auth.signup");
@@ -54,6 +56,61 @@ export function SignupForm() {
         >
           <Input name="password" type="password" autoComplete="new-password" required />
         </Field>
+
+        {/*
+          İki kutu da işaretsiz başlar: ön-işaretli onay KVKK/GDPR anlamında
+          geçerli bir açık rıza sayılmaz. Zorunluluk `required` ile tarayıcıya
+          değil sunucudaki `validateSignup`a bırakılır — form zaten
+          `noValidate`. Belge başına ayrı onay, ayrı hata: birini işaretleyip
+          diğerini unutan kullanıcıya yalnızca eksik olan gösterilir.
+
+          Belgeler yeni sekmede açılır: form `useActionState` ile çalışıyor ve
+          alanlar kontrolsüz, dolayısıyla aynı sekmede gezinmek doldurulmuş
+          ad/e-posta/parolayı silerdi. `checkbox-field.tsx` zaten `<a>`ya gelen
+          tıklamada kutuyu toggle etmiyor.
+        */}
+        <div className="space-y-3">
+          <CheckboxField
+            id="terms"
+            required
+            label={t.rich("termsConsentLabel", {
+              link: (chunks) => (
+                <Link
+                  href="/terms"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-brand-red-600 hover:text-brand-red-700"
+                >
+                  {chunks}
+                  <span className="sr-only"> {t("opensInNewTab")}</span>
+                </Link>
+              ),
+            })}
+            error={state?.fieldErrors?.terms ? tV(state.fieldErrors.terms) : undefined}
+          >
+            <Checkbox name="terms" value="accepted" />
+          </CheckboxField>
+          <CheckboxField
+            id="privacy"
+            required
+            label={t.rich("privacyConsentLabel", {
+              link: (chunks) => (
+                <Link
+                  href="/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-brand-red-600 hover:text-brand-red-700"
+                >
+                  {chunks}
+                  <span className="sr-only"> {t("opensInNewTab")}</span>
+                </Link>
+              ),
+            })}
+            error={state?.fieldErrors?.privacy ? tV(state.fieldErrors.privacy) : undefined}
+          >
+            <Checkbox name="privacy" value="accepted" />
+          </CheckboxField>
+        </div>
 
         <Button type="submit" size="lg" className="w-full" disabled={pending}>
           {t("submit")}

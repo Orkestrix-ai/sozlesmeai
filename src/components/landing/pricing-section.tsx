@@ -18,22 +18,49 @@ import { cn } from "@/lib/utils";
  * ikincil buton kullanır — böylece bölümde tek bir kırmızı aksiyon kalır
  * (design.md §3 ve §5).
  */
+/**
+ * `featureKeys` kısa ("f1") değil TAM yol tutar: `.map` destructuring'i `key`
+ * ile `featureKeys` arasındaki korelasyonu kopardığı için `plans.${key}
+ * .features.${featureKey}` şablonu tip düzeyinde çapraz çarpıma dönüşüyor ve
+ * var olmayan `plans.starter.features.f6`yı üretiyordu (starter'da f1–f5 var).
+ * Tam yol yazınca anahtarlar doğrudan `tr.json` şemasına karşı denetleniyor.
+ */
 const PLANS = [
   {
     key: "starter",
-    featureKeys: ["f1", "f2", "f3", "f4", "f5"],
+    featureKeys: [
+      "plans.starter.features.f1",
+      "plans.starter.features.f2",
+      "plans.starter.features.f3",
+      "plans.starter.features.f4",
+      "plans.starter.features.f5",
+    ],
     popular: false,
     tone: "plain",
   },
   {
     key: "pro",
-    featureKeys: ["f1", "f2", "f3", "f4", "f5", "f6"],
+    featureKeys: [
+      "plans.pro.features.f1",
+      "plans.pro.features.f2",
+      "plans.pro.features.f3",
+      "plans.pro.features.f4",
+      "plans.pro.features.f5",
+      "plans.pro.features.f6",
+    ],
     popular: true,
     tone: "outlined",
   },
   {
     key: "business",
-    featureKeys: ["f1", "f2", "f3", "f4", "f5", "f6"],
+    featureKeys: [
+      "plans.business.features.f1",
+      "plans.business.features.f2",
+      "plans.business.features.f3",
+      "plans.business.features.f4",
+      "plans.business.features.f5",
+      "plans.business.features.f6",
+    ],
     popular: false,
     tone: "dark",
   },
@@ -126,7 +153,7 @@ export function PricingSection() {
                           isDark ? "text-paper-50" : "text-stone-800",
                         )}
                       >
-                        {t(`plans.${key}.features.${featureKey}`)}
+                        {t(featureKey)}
                       </span>
                     </li>
                   ))}

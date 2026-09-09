@@ -8,13 +8,14 @@ import type { AppLocale } from "@/i18n/routing";
 import { createClient } from "@/lib/supabase/server";
 import { getWorkspaceContext, verifySession } from "@/lib/dal";
 import { validateContractTitle, type FieldErrors } from "@/lib/validation";
+import type { AppErrorKey } from "@/lib/i18n-keys";
 import { sectionToolInputSchema, type ContractSection } from "@/lib/contracts/schema";
 import { uuidSchema, createContractVersionResultSchema } from "@/lib/db/schemas";
 import { dbRpc } from "@/lib/db/safe";
 import { z } from "zod";
 
 export type ContractFormState =
-  | { fieldErrors?: FieldErrors; formError?: string }
+  | { fieldErrors?: FieldErrors; formError?: AppErrorKey }
   | undefined;
 
 /** messages/*.json → dashboard.newContract.types ile birebir. */

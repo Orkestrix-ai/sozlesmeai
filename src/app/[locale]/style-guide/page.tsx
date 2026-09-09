@@ -3,6 +3,10 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import { Container } from "@/components/landing/container";
 import { Input } from "@/components/ui/input";
 import { Field } from "@/components/ui/field";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { CheckboxField } from "@/components/ui/checkbox-field";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
@@ -295,6 +299,47 @@ export default function StyleGuidePage() {
             </Field>
             <Field id="sg-name" label="Ad Soyad" error="Bu alan zorunludur.">
               <Input placeholder="Ad Soyad" />
+            </Field>
+            <Field id="sg-radio" asGroup required label="Bir seçenek seç">
+              <RadioGroup defaultValue="a">
+                <div className="flex items-center gap-2.5">
+                  <RadioGroupItem value="a" id="sg-radio-a" />
+                  <Label htmlFor="sg-radio-a">Birinci seçenek</Label>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <RadioGroupItem value="b" id="sg-radio-b" />
+                  <Label htmlFor="sg-radio-b">İkinci seçenek</Label>
+                </div>
+              </RadioGroup>
+            </Field>
+            <CheckboxField id="sg-check" required label="Koşulları okudum, kabul ediyorum.">
+              <Checkbox defaultChecked />
+            </CheckboxField>
+            <CheckboxField id="sg-check-empty" label="Bilgilendirme e-postası almak istiyorum.">
+              <Checkbox />
+            </CheckboxField>
+            <CheckboxField
+              id="sg-check-error"
+              required
+              label="Hatalı onay kutusu"
+              error="Bu alan zorunludur."
+            >
+              <Checkbox />
+            </CheckboxField>
+            <CheckboxField id="sg-check-disabled" label="Devre dışı seçenek">
+              <Checkbox disabled />
+            </CheckboxField>
+            <Field id="sg-radio-error" asGroup label="Hatalı grup" error="Bu alan zorunludur.">
+              <RadioGroup>
+                <div className="flex items-center gap-2.5">
+                  <RadioGroupItem value="a" id="sg-radio-error-a" />
+                  <Label htmlFor="sg-radio-error-a">Birinci seçenek</Label>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <RadioGroupItem value="b" id="sg-radio-error-b" />
+                  <Label htmlFor="sg-radio-error-b">İkinci seçenek</Label>
+                </div>
+              </RadioGroup>
             </Field>
           </div>
         </section>

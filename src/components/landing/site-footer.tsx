@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 
 import { Container } from "@/components/landing/container";
+import { Link } from "@/i18n/navigation";
 
 const COLUMNS = [
   { title: "productTitle", links: ["how", "pricing", "faq"] },
@@ -14,17 +15,22 @@ const HREFS: Record<string, string> = {
   faq: "#faq",
   about: "#product",
   contact: "#final-cta",
-  privacy: "#faq",
-  terms: "#faq",
+  privacy: "/privacy",
+  terms: "/terms",
 };
+
+/** `#...` sayfa içi çapa, geri kalanı locale önekli gerçek route. */
+function isAnchor(href: string) {
+  return href.startsWith("#");
+}
 
 /**
  * Footer design.md'de ayrıca tanımlanmadı; landing'i ink-950 ile açıp
  * ink-950 ile kapatmak için aynı koyu marka yüzeyi kullanıldı.
  *
- * Not: kurumsal ve yasal bağlantılar Faz 1'de gerçek sayfalara değil,
- * sayfa içi bölümlere işaret ediyor. İlgili sayfalar açıldığında
- * `HREFS` güncellenmeli.
+ * Not: yasal bağlantılar (`privacy`, `terms`) artık gerçek sayfalara gidiyor;
+ * kurumsal bağlantılar (`about`, `contact`) hâlâ sayfa içi bölümlere işaret
+ * ediyor. O sayfalar açıldığında `HREFS` güncellenmeli.
  */
 export function SiteFooter() {
   const t = useTranslations("footer");
@@ -50,16 +56,25 @@ export function SiteFooter() {
                 {t(column.title)}
               </p>
               <ul className="mt-4 space-y-2.5">
-                {column.links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href={HREFS[link]}
-                      className="text-helper text-stone-400 transition-colors hover:text-paper-50"
-                    >
-                      {t(`links.${link}`)}
-                    </a>
-                  </li>
-                ))}
+                {column.links.map((link) => {
+                  const href = HREFS[link];
+                  const className =
+                    "text-helper text-stone-400 transition-colors hover:text-paper-50";
+
+                  return (
+                    <li key={link}>
+                      {isAnchor(href) ? (
+                        <a href={href} className={className}>
+                          {t(`links.${link}`)}
+                        </a>
+                      ) : (
+                        <Link href={href} className={className}>
+                          {t(`links.${link}`)}
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
