@@ -70,7 +70,7 @@ export async function signupAction(
   // değiştirilebilir — bu bir kayıt izi, denetim kanıtı değil.
   const consentedAt = new Date().toISOString();
 
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -86,6 +86,21 @@ export async function signupAction(
 
   if (error) {
     return { formError: authErrorKey(error) };
+  }
+
+  // Supabase'in "Confirm email" ayarı KAPALIYSA GoTrue oturumu doğrudan
+  // döndürür, SSR istemcisi çerezleri yazar ve doğrulama maili hiç gitmez —
+  // kullanıcı zaten girmiş durumdadır, /verify-email'e göndermek yanlış olur.
+  // Ayar AÇIKSA session null gelir ve eski akış (onay maili) sürer. Ayar
+  // Dashboard'da yaşıyor, repoda izlenmiyor; bu yüzden davranış koda
+  // gömülmüyor, dönen oturuma bakılıyor.
+  //
+  // Var olan bir e-postayla kayıt denendiğinde GoTrue oturumsuz sahte bir
+  // kullanıcı döndürür; o durumda da bu dal çalışmaz ve kullanıcı sayımı
+  // hijyeni korunur (bkz. loginAction'daki aynı gerekçe).
+  if (data.session) {
+    revalidatePath("/", "layout");
+    redirect({ href: "/dashboard", locale });
   }
 
   redirect({
