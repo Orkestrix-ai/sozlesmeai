@@ -9,7 +9,9 @@
  * ile çevirir.
  */
 
-export type FieldErrors = Record<string, string>;
+import type { ValidationKey } from "@/lib/i18n-keys";
+
+export type FieldErrors = Record<string, ValidationKey>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -21,6 +23,9 @@ export function validateSignup(input: {
   name: string;
   email: string;
   password: string;
+  /** Onay kutularının değeri: işaretliyse "accepted", değilse "" (FormData'da yok). */
+  terms: string;
+  privacy: string;
 }): FieldErrors | null {
   const errors: FieldErrors = {};
   const name = input.name.trim();
@@ -31,6 +36,11 @@ export function validateSignup(input: {
   if (!isValidEmail(input.email)) errors.email = "emailInvalid";
 
   if (input.password.length < 8) errors.password = "passwordTooShort";
+
+  // Belge başına ayrı hata: birini işaretleyip diğerini unutan kullanıcıya
+  // yalnızca eksik olan gösterilir.
+  if (input.terms !== "accepted") errors.terms = "termsRequired";
+  if (input.privacy !== "accepted") errors.privacy = "privacyRequired";
 
   return Object.keys(errors).length > 0 ? errors : null;
 }
@@ -66,7 +76,7 @@ export function validatePasswordReset(input: {
 }
 
 /** workspace adı 1–80 (design.md §7.4 workspace seçici / yeni workspace formu). */
-export function validateWorkspaceName(name: string): string | null {
+export function validateWorkspaceName(name: string): ValidationKey | null {
   const trimmed = name.trim();
   if (trimmed.length === 0) return "required";
   if (trimmed.length > 80) return "nameTooLong";
@@ -74,7 +84,7 @@ export function validateWorkspaceName(name: string): string | null {
 }
 
 /** sözleşme başlığı 1–140 (Faz 2'nin metadata-only contracts tablosu). */
-export function validateContractTitle(title: string): string | null {
+export function validateContractTitle(title: string): ValidationKey | null {
   const trimmed = title.trim();
   if (trimmed.length === 0) return "titleRequired";
   if (trimmed.length > 140) return "titleTooLong";

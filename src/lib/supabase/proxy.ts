@@ -1,6 +1,8 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import type { NextRequest } from "next/server";
 
+import type { Database } from "@/lib/supabase/types";
+
 type RecordedCookie = { name: string; value: string; options: CookieOptions };
 
 /**
@@ -17,7 +19,7 @@ type RecordedCookie = { name: string; value: string; options: CookieOptions };
 export async function refreshSession(request: NextRequest) {
   const recorded: RecordedCookie[] = [];
 
-  const supabase = createServerClient(
+  const supabase = createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {

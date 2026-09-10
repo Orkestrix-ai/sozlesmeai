@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
+import { CircleAlert } from "lucide-react";
 import { useTranslations } from "next-intl";
 
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { StatusView } from "@/components/feedback/status-view";
 
 /**
  * Next.js 16.3 — prop adı `retry` (eski `reset` değil, bkz. error.js dosya
@@ -17,22 +19,36 @@ export default function AppError({
   error: Error & { digest?: string };
   retry: () => void;
 }) {
-  const t = useTranslations("errors");
+  const t = useTranslations("errors.page");
   const tCommon = useTranslations("common.actions");
 
   useEffect(() => {
     console.error(error);
   }, [error]);
 
+  const referenceCode = error.digest ? `REF-${error.digest.slice(0, 8).toUpperCase()}` : null;
+
   return (
-    <div className="flex items-center justify-center py-16">
-      <Alert variant="error" className="max-w-md">
-        <AlertTitle>{t("unexpected")}</AlertTitle>
-        <AlertDescription>{t("generic")}</AlertDescription>
-        <Button variant="secondary" size="sm" className="mt-4" onClick={() => retry()}>
-          {tCommon("retry")}
+    <StatusView
+      fullScreen={false}
+      icon={<CircleAlert />}
+      title={t("unexpected.title")}
+      description={t("unexpected.description")}
+      primaryAction={<Button onClick={() => retry()}>{tCommon("retry")}</Button>}
+      secondaryAction={
+        <Button variant="secondary" asChild>
+          <Link href="/dashboard">{t("actions.dashboard")}</Link>
         </Button>
-      </Alert>
-    </div>
+      }
+      reference={
+        referenceCode
+          ? {
+              code: referenceCode,
+              label: t("reference", { code: referenceCode }),
+              hint: t("referenceHint"),
+            }
+          : undefined
+      }
+    />
   );
 }

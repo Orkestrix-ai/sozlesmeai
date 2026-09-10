@@ -9,7 +9,6 @@ export default async function AdminWorkspacesPage({ params }: PageProps<"/[local
   setRequestLocale(locale);
 
   const t = await getTranslations("admin.workspaces");
-  const tPlan = await getTranslations("dashboard.plan");
   const workspaces = await getAdminWorkspaces();
 
   return (
@@ -19,7 +18,6 @@ export default async function AdminWorkspacesPage({ params }: PageProps<"/[local
         <TableHeader>
           <TableRow>
             <TableHead>{t("table.name")}</TableHead>
-            <TableHead>{t("table.plan")}</TableHead>
             <TableHead>{t("table.members")}</TableHead>
             <TableHead>{t("table.balance")}</TableHead>
             <TableHead>{t("table.created")}</TableHead>
@@ -31,7 +29,6 @@ export default async function AdminWorkspacesPage({ params }: PageProps<"/[local
               <TableCell className="font-medium text-ink-950">
                 {ws.isPersonal ? t("personal") : ws.name}
               </TableCell>
-              <TableCell>{ws.plan ? tPlan(ws.plan) : "—"}</TableCell>
               <TableCell data-numeric>{ws.memberCount}</TableCell>
               <TableCell data-numeric>{ws.balance}</TableCell>
               <TableCell data-numeric>{new Date(ws.createdAt).toLocaleDateString()}</TableCell>

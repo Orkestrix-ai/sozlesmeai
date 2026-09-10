@@ -134,11 +134,16 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "contract_documents_version_id_fkey"
-            columns: ["version_id"]
+            // 20260908100000: contract_documents_version_id_fkey →
+            // contract_documents_version_fkey (bileşik FK — version_id
+            // TEK BAŞINA değil, contract_id ile birlikte doğrulanır; bir
+            // sözleşmenin, BAŞKA bir sözleşmenin sürümüne işaret eden bir
+            // belge satırı açması artık DB seviyesinde imkânsız).
+            foreignKeyName: "contract_documents_version_fkey"
+            columns: ["version_id", "contract_id"]
             isOneToOne: true
             referencedRelation: "contract_versions"
-            referencedColumns: ["id"]
+            referencedColumns: ["id", "contract_id"]
           },
         ]
       }
@@ -182,11 +187,12 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "contract_findings_version_id_fkey"
-            columns: ["version_id"]
+            // 20260908100000: bileşik FK, bkz. contract_documents yorumu.
+            foreignKeyName: "contract_findings_version_fkey"
+            columns: ["version_id", "contract_id"]
             isOneToOne: false
             referencedRelation: "contract_versions"
-            referencedColumns: ["id"]
+            referencedColumns: ["id", "contract_id"]
           },
         ]
       }
@@ -347,6 +353,7 @@ export type Database = {
           created_at: string
           entry_type: Database["public"]["Enums"]["credit_entry_type"]
           id: number
+          idempotency_key: string | null
           reason: string
           workspace_id: string
         }
@@ -357,6 +364,7 @@ export type Database = {
           created_at?: string
           entry_type: Database["public"]["Enums"]["credit_entry_type"]
           id?: never
+          idempotency_key?: string | null
           reason: string
           workspace_id: string
         }
@@ -367,17 +375,11 @@ export type Database = {
           created_at?: string
           entry_type?: Database["public"]["Enums"]["credit_entry_type"]
           id?: never
+          idempotency_key?: string | null
           reason?: string
           workspace_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "credit_ledger_contract_id_fkey"
-            columns: ["contract_id"]
-            isOneToOne: false
-            referencedRelation: "contracts"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "credit_ledger_workspace_id_fkey"
             columns: ["workspace_id"]
@@ -386,6 +388,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+        // 20260908110000: credit_ledger_actor_id_fkey ve
+        // credit_ledger_contract_id_fkey KALDIRILDI (append-only defter —
+        // silinen bir aktör/sözleşme kaydı yeniden yazılmasın diye artık
+        // düz uuid kolonlar, FK yok).
       }
       operation_costs: {
         Row: {
@@ -405,27 +411,9 @@ export type Database = {
         }
         Relationships: []
       }
-      plan_defaults: {
-        Row: {
-          is_placeholder: boolean
-          monthly_credits: number
-          plan: Database["public"]["Enums"]["plan_tier"]
-          seat_limit: number | null
-        }
-        Insert: {
-          is_placeholder?: boolean
-          monthly_credits: number
-          plan: Database["public"]["Enums"]["plan_tier"]
-          seat_limit?: number | null
-        }
-        Update: {
-          is_placeholder?: boolean
-          monthly_credits?: number
-          plan?: Database["public"]["Enums"]["plan_tier"]
-          seat_limit?: number | null
-        }
-        Relationships: []
-      }
+      // plan_defaults ve subscriptions 20260910120000_pay_as_you_go.sql ile
+      // düşürüldü — paket/abonelik modeli terk edildi, ürün ön yüklemeli
+      // krediyle çalışıyor ve ücret PDF üretiminde düşüyor.
       profiles: {
         Row: {
           created_at: string
@@ -452,59 +440,6 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
-      }
-      subscriptions: {
-        Row: {
-          cancel_at_period_end: boolean
-          created_at: string
-          current_period_end: string
-          current_period_start: string
-          id: string
-          plan: Database["public"]["Enums"]["plan_tier"]
-          provider: string | null
-          provider_customer_id: string | null
-          provider_subscription_id: string | null
-          status: Database["public"]["Enums"]["subscription_status"]
-          updated_at: string
-          workspace_id: string
-        }
-        Insert: {
-          cancel_at_period_end?: boolean
-          created_at?: string
-          current_period_end?: string
-          current_period_start?: string
-          id?: string
-          plan?: Database["public"]["Enums"]["plan_tier"]
-          provider?: string | null
-          provider_customer_id?: string | null
-          provider_subscription_id?: string | null
-          status?: Database["public"]["Enums"]["subscription_status"]
-          updated_at?: string
-          workspace_id: string
-        }
-        Update: {
-          cancel_at_period_end?: boolean
-          created_at?: string
-          current_period_end?: string
-          current_period_start?: string
-          id?: string
-          plan?: Database["public"]["Enums"]["plan_tier"]
-          provider?: string | null
-          provider_customer_id?: string | null
-          provider_subscription_id?: string | null
-          status?: Database["public"]["Enums"]["subscription_status"]
-          updated_at?: string
-          workspace_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "subscriptions_workspace_id_fkey"
-            columns: ["workspace_id"]
-            isOneToOne: true
-            referencedRelation: "workspaces"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       workspace_activity: {
         Row: {
@@ -651,6 +586,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_add_credits: {
+        Args: {
+          p_amount: number
+          p_idempotency_key?: string | null
+          p_workspace_id: string
+        }
+        Returns: number
+      }
       admin_usage_stats: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -662,17 +605,59 @@ export type Database = {
           total_workspaces: number
         }[]
       }
+      can_afford: {
+        Args: { p_operation: string; p_workspace_id: string }
+        Returns: boolean
+      }
+      // 20260908120000: dönüş tipi void → integer (yeni bakiye), dördüncü
+      // parametre p_idempotency_key eklendi (B5 — çift harcama koruması).
       consume_credits: {
         Args: {
           p_contract_id?: string
+          p_idempotency_key?: string | null
           p_operation: string
           p_workspace_id: string
         }
-        Returns: undefined
+        Returns: number
+      }
+      // 20260908120000: kredi düşümü + sürüm yazımını TEK transaction'da
+      // birleştiren RPC — contract_versions'ın tek yazma yolu (B6).
+      create_contract_version: {
+        Args: {
+          p_contract_id: string
+          p_idempotency_key?: string | null
+          p_sections: Json
+          p_source: Database["public"]["Enums"]["contract_version_source"]
+        }
+        Returns: { version_id: string; version_no: number; balance: number }[]
       }
       ensure_user_bootstrap: { Args: { p_user_id: string }; Returns: string }
+      // 20260908130000: oturumsuz /s/[token] sayfasının service-role
+      // istemcisi yerine geçen, YALNIZCA tek bir paylaşımı döndürebilen RPC.
+      get_shared_contract: {
+        Args: { p_token: string }
+        Returns: {
+          contract_id: string
+          title: string
+          status: Database["public"]["Enums"]["contract_status"]
+          version_id: string | null
+          sections: Json | null
+          storage_path: string | null
+        }[]
+      }
       recompute_workspace_credits: {
         Args: { p_workspace_id: string }
+        Returns: number
+      }
+      // 20260908120000: LLM/PDF işlemi krediyi düşürdükten SONRA başarısız
+      // olursa telafi kaydı yazan RPC (B6 — daha önce hiç kullanılmayan
+      // `refund` enum değerinin ilk gerçek yazma yolu).
+      refund_credits: {
+        Args: {
+          p_idempotency_key: string
+          p_reason?: string | null
+          p_workspace_id: string
+        }
         Returns: number
       }
     }
@@ -689,8 +674,6 @@ export type Database = {
       contract_version_source: "ai_draft" | "ai_edit" | "manual"
       credit_entry_type: "grant" | "consume" | "refund" | "adjustment"
       finding_severity: "info" | "warning" | "error"
-      plan_tier: "starter" | "pro" | "business"
-      subscription_status: "trialing" | "active" | "past_due" | "canceled"
       workspace_role: "admin" | "editor" | "viewer"
     }
     CompositeTypes: {
@@ -832,8 +815,6 @@ export const Constants = {
       contract_version_source: ["ai_draft", "ai_edit", "manual"],
       credit_entry_type: ["grant", "consume", "refund", "adjustment"],
       finding_severity: ["info", "warning", "error"],
-      plan_tier: ["starter", "pro", "business"],
-      subscription_status: ["trialing", "active", "past_due", "canceled"],
       workspace_role: ["admin", "editor", "viewer"],
     },
   },

@@ -14,11 +14,11 @@ The first version focuses on contract creation, editing, PDF generation, and arc
 - To reduce the experience of blank templates and complex forms through natural language flow.
 - To present the AI ​​draft in a user-controlled, editable format.
 - To combine PDF generation and archiving into a single workflow.
-- To measurably support package-based subscription and credit allocation models (Starter, Pro, Business). - To transparently display credit consumption and remaining package balance in each transaction.
+- To support a prepaid, pay-as-you-go credit model with no subscription and no monthly renewal. - To transparently display, at every step, that the charge is taken at PDF generation and what the remaining balance is.
 
 ### Definition of Success
 
-The user registers, selects their package (or starts with trial credits), describes their needs, answers AI questions, reviews the blueprint, sees credit usage, and accesses the available PDF document.
+The user registers (starting with a trial credit), describes their needs, answers AI questions, reviews the draft, generates the PDF, sees the single credit that this deducted, and accesses the document.
 
 ## 3. MVP Scope
 
@@ -33,7 +33,7 @@ The user registers, selects their package (or starts with trial credits), descri
 - PDF creation and downloading
 - Personal or workspace document archive
 - Basic sharing or email sending workflow
-- Package subscriptions (Starter, Pro, Business), package credits and usage tracking
+- Prepaid credits charged per contract at PDF generation, and usage tracking
 - Basic admin panel
 
 ### Outside of MVP Scope
@@ -51,9 +51,9 @@ The user registers, selects their package (or starts with trial credits), descri
 
 ### Primary
 
-- Freelancers and consultants (Starter Package)
-- Growing teams, digital agencies and small businesses (Pro Package)
-- Multi-user operations, sales and legal teams (Business Package)
+- Freelancers and consultants
+- Growing teams, digital agencies and small businesses
+- Multi-user operations, sales and legal teams
 
 ### Secondary
 
@@ -76,9 +76,9 @@ Freelancers and agencies. This segment has a recurring need for contracts and th
 7. The AI ​​creates a draft.
 8. The user edits the draft manually or with natural language commands.
 9. The user reviews and approves the changes.
-10. The system shows the amount of credit required for the transaction and the remaining balance from the package.
+10. The system shows what generating the PDF will cost and the remaining balance.
 11. The user initiates the PDF creation process.
-12. If the credit transaction is successfully completed, the PDF is created.
+12. The PDF is created and one credit is deducted. Further PDFs of the same contract are not charged again.
 13. The document and its version are archived.
 14. The user downloads or shares the PDF.
 
@@ -87,9 +87,9 @@ Freelancers and agencies. This segment has a recurring need for contracts and th
 ### FR-01 - User and Workspace
 
 - Users can register and log in.
-- Users can manage their profile and package subscriptions.
+- Users can manage their profile and see their credit balance.
 - Users can create personal workspaces.
-- Pro and Business package owners can invite team members according to their roles.
+- Workspace admins can invite team members according to their roles.
 - Users can only access workspace data for which they are authorized.
 
 ### FR-02 - Natural Language Needs Gathering

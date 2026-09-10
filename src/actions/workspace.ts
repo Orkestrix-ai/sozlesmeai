@@ -6,9 +6,10 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { verifySession, ACTIVE_WORKSPACE_COOKIE } from "@/lib/dal";
 import { validateWorkspaceName, type FieldErrors } from "@/lib/validation";
+import type { AppErrorKey } from "@/lib/i18n-keys";
 
 export type WorkspaceFormState =
-  | { fieldErrors?: FieldErrors; formError?: string; success?: boolean }
+  | { fieldErrors?: FieldErrors; formError?: AppErrorKey; success?: boolean }
   | undefined;
 
 const ACTIVE_WORKSPACE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;

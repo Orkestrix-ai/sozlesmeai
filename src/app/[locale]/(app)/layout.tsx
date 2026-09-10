@@ -8,7 +8,7 @@ import { MobileNavDrawer } from "@/components/dashboard/mobile-nav-drawer";
  * olmaz, bu yüzden bir güvenlik sınırı olamaz — Next.js auth rehberi).
  */
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const [currentUser, { workspace, workspaces, subscription }] = await Promise.all([
+  const [currentUser, { workspace, workspaces }] = await Promise.all([
     getCurrentUser(),
     getWorkspaceContext(),
   ]);
@@ -22,7 +22,6 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   return (
     <div className="flex min-h-dvh bg-paper-50">
       <Sidebar
-        plan={subscription.plan}
         workspaces={workspaceSummaries}
         activeWorkspaceId={workspace.id}
         userName={currentUser.full_name}

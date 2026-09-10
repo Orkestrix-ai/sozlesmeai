@@ -1,7 +1,8 @@
-import type Anthropic from "@anthropic-ai/sdk";
+import { z } from "zod";
 
 import { createClient } from "@/lib/supabase/server";
-import { anthropic, CONTRACT_MODEL } from "@/lib/ai/client";
+import { getLlmProvider } from "@/lib/ai/provider";
+import type { LlmMessage, LlmToolCall, LlmToolResult } from "@/lib/ai/provider";
 import { CONTRACT_TOOLS } from "@/lib/ai/contract-tools";
 import { buildDynamicStateBlock, buildSystemPrompt } from "@/lib/ai/prompts";
 import {
@@ -10,12 +11,19 @@ import {
   upsertSectionsInputSchema,
 } from "@/lib/ai/tool-schemas";
 import { sectionsSchema, upsertSections, type ContractSections } from "@/lib/contracts/schema";
-import type { AppLocale } from "@/i18n/routing";
+import { routing } from "@/i18n/routing";
+import { uuidSchema, createContractVersionResultSchema } from "@/lib/db/schemas";
+import { dbRpc, dbResultToResponse, withApiErrors } from "@/lib/db/safe";
 
 export const dynamic = "force-dynamic";
 
 const MAX_MESSAGE_LENGTH = 4000;
 const MAX_TOOL_ITERATIONS = 4;
+
+const turnRequestSchema = z.object({
+  message: z.string().trim().min(1).max(MAX_MESSAGE_LENGTH),
+  locale: z.enum(routing.locales).default(routing.defaultLocale),
+});
 
 type TurnEvent =
   | { type: "text"; text: string }
@@ -29,9 +37,24 @@ type TurnEvent =
  * doğrulanır (design.md/plan: proxy iyimser kapı, gerçek kontrol veriye
  * komşu yerde). dal.ts'teki verifySession() KULLANILMAZ — o redirect() atar,
  * bir Route Handler içinde anlamsızdır.
+ *
+ * Güvenlik sertleştirmesi: kredi düşümü + sürüm yazımı artık TEK
+ * `create_contract_version` RPC'sinde (B6 — telafisiz kredi kaybı kapatıldı,
+ * B5 — idempotency anahtarı ile çift harcama önlendi). LLM çağrısından
+ * ÖNCE bir `can_afford` ön kapısı var (B7 — bakiyesi sıfır bir workspace
+ * artık ücretsiz LLM token'ı yakamaz).
  */
-export async function POST(request: Request, ctx: RouteContext<"/api/contracts/[id]/turn">) {
-  const { id: contractId } = await ctx.params;
+export const POST = withApiErrors("contracts/turn", async function POST(
+  request: Request,
+  ctx: RouteContext<"/api/contracts/[id]/turn">,
+) {
+  const { id: rawContractId } = await ctx.params;
+  const parsedId = uuidSchema.safeParse(rawContractId);
+  if (!parsedId.success) {
+    return Response.json({ error: "invalid_input" }, { status: 400 });
+  }
+  const contractId = parsedId.data;
+
   const supabase = await createClient();
 
   const { data: claims } = await supabase.auth.getClaims();
@@ -64,25 +87,18 @@ export async function POST(request: Request, ctx: RouteContext<"/api/contracts/[
     return Response.json({ error: "unauthorized" }, { status: 403 });
   }
 
-  let body: { message?: unknown; locale?: unknown };
+  let rawBody: unknown;
   try {
-    body = await request.json();
+    rawBody = await request.json();
   } catch {
     return Response.json({ error: "invalid_body" }, { status: 400 });
   }
 
-  const message = typeof body.message === "string" ? body.message.trim() : "";
-  const locale: AppLocale = body.locale === "en" ? "en" : "tr";
-  if (!message || message.length > MAX_MESSAGE_LENGTH) {
+  const parsedBody = turnRequestSchema.safeParse(rawBody);
+  if (!parsedBody.success) {
     return Response.json({ error: "invalid_message" }, { status: 400 });
   }
-
-  const { error: insertUserMessageError } = await supabase
-    .from("contract_messages")
-    .insert({ contract_id: contractId, role: "user", content: message });
-  if (insertUserMessageError) {
-    return Response.json({ error: "generic" }, { status: 500 });
-  }
+  const { message, locale } = parsedBody.data;
 
   const { data: history } = await supabase
     .from("contract_messages")
@@ -104,10 +120,44 @@ export async function POST(request: Request, ctx: RouteContext<"/api/contracts/[
   let currentContractType = contract.contract_type;
   let latestVersionNo = latestVersion?.version_no ?? 0;
 
-  const messages: Anthropic.MessageParam[] = (history ?? []).map((m) => ({
-    role: m.role,
-    content: m.content,
-  }));
+  // Ön uçuş kredi kapısı — LLM çağrılmadan ÖNCE.
+  //
+  // DİKKAT, kontrol edilen işlem bu turun işlemi DEĞİL: taslak üretimi ve
+  // düzenleme 0 kredi (ücret PDF'te düşüyor, 20260910120000_pay_as_you_go.sql),
+  // dolayısıyla `draft_generate`/`ai_edit` sorulsaydı kapı her zaman açık
+  // olurdu ve sıfır bakiyeli bir hesap sınırsız Anthropic/Groq token'ı
+  // yakabilirdi. Kapı "bu tur kaça mal olur"u değil, "kullanıcı sonunda
+  // çıktının parasını ödeyebilir mi"yi sorar.
+  const affordResult = await dbRpc(
+    "contracts/turn:can_afford",
+    () => supabase.rpc("can_afford", { p_workspace_id: contract.workspace_id, p_operation: "pdf_generate" }),
+    z.boolean(),
+  );
+  if (!affordResult.ok) return dbResultToResponse(affordResult);
+  if (!affordResult.data) {
+    return Response.json({ error: "insufficient_credits" }, { status: 402 });
+  }
+
+  const { error: insertUserMessageError } = await supabase
+    .from("contract_messages")
+    .insert({ contract_id: contractId, role: "user", content: message });
+  if (insertUserMessageError) {
+    return Response.json({ error: "generic" }, { status: 500 });
+  }
+
+  const messages: LlmMessage[] = (history ?? []).map((m) =>
+    m.role === "user"
+      ? { role: "user" as const, content: m.content }
+      : { role: "assistant" as const, text: m.content, toolCalls: [] },
+  );
+  // Bu POST çağrısının kendi mantıksal kimliği — istemci ileride
+  // X-Idempotency-Key göndermeye başlarsa aynı retry aynı anahtarı taşır;
+  // göndermiyorsa (bugünkü durum) burada üretilir ve YALNIZCA bu çağrı
+  // için geçerlidir (gerçek ağ-seviyesi retry koruması istemci desteği
+  // gerektirir — bkz. plan notu).
+  const idemBase = request.headers.get("x-idempotency-key")?.slice(0, 128) || crypto.randomUUID();
+
+  const provider = getLlmProvider();
 
   const encoder = new TextEncoder();
 
@@ -123,55 +173,41 @@ export async function POST(request: Request, ctx: RouteContext<"/api/contracts/[
         const narrativeParts: string[] = [];
 
         for (let iteration = 0; iteration < MAX_TOOL_ITERATIONS; iteration++) {
-          const system: Anthropic.TextBlockParam[] = [
-            { type: "text", text: buildSystemPrompt(locale), cache_control: { type: "ephemeral" } },
-            {
-              type: "text",
-              text: buildDynamicStateBlock({ contractType: currentContractType, sections: sectionsState }),
-            },
+          const system = [
+            { text: buildSystemPrompt(locale), cacheable: true },
+            { text: buildDynamicStateBlock({ contractType: currentContractType, sections: sectionsState }) },
           ];
 
-          const apiStream = anthropic.messages.stream({
-            model: CONTRACT_MODEL,
-            max_tokens: 64000,
-            thinking: { type: "adaptive" },
-            system,
-            tools: CONTRACT_TOOLS,
-            messages,
-          });
-
-          apiStream.on("text", (delta) => emit({ type: "text", text: delta }));
-
-          const response = await apiStream.finalMessage();
-          messages.push({ role: "assistant", content: response.content });
-
-          const toolUses = response.content.filter(
-            (block): block is Anthropic.ToolUseBlock => block.type === "tool_use",
+          const { text, toolCalls } = await provider.streamTurn(
+            { system, tools: CONTRACT_TOOLS, messages, maxTokens: 64000 },
+            (delta) => emit({ type: "text", text: delta }),
           );
 
-          const textBlocks = response.content.filter(
-            (block): block is Anthropic.TextBlock => block.type === "text",
-          );
-          if (textBlocks.length > 0) {
-            finalText = textBlocks.map((b) => b.text).join("\n");
-          }
+          messages.push({ role: "assistant", text, toolCalls });
 
-          if (toolUses.length === 0) break;
+          if (text) finalText = text;
 
-          const toolResults: Anthropic.ToolResultBlockParam[] = [];
+          if (toolCalls.length === 0) break;
 
-          for (const toolUse of toolUses) {
+          const toolResults: LlmToolResult[] = [];
+
+          // Anahtar tool call BAŞINA benzersiz olmak zorunda: tek bir tur iki
+          // upsert_sections çağırırsa, aynı anahtarla giden ikinci çağrıda
+          // consume_credits mükerrer sayıp erken döner (credit_integrity.sql:86)
+          // ama create_contract_version sürümü yine de yazar — sürüm var, defter
+          // satırı yok. Sağlayıcının tool call id'si bir retry'da aynı gelmediği
+          // için indeks kullanılıyor; kapatılması gereken çakışma tek istek içi.
+          for (const [toolIndex, toolCall] of toolCalls.entries()) {
             const result = await executeTool({
-              toolUse,
+              toolCall,
               supabase,
               contractId,
-              workspaceId: contract.workspace_id,
-              userId,
               currentSections: sectionsState,
               latestVersionNo,
+              idempotencyKey: `${idemBase}:${iteration}:${toolIndex}`,
             });
 
-            emit({ type: "tool", name: toolUse.name, input: toolUse.input });
+            emit({ type: "tool", name: toolCall.name, input: toolCall.input });
 
             if (result.updatedSections) {
               sectionsState = result.updatedSections;
@@ -181,15 +217,10 @@ export async function POST(request: Request, ctx: RouteContext<"/api/contracts/[
             if (result.contractType) currentContractType = result.contractType;
             if (result.narrative) narrativeParts.push(result.narrative);
 
-            toolResults.push({
-              type: "tool_result",
-              tool_use_id: toolUse.id,
-              content: result.output,
-              is_error: result.isError,
-            });
+            toolResults.push({ id: toolCall.id, content: result.output, isError: result.isError });
           }
 
-          messages.push({ role: "user", content: toolResults });
+          messages.push({ role: "tool_results", results: toolResults });
         }
 
         const persistedText = [finalText, ...narrativeParts].filter(Boolean).join("\n\n") ||
@@ -212,16 +243,15 @@ export async function POST(request: Request, ctx: RouteContext<"/api/contracts/[
   return new Response(stream, {
     headers: { "Content-Type": "application/x-ndjson; charset=utf-8" },
   });
-}
+});
 
 async function executeTool(params: {
-  toolUse: Anthropic.ToolUseBlock;
+  toolCall: LlmToolCall;
   supabase: Awaited<ReturnType<typeof createClient>>;
   contractId: string;
-  workspaceId: string;
-  userId: string;
   currentSections: ContractSections;
   latestVersionNo: number;
+  idempotencyKey: string;
 }): Promise<{
   output: string;
   isError?: boolean;
@@ -229,24 +259,27 @@ async function executeTool(params: {
   contractType?: string;
   narrative?: string;
 }> {
-  const { toolUse, supabase, contractId, workspaceId, userId, currentSections, latestVersionNo } = params;
+  const { toolCall, supabase, contractId, currentSections, latestVersionNo, idempotencyKey } = params;
 
-  switch (toolUse.name) {
+  switch (toolCall.name) {
     case "propose_contract_type": {
-      const parsed = proposeContractTypeInputSchema.safeParse(toolUse.input);
+      const parsed = proposeContractTypeInputSchema.safeParse(toolCall.input);
       if (!parsed.success) return { output: "invalid_input", isError: true };
 
       const { error } = await supabase
         .from("contracts")
         .update({ contract_type: parsed.data.code })
         .eq("id", contractId);
-      if (error) return { output: error.message, isError: true };
+      if (error) {
+        console.error("[contracts/turn] propose_contract_type:", error.message);
+        return { output: "db_error", isError: true };
+      }
 
       return { output: "ok", contractType: parsed.data.code };
     }
 
     case "ask_missing_info": {
-      const parsed = askMissingInfoInputSchema.safeParse(toolUse.input);
+      const parsed = askMissingInfoInputSchema.safeParse(toolCall.input);
       if (!parsed.success) return { output: "invalid_input", isError: true };
 
       const narrative = parsed.data.questions.map((q, i) => `${i + 1}. ${q}`).join("\n");
@@ -254,40 +287,41 @@ async function executeTool(params: {
     }
 
     case "upsert_sections": {
-      const parsed = upsertSectionsInputSchema.safeParse(toolUse.input);
+      const parsed = upsertSectionsInputSchema.safeParse(toolCall.input);
       if (!parsed.success) return { output: "invalid_input", isError: true };
 
+      // Birleştirilmiş TAM diziyi create_contract_version'a göndeririz,
+      // kısmi diziyi değil — RPC her sürümü sıfırdan yazar.
       const merged = upsertSections(currentSections, parsed.data.sections, "ai");
-      const versionNo = latestVersionNo + 1;
+
+      // Kredi düşümü + sürüm yazımı AYNI transaction'da (B6): biri olmadan
+      // diğeri olmaz. version_no de RPC içinde kilitli hesaplanır (B5/yarış).
+      // İlk sürüm "ai_draft" (draft_generate maliyeti), sonrakiler "ai_edit"
+      // (bugüne kadarki davranışla birebir aynı ayrım).
       const source = latestVersionNo === 0 ? "ai_draft" : "ai_edit";
+      const result = await dbRpc(
+        "contracts/turn:upsert_sections",
+        () =>
+          supabase.rpc("create_contract_version", {
+            p_contract_id: contractId,
+            p_sections: merged,
+            p_source: source,
+            p_idempotency_key: idempotencyKey,
+          }),
+        createContractVersionResultSchema,
+      );
 
-      // Faz 4 kredi muhasebesi: yalnızca İLK taslak (draft_generate) kredi
-      // düşer — ai_edit yer tutucu olarak 0 (bkz. operation_costs migration'ı).
-      const { error: creditError } = await supabase.rpc("consume_credits", {
-        p_workspace_id: workspaceId,
-        p_operation: source === "ai_draft" ? "draft_generate" : "ai_edit",
-        p_contract_id: contractId,
-      });
-      if (creditError) {
-        const isInsufficient = creditError.message?.includes("insufficient_credits");
-        return { output: isInsufficient ? "insufficient_credits" : creditError.message, isError: true };
-      }
-
-      const { data: version, error: versionError } = await supabase
-        .from("contract_versions")
-        .insert({ contract_id: contractId, version_no: versionNo, sections: merged, source, created_by: userId })
-        .select("id")
-        .maybeSingle();
-      if (versionError) return { output: versionError.message, isError: true };
-
-      if (version) {
-        await supabase.from("contracts").update({ current_version_id: version.id }).eq("id", contractId);
+      if (!result.ok) {
+        return {
+          output: result.code === "insufficient_credits" ? "insufficient_credits" : "db_error",
+          isError: true,
+        };
       }
 
       return { output: "ok", updatedSections: merged };
     }
 
     default:
-      return { output: `unknown_tool: ${toolUse.name}`, isError: true };
+      return { output: `unknown_tool: ${toolCall.name}`, isError: true };
   }
 }

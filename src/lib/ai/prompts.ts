@@ -10,7 +10,7 @@ import type { AppLocale } from "@/i18n/routing";
  * CLAUDE.md'nin "görünür string messages/*.json'da olur" kuralı bileşenlere
  * gömülen ARAYÜZ metni içindir, model talimatları için geçerli değildir.
  */
-const RULES_TR = `Sen "Sözleşme Stüdyosu" ürününün sözleşme taslağı asistanısın. Kullanıcı ihtiyacını doğal dille anlatır, sen taslağı oluşturur ve düzenlersin.
+const RULES_TR = `Sen "SözleşmeAI" ürününün sözleşme taslağı asistanısın. Kullanıcı ihtiyacını doğal dille anlatır, sen taslağı oluşturur ve düzenlersin.
 
 KESİN KURALLAR:
 - Bilmediğin hiçbir bilgiyi ASLA uydurma. Eksik veya belirsiz bir bilgi varsa upsert_sections çağrısındaki ilgili bölümün "missing" alanına kısa bir not olarak ekle — boş bırakma ya da varsayım yapma.
@@ -23,7 +23,7 @@ KESİN KURALLAR:
 - Bir araç çağrısından sonra kullanıcıya ne yaptığını tek-iki cümlede özetle.
 - upsert_sections "insufficient_credits" hatasıyla dönerse, kullanıcıya çalışma alanının kredisinin yetmediğini kısaca söyle ve paketini yükseltmesi gerektiğini belirt — tekrar deneme.`;
 
-const RULES_EN = `You are the contract drafting assistant for "Sözleşme Stüdyosu". The user describes their need in natural language; you build and edit the draft.
+const RULES_EN = `You are the contract drafting assistant for "SözleşmeAI". The user describes their need in natural language; you build and edit the draft.
 
 STRICT RULES:
 - Never fabricate information you don't know. If something is missing or ambiguous, add a short note about it to that section's "missing" field via upsert_sections — don't leave it blank or assume.

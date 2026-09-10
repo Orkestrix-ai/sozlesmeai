@@ -5,20 +5,20 @@
   },
   "nav": {
     "skipToContent": "İçeriğe geç",
-    "brand": "Sözleşme Stüdyosu",
+    "brand": "SözleşmeAI",
     "product": "Ürün",
     "how": "Nasıl çalışır",
-    "pricing": "Paketler",
+    "pricing": "Fiyatlandırma",
     "faq": "SSS",
     "login": "Giriş yap",
-    "cta": "Taslak oluştur",
+    "signup": "Hesap oluştur",
     "openMenu": "Menüyü aç",
     "closeMenu": "Menüyü kapat"
   },
   "localeSwitcher": {
     "label": "Dil",
     "tr": "Türkçe",
-    "en": "English"
+    "en": "İngilizce"
   },
   "hero": {
     "eyebrow": "Sözleşme hazırlama ve belge yönetimi",
@@ -125,51 +125,21 @@
     }
   },
   "pricing": {
-    "title": "Paketler",
-    "description": "İhtiyacın büyüdükçe paket değiştir. Her işlemde ne kadar kredi harcadığını ve paketinden ne kaldığını görürsün.",
-    "popularBadge": "En popüler",
-    "perMonth": "/ ay",
-    "plans": {
-      "starter": {
-        "name": "Starter",
-        "price": "₺0",
-        "tagline": "Tek başına çalışan serbest çalışanlar ve danışmanlar için.",
-        "cta": "Ücretsiz başla",
-        "features": {
-          "f1": "Ayda 3 sözleşme taslağı",
-          "f2": "Üç temel sözleşme türü",
-          "f3": "Doğal dille düzenleme",
-          "f4": "PDF oluşturma ve indirme",
-          "f5": "Kişisel belge arşivi"
-        }
-      },
-      "pro": {
-        "name": "Pro",
-        "price": "₺499",
-        "tagline": "Düzenli sözleşme üreten ajanslar ve büyüyen ekipler için.",
-        "cta": "Pro'ya geç",
-        "features": {
-          "f1": "Aylık kredi paketi ve şeffaf kullanım takibi",
-          "f2": "Tüm sözleşme türleri",
-          "f3": "Tutarlılık ve risk kontrolü",
-          "f4": "Sürüm geçmişi ve karşılaştırma",
-          "f5": "Ekip üyesi daveti",
-          "f6": "E‑posta ile paylaşım"
-        }
-      },
-      "business": {
-        "name": "Business",
-        "price": "Teklif alın",
-        "tagline": "Çok kullanıcılı operasyonlar, satış ve hukuk ekipleri için.",
-        "cta": "Bizimle görüşün",
-        "features": {
-          "f1": "Pro'daki her şey",
-          "f2": "Çoklu çalışma alanı ve rol yönetimi",
-          "f3": "Rol bazlı erişim ve yetki",
-          "f4": "Belge işlem günlükleri",
-          "f5": "Ekip kullanım raporları",
-          "f6": "Öncelikli destek"
-        }
+    "title": "Fiyatlandırma",
+    "description": "Abonelik yok, aylık ücret yok. Yalnızca PDF'ini aldığın sözleşme için ödersin.",
+    "perContract": "/ sözleşme",
+    "payg": {
+      "name": "Kullandıkça öde",
+      "price": "₺249",
+      "tagline": "Serbest çalışanlardan hukuk ekiplerine, düzenli ya da ara sıra sözleşme hazırlayan herkes için.",
+      "cta": "Ücretsiz dene",
+      "note": "Ücret yalnızca PDF oluşturduğunda düşer. Aynı sözleşmenin sonraki PDF'leri ücretsizdir.",
+      "features": {
+        "f1": "Doğal dille sözleşme hazırlama",
+        "f2": "Eksik bilgilerin sorulması ve açıkça işaretlenmesi",
+        "f3": "Düzenleme ve sürüm geçmişi",
+        "f4": "Tutarlılık ve risk kontrolü",
+        "f5": "PDF, arşiv ve bağlantıyla paylaşım"
       }
     }
   },
@@ -213,12 +183,12 @@
         "answer": "İlk sürümde en yaygın üç tür destekleniyor. Sistem ihtiyacına uygun türü önerir; önerdiği türü kabul edebilir ya da değiştirebilirsin."
       },
       "credits": {
-        "question": "Kredi nasıl harcanıyor?",
-        "answer": "Taslak üretme ve PDF oluşturma gibi işlemler kredi harcar. İşlemi başlatmadan önce ne kadar kredi gerektiğini ve paketinden ne kaldığını görürsün."
+        "question": "Ücret ne zaman alınır?",
+        "answer": "Sohbet, taslak üretimi, düzenleme ve risk kontrolü ücretsizdir. Bakiyenden 1 kredi yalnızca sözleşmenin PDF'ini oluşturduğunda düşer; aynı sözleşmenin sonraki PDF'leri için tekrar ücret alınmaz."
       },
       "team": {
         "question": "Ekibimle birlikte kullanabilir miyim?",
-        "answer": "Pro ve Business paketlerinde çalışma alanına rolleriyle birlikte ekip üyesi davet edebilirsin. Herkes yalnızca yetkili olduğu verilere erişir."
+        "answer": "Çalışma alanına rolleriyle birlikte ekip üyesi davet edebilirsin. Herkes yalnızca yetkili olduğu verilere erişir."
       }
     }
   },
@@ -235,7 +205,7 @@
     "legalTitle": "Yasal",
     "links": {
       "how": "Nasıl çalışır",
-      "pricing": "Paketler",
+      "pricing": "Fiyatlandırma",
       "faq": "SSS",
       "about": "Hakkımızda",
       "contact": "İletişim",
@@ -244,6 +214,270 @@
     },
     "rights": "Tüm hakları saklıdır.",
     "disclaimer": "Bu ürün hukuki danışmanlık hizmeti değildir."
+  },
+  "legal": {
+    "backHome": "Ana sayfaya dön",
+    "tocTitle": "İçindekiler",
+    "effectiveDateLabel": "Yürürlük tarihi",
+    "effectiveDate": "9 Eylül 2026",
+    "entity": {
+      "legalNameLabel": "Ticaret unvanı",
+      "legalName": "",
+      "tradeNameLabel": "İşletme adı",
+      "tradeName": "SözleşmeAI",
+      "addressLabel": "Adres",
+      "address": "",
+      "mersisLabel": "MERSİS numarası",
+      "mersis": "",
+      "taxOfficeLabel": "Vergi dairesi ve numarası",
+      "taxOffice": "",
+      "emailLabel": "E-posta",
+      "email": "",
+      "kepLabel": "KEP adresi",
+      "kep": "",
+      "websiteLabel": "Web sitesi",
+      "website": ""
+    },
+    "terms": {
+      "title": "Kullanım Koşulları",
+      "metaDescription": "Hizmetin kapsamı, hesap kullanımı, kredi ve ücret kuralları, üretilen içeriğin sorumluluğu ve fesih koşulları.",
+      "intro": "Bu Kullanım Koşulları, Hizmet'e kayıt olan Kullanıcı ile Şirket arasındaki ilişkiyi düzenler. Metin, hesabın kullanımını, üretilen sözleşme taslaklarının niteliğini ve tarafların sorumluluklarını belirler.",
+      "articles": {
+        "parties": {
+          "title": "Taraflar ve konu",
+          "p1": "Bu Kullanım Koşulları, aşağıda bilgileri yer alan işletme (“Şirket”) ile Hizmet'te hesap oluşturan gerçek veya tüzel kişi (“Kullanıcı”) arasında kurulur.",
+          "p2": "Kullanıcı, kayıt sırasında bu Koşullar'ı onaylayarak metnin tamamını okuduğunu ve kabul ettiğini beyan eder. Koşullar'ı kabul etmeyen kişilerin Hizmet'i kullanmaması gerekir."
+        },
+        "definitions": {
+          "title": "Tanımlar",
+          "p1": "Bu metinde geçen kavramlar aşağıdaki anlamları taşır.",
+          "i1": "Hizmet: Şirket tarafından çevrim içi olarak sunulan, yapay zekâ destekli sözleşme taslağı hazırlama ve düzenleme uygulaması.",
+          "i2": "Kullanıcı: Hizmet'te hesap oluşturan ve Hizmet'i kullanan gerçek veya tüzel kişi.",
+          "i3": "Çalışma Alanı: Sözleşmelerin, üyelerin ve kredi bakiyesinin tutulduğu, erişimi yetkilendirmeye bağlı çalışma birimi.",
+          "i4": "Taslak: Kullanıcı'nın verdiği bilgiler doğrultusunda Hizmet aracılığıyla oluşturulan sözleşme metni.",
+          "i5": "Sürüm: Taslağın belirli bir andaki kayıtlı hâli. Her düzenleme yeni bir sürüm olarak saklanır.",
+          "i6": "Kredi: Belirli işlemlerin yürütülmesi için Çalışma Alanı bakiyesinden düşülen kullanım birimi."
+        },
+        "account": {
+          "title": "Hesap ve çalışma alanı",
+          "p1": "Hesap oluşturabilmek için Kullanıcı'nın fiil ehliyetine sahip ve on sekiz yaşını doldurmuş olması gerekir. Tüzel kişiler adına hesap açan gerçek kişiler, bu Koşullar'ı kabul etme yetkisini haiz olduklarını beyan eder.",
+          "p2": "Kullanıcı, kayıt sırasında verdiği bilgilerin doğru ve güncel olmasından sorumludur. Hesap bilgileri ve parola Kullanıcı'nın uhdesindedir; bu bilgilerin üçüncü kişilerle paylaşılması hâlinde doğacak sonuçlardan Kullanıcı sorumludur. Yetkisiz bir erişimden şüphelenilmesi hâlinde Şirket'e gecikmeksizin bildirimde bulunulması gerekir.",
+          "p3": "Her hesaba, kayıt anında kişisel bir Çalışma Alanı tanımlanır. Bir Çalışma Alanı'ndaki üyeler yönetici, düzenleyici veya görüntüleyici rollerinden birine sahip olur; erişim ve işlem yetkileri bu role göre belirlenir. Çalışma Alanı yöneticisi, davet ettiği üyelerin Hizmet'i bu Koşullar'a uygun kullanmasını sağlamakla yükümlüdür."
+        },
+        "nature": {
+          "title": "Hizmetin niteliği",
+          "p1": "Hizmet, sözleşme taslağı hazırlamaya yardımcı olan bir yazılım aracıdır. Şirket, 1136 sayılı Avukatlık Kanunu anlamında hukuki yardım sunmaz; Hizmet avukatlık hizmeti, hukuki danışmanlık veya hukuki mütalaa niteliği taşımaz.",
+          "p2": "Hizmet üzerinden üretilen hiçbir metin, hukuka uygunluk, geçerlilik veya belirli bir sonucun sağlanması yönünde garanti içermez. Somut olayın koşulları, taraflar arasındaki ilişki ve uygulanacak mevzuat değerlendirilmeden hazırlanan hiçbir metin kullanıma hazır kabul edilmemelidir.",
+          "p3": "Kullanıcı, Hizmet üzerinden ürettiği metinleri imzalamadan, üçüncü kişilere sunmadan veya hukuki sonuç doğuracak biçimde kullanmadan önce yetkin bir hukuk uzmanına inceletmekle yükümlüdür."
+        },
+        "aiOutput": {
+          "title": "Yapay zekâ çıktısı ve kullanıcı sorumluluğu",
+          "p1": "Hizmet'te üretilen her çıktı taslak niteliğindedir ve Kullanıcı'nın onayına tabidir. Çıktılar düzenlenebilir; Kullanıcı onaylamadığı sürece hiçbir metin nihai kabul edilmez.",
+          "p2": "Sistem, kendisine bildirilmeyen bilgileri tamamlamaz. Eksik veya belirsiz kalan alanlar metin içinde açıkça işaretlenir; bu işaretlerin giderilmesi Kullanıcı'nın sorumluluğundadır.",
+          "p3": "Hizmet'in sunduğu tutarlılık ve risk kontrolü, dikkat çekmeyi amaçlayan otomatik bir incelemedir. Bu inceleme hukuki görüş değildir, tüm riskleri tespit ettiği iddiasını taşımaz ve metnin geçerliliğine ilişkin bir teyit oluşturmaz.",
+          "p4": "Yapay zekâ modelleri hatalı, eksik veya bağlama uymayan çıktı üretebilir. Üretilen metnin gözden geçirilmesi, doğruluğunun denetlenmesi ve kullanılmasına ilişkin nihai karar Kullanıcı'ya aittir."
+        },
+        "acceptableUse": {
+          "title": "Kullanım kuralları",
+          "p1": "Kullanıcı, Hizmet'i yürürlükteki mevzuata, dürüstlük kuralına ve bu Koşullar'a uygun biçimde kullanmayı taahhüt eder. Aşağıdaki davranışlar yasaktır.",
+          "i1": "Hukuka aykırı, suç teşkil eden veya üçüncü kişilerin haklarını ihlal eden içerik üretmek ya da yüklemek.",
+          "i2": "Üzerinde işleme yetkisi bulunmayan üçüncü kişilere ait kişisel verileri Hizmet'e girmek.",
+          "i3": "Hizmet'i, kaynak koduna erişmek veya çalışma mantığını çözmek amacıyla tersine mühendisliğe tabi tutmak.",
+          "i4": "Otomatik araçlarla olağan kullanımın ötesinde istek göndermek, sistemi aşırı yüklemek veya güvenlik önlemlerini aşmaya çalışmak.",
+          "i5": "Hesabı veya erişim bilgilerini üçüncü kişilerle paylaşmak, hesabı devretmek ya da kiralamak.",
+          "i6": "Hizmet'i, diğer kullanıcıların Hizmet'ten yararlanmasını engelleyecek biçimde kullanmak.",
+          "p2": "Şirket, bu kurallara aykırılık tespit ettiği hâllerde ilgili içeriği kaldırma, erişimi kısıtlama veya hesabı askıya alma hakkını saklı tutar."
+        },
+        "plans": {
+          "title": "Krediler ve ücretler",
+          "p1": "Hizmet, abonelik yerine kullanım başına ücretlendirilir. Geçerli birim ücret Hizmet'in fiyatlandırma sayfasında yayımlanır ve bu Koşullar'ın eki niteliğindedir.",
+          "p2": "Krediler önceden yüklenir. Sözleşme taslağının oluşturulması, düzenlenmesi ve risk kontrolü kredi tüketmez; bakiyeden düşüm yalnızca sözleşmenin PDF belgesi oluşturulduğunda yapılır. Aynı sözleşmenin sonraki PDF üretimleri için yeniden düşüm yapılmaz. Bakiyenin yetersiz olması hâlinde ilgili işlem başlatılmaz.",
+          "p3": "Hesap oluşturulurken Kullanıcı'nın kişisel çalışma alanına tek seferlik deneme kredisi tanımlanabilir. Bu kredi bir taahhüt niteliğinde değildir ve kapsamı Şirket tarafından belirlenir.",
+          "p4": "Krediler Çalışma Alanı'na tanımlıdır; devredilemez ve nakde çevrilemez. Kredilerin kullanım süresi sınırlı değildir.",
+          "p5": "Şirket, birim ücreti değiştirme hakkını saklı tutar; değişiklik önceden yüklenmiş kredilerin geçerliliğini etkilemez. Tüketici sıfatını haiz Kullanıcılar bakımından 6502 sayılı Tüketicinin Korunması Hakkında Kanun ve ilgili mevzuattan doğan cayma ve iade hakları saklıdır."
+        },
+        "ip": {
+          "title": "Fikri mülkiyet",
+          "p1": "Hizmet'i oluşturan yazılım, arayüz, tasarım, marka ve içeriklere ilişkin fikri ve sınai haklar Şirket'e veya lisans verenlerine aittir. Bu Koşullar, Kullanıcı'ya Hizmet'i kullanma yönünde devredilemez ve münhasır olmayan sınırlı bir hak tanır; bunun ötesinde bir hak devri anlamına gelmez.",
+          "p2": "Kullanıcı'nın Hizmet'e girdiği bilgiler ile Hizmet aracılığıyla ürettiği sözleşme metinleri üzerindeki haklar Kullanıcı'da kalır. Şirket bu içerikler üzerinde yalnızca Hizmet'i sunmak, sürdürmek ve güvenliğini sağlamak amacıyla ve bu amaçla sınırlı olarak işleme yetkisine sahiptir.",
+          "p3": "Şirket, Kullanıcı içeriğini pazarlama amacıyla üçüncü kişilere açmaz. İçeriğin hangi hizmet sağlayıcılara hangi amaçla iletildiği Gizlilik Politikası'nda açıklanmıştır."
+        },
+        "sharing": {
+          "title": "Paylaşım bağlantıları",
+          "p1": "Kullanıcı, hazır durumdaki bir sözleşmesi için herkese açık bir paylaşım bağlantısı oluşturabilir. Bağlantı, tahmin edilmesi güç rastgele bir anahtar içerir; ancak bağlantıya sahip olan herkes oturum açmaksızın sözleşmenin başlığına, metnine ve PDF çıktısına erişebilir.",
+          "p2": "Paylaşım bağlantısı, sözleşmenin paylaşım anındaki hâline sabitlenmez. Bağlantı her açıldığında sözleşmenin en güncel sürümü görüntülenir; paylaşımdan sonra yapılan düzenlemeler mevcut bağlantı üzerinden görünür hâle gelir.",
+          "p3": "Bağlantılar süre sınırı olmaksızın geçerlidir. Kullanıcı bağlantıyı dilediği zaman iptal edebilir; iptal işlemi geri alınamaz ve aynı sözleşme için yeni bir bağlantı oluşturulması gerekir. Sözleşmenin hazır durumdan çıkarılması hâlinde bağlantı çalışmaz.",
+          "p4": "Bağlantının kimlerle paylaşıldığının denetimi Kullanıcı'ya aittir. Şirket, bağlantıyı elde eden üçüncü kişilerin erişiminden sorumlu tutulamaz."
+        },
+        "availability": {
+          "title": "Hizmetin sürekliliği ve değişiklikler",
+          "p1": "Şirket, Hizmet'in kesintisiz ve hatasız sunulacağını taahhüt etmez. Bakım, güncelleme, altyapı arızası veya üçüncü taraf hizmet sağlayıcılardan kaynaklanan sebeplerle geçici kesintiler yaşanabilir.",
+          "p2": "Şirket, Hizmet'in özelliklerini geliştirme, değiştirme veya sona erdirme hakkını saklı tutar. Kullanıcı aleyhine sonuç doğuran esaslı değişiklikler, makul bir süre önce Hizmet içinde veya e-posta yoluyla duyurulur.",
+          "p3": "Planlı bakımlar, mümkün olduğu ölçüde kullanım yoğunluğunun düşük olduğu zaman dilimlerinde yapılır."
+        },
+        "liability": {
+          "title": "Sorumluluğun sınırlandırılması",
+          "p1": "Şirket, Hizmet'i mevcut hâliyle sunar. Hizmet'in belirli bir amaca uygunluğuna veya belirli bir sonucu sağlayacağına ilişkin açık ya da zımni bir taahhütte bulunulmaz.",
+          "p2": "Şirket'in sorumluluğu, kendisine atfedilebilen kusur hâlleriyle sınırlıdır. Şirket, üretilen taslakların içeriğinden, Kullanıcı'nın bu taslakları denetlemeden kullanmasından ve bundan doğan sonuçlardan sorumlu değildir.",
+          "p3": "Şirket; dolaylı zararlardan, kâr kaybından, veri kaybından ve iş kesintisinden, öngörülebilir olmadıkları ölçüde sorumlu tutulamaz.",
+          "p4": "Şirket'in kastı veya ağır kusuru hâlleri ile tüketici mevzuatından doğan sorumluluğu bakımından bu maddedeki sınırlamalar uygulanmaz."
+        },
+        "termination": {
+          "title": "Askıya alma ve fesih",
+          "p1": "Kullanıcı, Hizmet'i kullanmayı dilediği zaman sonlandırabilir.",
+          "p2": "Şirket; bu Koşullar'ın esaslı ihlali, hukuka aykırı kullanım, ödeme yükümlülüğünün yerine getirilmemesi veya Hizmet'in güvenliğini tehdit eden davranışlar hâlinde hesabı askıya alabilir ya da sözleşmeyi feshedebilir. Askıya alma, mümkün olduğu ölçüde önceden bildirimle yapılır.",
+          "p3": "Kullanıcı sözleşmelerini arşivleyebilir; arşivleme kaydın silinmesi anlamına gelmez. Kredi hareketleri, çalışma alanı etkinlik kayıtları ve yönetici işlem kayıtları, hesap verilebilirliğin sağlanması amacıyla değiştirilemez biçimde tutulur ve Hizmet üzerinden silinemez. Verilerin saklanmasına ve silinmesine ilişkin ayrıntılar Gizlilik Politikası'nda açıklanmıştır."
+        },
+        "changes": {
+          "title": "Koşullardaki değişiklikler",
+          "p1": "Şirket bu Koşullar'ı güncelleyebilir. Güncellenen metin bu sayfada yayımlanır ve sayfanın başındaki yürürlük tarihi değiştirilir.",
+          "p2": "Kullanıcı aleyhine sonuç doğuran esaslı değişiklikler, yürürlüğe girmeden makul bir süre önce duyurulur. Duyuruyu takiben Hizmet'in kullanılmaya devam edilmesi, güncellenen Koşullar'ın kabul edildiği anlamına gelir."
+        },
+        "law": {
+          "title": "Uygulanacak hukuk ve uyuşmazlıkların çözümü",
+          "p1": "Bu Koşullar'a Türkiye Cumhuriyeti hukuku uygulanır.",
+          "p2": "Taraflar, aralarında doğabilecek uyuşmazlıkların öncelikle iyi niyetle ve müzakere yoluyla çözülmesi için çaba gösterir.",
+          "p3": "Tüketici sıfatını haiz Kullanıcılar bakımından, parasal sınırlara göre Tüketici Hakem Heyetleri ile Tüketici Mahkemeleri'nin yetkisi saklıdır. Diğer uyuşmazlıklarda genel hükümler uyarınca yetkili mahkeme ve icra daireleri görevlidir."
+        },
+        "contact": {
+          "title": "İletişim",
+          "p1": "Bu Koşullar'a ilişkin soru ve bildirimler için Şirket'in iletişim bilgileri aşağıdadır.",
+          "p2": "Şirket, Kullanıcı'ya yapacağı bildirimleri hesapta kayıtlı e-posta adresine veya Hizmet içi duyuru yoluyla gönderir."
+        }
+      }
+    },
+    "privacy": {
+      "title": "Gizlilik Politikası",
+      "metaDescription": "İşlenen kişisel veriler, işleme amaçları ve hukuki sebepler, yapay zekâ sağlayıcılarına aktarım, çerezler, saklama süreleri ve ilgili kişi hakları.",
+      "intro": "Bu Gizlilik Politikası, Hizmet kullanılırken hangi kişisel verilerin hangi amaçla ve hangi hukuki sebeple işlendiğini, verilerin kimlerle paylaşıldığını ve ilgili kişi olarak sahip olunan hakları açıklar. Metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu uyarınca aydınlatma yükümlülüğünü ve Avrupa Birliği Genel Veri Koruma Tüzüğü kapsamındaki bilgilendirme yükümlülüğünü birlikte karşılamak üzere hazırlanmıştır.",
+      "articles": {
+        "controller": {
+          "title": "Veri sorumlusu ve kapsam",
+          "p1": "Kişisel verileriniz, 6698 sayılı Kanun anlamında veri sorumlusu sıfatıyla aşağıda bilgileri yer alan işletme tarafından işlenir.",
+          "p2": "Bu Politika, Hizmet'in web uygulaması üzerinden yürütülen tüm işleme faaliyetlerini kapsar ve Kullanım Koşulları'nın ayrılmaz bir parçasıdır."
+        },
+        "dataCategories": {
+          "title": "İşlenen kişisel veriler",
+          "p1": "Hizmet kapsamında aşağıdaki veri kategorileri işlenir.",
+          "i1": "Kimlik bilgisi: ad ve soyad.",
+          "i2": "İletişim bilgisi: e-posta adresi.",
+          "i3": "İşlem güvenliği bilgisi: oturum bilgileri, parolanın geri döndürülemez biçimde saklanan özeti ve sunucu erişim kayıtları.",
+          "i4": "Kullanıcı içeriği: Hizmet'e girdiğiniz talimatlar ve sohbet mesajları, oluşturulan sözleşme bölümlerinin metinleri, her düzenlemede saklanan sürümler ve üretilen PDF dosyaları.",
+          "i5": "İşlem ve kullanım kayıtları: kredi hareketleri, çalışma alanı etkinlik kayıtları ve yönetici işlemlerine ilişkin denetim kayıtları.",
+          "i6": "Tercih bilgisi: arayüz dili ve son kullanılan çalışma alanı.",
+          "i7": "Onay kayıtları: Kullanım Koşulları'nı ve Gizlilik Politikası'nı kabul ettiğiniz ana ilişkin zaman bilgisi.",
+          "p2": "Hizmet, özel nitelikli kişisel veri toplamayı amaçlamaz. Sözleşme metinlerine bu nitelikte veri girilmemesi önerilir; girilen içeriğin denetimi Kullanıcı'ya aittir."
+        },
+        "collection": {
+          "title": "Verilerin toplanma yöntemi",
+          "p1": "Veriler iki yolla toplanır: doğrudan sizin tarafınızdan kayıt formu, hesap ekranları ve sözleşme hazırlama ekranı üzerinden iletilen bilgiler; bir de Hizmet'i kullanmanız sırasında otomatik olarak oluşan çerezler ve sunucu kayıtları.",
+          "p2": "Veriler tamamen veya kısmen otomatik yollarla, elektronik ortamda işlenir."
+        },
+        "purposes": {
+          "title": "İşleme amaçları ve hukuki sebepler",
+          "p1": "Kişisel verileriniz aşağıdaki amaçlarla ve karşılarında belirtilen hukuki sebeplere dayanılarak işlenir.",
+          "i1": "Hesabın oluşturulması, kimlik doğrulaması ve Hizmet'in sunulması — sözleşmenin kurulması ve ifası için gerekli olması (KVKK m. 5/2-c; GDPR m. 6/1-b).",
+          "i2": "Sözleşme taslaklarının hazırlanması, düzenlenmesi, sürümlenmesi ve PDF olarak çıktı alınması — sözleşmenin ifası (KVKK m. 5/2-c; GDPR m. 6/1-b).",
+          "i3": "Kredi kullanımının takibi ile faturalandırmaya esas kayıtların tutulması — sözleşmenin ifası ve hukuki yükümlülüğün yerine getirilmesi (KVKK m. 5/2-c ve m. 5/2-ç; GDPR m. 6/1-b ve m. 6/1-c).",
+          "i4": "Hizmet'in güvenliğinin sağlanması, kötüye kullanımın önlenmesi ve arızaların giderilmesi — meşru menfaat (KVKK m. 5/2-f; GDPR m. 6/1-f).",
+          "i5": "Mevzuattan doğan saklama ve bilgi verme yükümlülüklerinin yerine getirilmesi — hukuki yükümlülük (KVKK m. 5/2-ç; GDPR m. 6/1-c).",
+          "i6": "Hizmet'e ilişkin zorunlu bildirimlerin yapılması — sözleşmenin ifası (KVKK m. 5/2-c; GDPR m. 6/1-b).",
+          "p2": "Kişisel verileriniz bu Politika'da belirtilen amaçlar dışında kullanılmaz ve pazarlama amacıyla üçüncü kişilere satılmaz."
+        },
+        "aiProviders": {
+          "title": "Yapay zekâ sağlayıcılarına aktarım",
+          "p1": "Hizmet'in taslak üretme, düzenleme ve risk kontrolü işlevleri, dış hizmet sağlayıcılar tarafından işletilen büyük dil modelleri üzerinden çalışır. Bu işlevler kullanıldığında, ilgili sözleşmeye ait sohbet geçmişi ile sözleşme bölümlerinin metinleri model sağlayıcısına iletilir.",
+          "p2": "Aktarım yalnızca talep ettiğiniz işlemin yürütülmesi için ve o işlemle sınırlı olarak gerçekleşir. Sohbet başlatmadığınız veya risk kontrolü çalıştırmadığınız sürece sözleşme içeriğiniz model sağlayıcısına gönderilmez.",
+          "p3": "Hâlihazırda kullanılan model sağlayıcıları şunlardır:",
+          "i1": "Anthropic PBC — büyük dil modeli çıkarımı (Amerika Birleşik Devletleri).",
+          "i2": "Groq, Inc. — büyük dil modeli çıkarımı (Amerika Birleşik Devletleri).",
+          "p4": "Aktarılan içerik, ilgili sağlayıcının kendi hizmet ve veri işleme şartlarına tabidir. Şirket, sağlayıcının verileri kendi sistemlerinde ne kadar süreyle tuttuğu konusunda bağımsız bir taahhütte bulunacak konumda değildir. Bu nedenle sözleşme metinlerine gerekmedikçe kimlik, iletişim veya finansal ayrıntı yazılmaması önerilir.",
+          "p5": "Kullanılan sağlayıcı değiştiğinde bu bölüm güncellenir."
+        },
+        "cookies": {
+          "title": "Çerezler",
+          "p1": "Hizmet yalnızca çalışması için gerekli olan birinci taraf çerezleri kullanır.",
+          "r1Label": "Oturum çerezleri",
+          "r1Value": "Kimlik doğrulama ve oturumun sürdürülmesi için kullanılır. Bu çerezler olmadan oturum açılamaz.",
+          "r2Label": "Dil çerezi",
+          "r2Value": "Seçtiğiniz arayüz dilinin sonraki ziyaretlerde hatırlanmasını sağlar.",
+          "r3Label": "Çalışma alanı çerezi",
+          "r3Value": "Son kullandığınız çalışma alanının hatırlanmasını sağlar. Bir tercih kaydıdır; erişim yetkisi bu çereze göre değil, sunucu tarafındaki yetkilendirme kurallarına göre belirlenir.",
+          "p2": "Reklam, profilleme veya üçüncü taraf izleme çerezi kullanılmaz. Hizmet'te üçüncü taraf analiz veya reklam aracı bulunmamaktadır."
+        },
+        "transfers": {
+          "title": "Verilerin saklandığı yer ve yurt dışına aktarım",
+          "p1": "Hizmet'in veritabanı, kimlik doğrulama ve dosya depolama altyapısı, Avrupa Birliği (İrlanda) bölgesinde konumlandırılmış sunucularda barındırılır.",
+          "p2": "Yapay zekâ model sağlayıcılarına yapılan aktarımlar ile uygulama barındırma hizmetleri, verilerin Türkiye dışına aktarılması sonucunu doğurur.",
+          "p3": "Yurt dışına aktarım, 6698 sayılı Kanun'un 9. maddesi çerçevesinde, aktarımın hizmetin sunulması için zorunlu olduğu hâllerde ve uygun güvencelerin sağlanması kaydıyla gerçekleştirilir. Avrupa Birliği Genel Veri Koruma Tüzüğü bakımından aktarımlar, Tüzük'ün uluslararası aktarıma ilişkin hükümlerine dayanır."
+        },
+        "retention": {
+          "title": "Saklama süreleri",
+          "p1": "Kişisel verileriniz, hesabınız açık olduğu ve Hizmet'in sunulması için gerekli olduğu sürece saklanır.",
+          "p2": "Sözleşmelerinizi arşivleyebilirsiniz. Arşivleme, kaydın listelerden çıkarılmasıdır; verinin silinmesi anlamına gelmez. Sözleşmenin önceki sürümleri, sohbet geçmişi ve üretilen PDF dosyaları arşivlemeden etkilenmez.",
+          "p3": "Kredi hareketleri, çalışma alanı etkinlik kayıtları ve yönetici işlem kayıtları, hesap verilebilirliğin sağlanması amacıyla değiştirilemez biçimde tutulur. Bu kayıtlar Hizmet üzerinden silinemez veya düzeltilemez.",
+          "p4": "Mevzuat uyarınca belirli bir süre saklanması zorunlu olan kayıtlar ilgili süre boyunca saklanır. Saklama sebebi ortadan kalktığında veriler silinir, yok edilir veya anonim hâle getirilir."
+        },
+        "sharing": {
+          "title": "Paylaşım bağlantıları ve görünürlük",
+          "p1": "Bir sözleşme için paylaşım bağlantısı oluşturduğunuzda, bağlantıya sahip olan herkes oturum açmaksızın sözleşmenin başlığına, en güncel sürümünün metnine ve PDF çıktısına erişebilir.",
+          "p2": "Paylaşım bağlantısı üzerinden hesap sahibinin adı, e-posta adresi, sohbet geçmişi ve risk kontrolü bulguları görüntülenmez.",
+          "p3": "Bağlantı süresizdir ve dilediğiniz zaman iptal edilebilir; iptal geri alınamaz. Bağlantının kimlere iletildiğinin denetimi size aittir."
+        },
+        "security": {
+          "title": "Veri güvenliği",
+          "p1": "Kişisel verilerin güvenliği için idari ve teknik tedbirler uygulanır.",
+          "i1": "Veritabanında satır düzeyinde erişim kuralları uygulanır; her kayıt yalnızca ilgili çalışma alanının yetkili üyelerine görünür.",
+          "i2": "Üretilen PDF dosyaları herkese açık olmayan bir depolama alanında tutulur ve yalnızca kısa ömürlü, imzalı bağlantılarla sunulur.",
+          "i3": "Parolalar kimlik doğrulama sağlayıcısında geri döndürülemez biçimde saklanır; Şirket parolaları görüntüleyemez.",
+          "i4": "Sistem bileşenleri en az yetki ilkesine göre yetkilendirilir; yetki sınırlarını aşan erişimler kısıtlanmıştır.",
+          "p2": "Alınan tedbirlere rağmen internet üzerinden yapılan hiçbir aktarım veya saklama yöntemi mutlak güvenlik sağlamaz. Hesabınızın güvenliği için güçlü ve size özgü bir parola kullanmanız önemlidir."
+        },
+        "rights": {
+          "title": "İlgili kişi olarak haklarınız",
+          "p1": "6698 sayılı Kanun'un 11. maddesi uyarınca aşağıdaki haklara sahipsiniz.",
+          "i1": "Kişisel verinizin işlenip işlenmediğini öğrenme ve işlenmişse buna ilişkin bilgi talep etme.",
+          "i2": "İşlenme amacını ve verilerin amacına uygun kullanılıp kullanılmadığını öğrenme.",
+          "i3": "Yurt içinde veya yurt dışında verilerinizin aktarıldığı üçüncü kişileri bilme.",
+          "i4": "Eksik veya yanlış işlenmiş verilerinizin düzeltilmesini isteme.",
+          "i5": "Şartları oluştuğunda verilerinizin silinmesini veya yok edilmesini isteme.",
+          "i6": "Düzeltme, silme veya yok etme işlemlerinin verilerin aktarıldığı üçüncü kişilere bildirilmesini isteme.",
+          "i7": "Verilerin münhasıran otomatik sistemlerle analiz edilmesi suretiyle aleyhinize bir sonucun ortaya çıkmasına itiraz etme.",
+          "i8": "Kanuna aykırı işleme sebebiyle zarara uğramanız hâlinde zararın giderilmesini talep etme.",
+          "p2": "Avrupa Birliği Genel Veri Koruma Tüzüğü'ne tabi olduğunuz hâllerde ayrıca verilerinize erişme, verilerinizi taşınabilir biçimde alma, işlemenin kısıtlanmasını isteme, işlemeye itiraz etme ve yetkili denetim makamına şikâyette bulunma haklarına sahipsiniz.",
+          "p3": "Başvurularınızı bu Politika'nın sonunda yer alan iletişim kanalları üzerinden iletebilirsiniz. Talepler, mevzuatta öngörülen süreler içinde sonuçlandırılır.",
+          "p4": "Hesabın tümüyle silinmesi, hâlihazırda Hizmet içinden kendiliğinden yürütülebilen bir işlem değildir; bu yöndeki talepler başvuru üzerine değerlendirilir. Mevzuat uyarınca saklanması zorunlu olan kayıtlar ile değiştirilemez biçimde tutulan işlem kayıtları bu değerlendirmenin kapsamı dışındadır."
+        },
+        "processors": {
+          "title": "Hizmet sağlayıcılar",
+          "p1": "Hizmet'in sunulabilmesi için aşağıdaki hizmet sağlayıcılardan yararlanılır. Bu sağlayıcılar verileri yalnızca Şirket'in talimatları doğrultusunda ve kendilerine verilen amaçla sınırlı olarak işler.",
+          "r1Label": "Supabase",
+          "r1Value": "Kimlik doğrulama, veritabanı, dosya depolama ve işlem e-postalarının gönderimi. Altyapı Avrupa Birliği (İrlanda) bölgesindedir.",
+          "r2Label": "Anthropic PBC",
+          "r2Value": "Sözleşme taslağı üretimi ve risk kontrolü için büyük dil modeli çıkarımı.",
+          "r3Label": "Groq, Inc.",
+          "r3Value": "Sözleşme taslağı üretimi ve risk kontrolü için büyük dil modeli çıkarımı.",
+          "r4Label": "Uygulama barındırma sağlayıcısı",
+          "r4Value": "Web uygulamasının çalıştırılması ve son kullanıcıya sunulması.",
+          "p2": "PDF çıktıları dış bir hizmete gönderilmeden Şirket'in kendi sunucusunda oluşturulur. Arayüz yazı tipleri uygulama ile birlikte sunulur; sayfa görüntülenirken üçüncü taraf sunuculara istek gönderilmez.",
+          "p3": "Sağlayıcı listesi değiştiğinde bu bölüm güncellenir."
+        },
+        "children": {
+          "title": "Çocukların verileri",
+          "p1": "Hizmet, on sekiz yaşını doldurmamış kişilere yönelik değildir ve bu kişilerden bilerek kişisel veri toplanmaz. Bu yaşın altındaki bir kişiye ait verinin işlendiğinin tespiti hâlinde ilgili veriler silinir."
+        },
+        "changes": {
+          "title": "Politikadaki değişiklikler",
+          "p1": "Bu Politika güncellenebilir. Güncellenen metin bu sayfada yayımlanır ve sayfanın başındaki yürürlük tarihi değiştirilir.",
+          "p2": "İşleme amaçlarında veya aktarım yapılan taraflarda esaslı bir değişiklik olması hâlinde, değişiklik yürürlüğe girmeden önce ayrıca bilgilendirme yapılır."
+        },
+        "contact": {
+          "title": "İletişim ve başvuru",
+          "p1": "Bu Politika kapsamındaki soru, talep ve başvurularınız için Şirket'in iletişim bilgileri aşağıdadır.",
+          "p2": "Başvurunuzu kimliğinizi tevsik edici bilgilerle birlikte iletmeniz, talebin daha hızlı sonuçlandırılmasını sağlar."
+        }
+      }
+    }
   },
   "common": {
     "actions": {
@@ -265,7 +499,25 @@
     "network": "Bağlantı kurulamadı. İnternet bağlantınızı kontrol edin.",
     "unauthorized": "Bu işlem için yetkiniz yok.",
     "notFound": "Aradığınız sayfa bulunamadı.",
-    "unexpected": "Beklenmeyen bir hata oluştu."
+    "unexpected": "Beklenmeyen bir hata oluştu.",
+    "page": {
+      "notFound": {
+        "title": "Bu sayfa yerinde görünmüyor",
+        "description": "Bağlantı taşınmış ya da adres değişmiş olabilir. Aşağıdan kaldığınız yere dönebilirsiniz."
+      },
+      "unexpected": {
+        "title": "Küçük bir aksilik oldu",
+        "description": "Bu genellikle geçici bir durumdur. Bir kez daha denemek çoğu zaman yeterli oluyor."
+      },
+      "actions": {
+        "home": "Ana sayfaya dön",
+        "dashboard": "Panele dön",
+        "back": "Önceki sayfaya git"
+      },
+      "quickLinksTitle": "Sık kullanılan sayfalar",
+      "reference": "Referans no: {code}",
+      "referenceHint": "Destek ekibimizle görüşürseniz bu kodu paylaşın."
+    }
   },
   "validation": {
     "required": "Bu alan zorunludur.",
@@ -275,7 +527,9 @@
     "nameTooShort": "Ad en az 2 karakter olmalı.",
     "nameTooLong": "Ad en fazla 80 karakter olabilir.",
     "titleRequired": "Başlık gerekli.",
-    "titleTooLong": "Başlık en fazla 140 karakter olabilir."
+    "titleTooLong": "Başlık en fazla 140 karakter olabilir.",
+    "termsRequired": "Devam etmek için Kullanım Koşulları'nı kabul etmelisin.",
+    "privacyRequired": "Devam etmek için Gizlilik Politikası'nı kabul etmelisin."
   },
   "auth": {
     "brandPanel": {
@@ -303,6 +557,9 @@
       "nameLabel": "Ad Soyad",
       "emailLabel": "E-posta",
       "passwordLabel": "Parola",
+      "termsConsentLabel": "<link>Kullanım Koşulları</link>'nı okudum, kabul ediyorum.",
+      "privacyConsentLabel": "<link>Gizlilik Politikası</link>'nı okudum, kabul ediyorum.",
+      "opensInNewTab": "(yeni sekmede açılır)",
       "submit": "Hesap oluştur",
       "hasAccount": "Zaten hesabın var mı?",
       "loginLink": "Giriş yap"
@@ -359,22 +616,35 @@
   },
   "dashboard": {
     "greeting": "Merhaba, {name}",
-    "plan": {
-      "starter": "Starter",
-      "pro": "Pro",
-      "business": "Business"
-    },
-    "planNote": {
-      "placeholder": "Limitler geçicidir; gerçek paket koşulları belirlenince güncellenecektir."
-    },
     "pages": {
-      "overview": { "title": "Genel bakış", "description": "Çalışma alanının özeti." },
-      "contracts": { "title": "Sözleşmeler", "description": "Tüm sözleşmelerin." },
-      "newContract": { "title": "Yeni sözleşme oluştur", "description": "Yeni bir sözleşme taslağı başlat." },
-      "templates": { "title": "Şablonlar", "description": "Hazır sözleşme şablonların." },
-      "archive": { "title": "Arşiv", "description": "Arşivlenen belgeler." },
-      "reminders": { "title": "Hatırlatmalar", "description": "Yaklaşan tarih ve görevlerin." },
-      "settings": { "title": "Ayarlar", "description": "Hesap ve çalışma alanı ayarların." }
+      "overview": {
+        "title": "Genel bakış",
+        "description": "Çalışma alanının özeti."
+      },
+      "contracts": {
+        "title": "Sözleşmeler",
+        "description": "Tüm sözleşmelerin."
+      },
+      "newContract": {
+        "title": "Yeni sözleşme oluştur",
+        "description": "Yeni bir sözleşme taslağı başlat."
+      },
+      "templates": {
+        "title": "Şablonlar",
+        "description": "Hazır sözleşme şablonların."
+      },
+      "archive": {
+        "title": "Arşiv",
+        "description": "Arşivlenen belgeler."
+      },
+      "reminders": {
+        "title": "Hatırlatmalar",
+        "description": "Yaklaşan tarih ve görevlerin."
+      },
+      "settings": {
+        "title": "Ayarlar",
+        "description": "Hesap ve çalışma alanı ayarların."
+      }
     },
     "metrics": {
       "total": "Toplam sözleşme",
@@ -383,17 +653,6 @@
       "createdThisMonth": "Bu ay oluşturulan",
       "activeMembers": "Aktif üye",
       "remainingCredits": "Kalan kredi"
-    },
-    "usage": {
-      "title": "Kullanım",
-      "usedOf": "{used} / {total} kredi kullanıldı",
-      "resetsOn": "Yenilenme: {date}",
-      "helper": "Kredi, taslak oluşturma gibi işlemlerde harcanır.",
-      "placeholderNote": "Limitler geçicidir."
-    },
-    "upgrade": {
-      "message": "Paketinin sınırına yaklaşıyorsun.",
-      "link": "Paketleri gör"
     },
     "empty": {
       "contracts": {
@@ -434,9 +693,12 @@
     },
     "credits": {
       "title": "Kredi özeti",
+      "ledgerTitle": "Kredi hareketleri",
       "balance": "Bakiye",
-      "spentThisMonth": "Bu ay harcanan",
-      "topUp": "Kredi yükle",
+      "balanceValue": "{count} kredi",
+      "spentLast30Days": "Son 30 günde",
+      "perContractNote": "Her sözleşmenin PDF'i 1 kredi.",
+      "topUpSoon": "Kredi yükleme yakında; şimdilik bakiye yalnızca yönetici tarafından tanımlanabilir.",
       "ledger": {
         "date": "Tarih",
         "description": "İşlem",
@@ -444,15 +706,15 @@
         "balance": "Bakiye"
       },
       "reasons": {
+        "signup_grant": "Kayıt kredisi",
         "signup_starter_grant": "Kayıt kredisi",
-        "monthly_grant": "Aylık kredi yenilemesi",
-        "contract_created": "Sözleşme taslağı oluşturuldu",
         "adjustment": "Manuel düzeltme",
         "refund": "İade",
         "draft_generate": "AI taslağı oluşturuldu",
         "ai_edit": "AI ile düzenlendi",
         "risk_check": "Risk kontrolü çalıştırıldı",
-        "pdf_generate": "PDF oluşturuldu"
+        "pdf_generate": "PDF oluşturuldu",
+        "manual_edit": "Elle düzenlendi"
       }
     },
     "chart": {
@@ -632,6 +894,10 @@
         "download": "PDF'i indir",
         "error": "PDF oluşturulamadı. Lütfen tekrar dene."
       }
+    },
+    "lowBalance": {
+      "message": "Bakiyen azalıyor.",
+      "link": "Kredi yükleme"
     }
   },
   "sharedContract": {
@@ -661,14 +927,18 @@
     "users": {
       "title": "Kullanıcılar",
       "description": "Platformdaki tüm kullanıcılar.",
-      "table": { "name": "Ad", "email": "E-posta", "locale": "Dil", "joined": "Katılım" }
+      "table": {
+        "name": "Ad",
+        "email": "E-posta",
+        "locale": "Dil",
+        "joined": "Katılım"
+      }
     },
     "workspaces": {
       "title": "Workspace ve ekipler",
       "description": "Tüm çalışma alanları ve paketleri.",
       "table": {
         "name": "Ad",
-        "plan": "Paket",
         "members": "Üye",
         "balance": "Bakiye",
         "created": "Oluşturulma"
@@ -690,13 +960,20 @@
     "auditLog": {
       "title": "İşlem günlükleri",
       "description": "Kritik admin aksiyonlarının kaydı.",
-      "table": { "time": "Zaman", "actor": "Aktör", "action": "İşlem", "resource": "Kaynak" },
+      "table": {
+        "time": "Zaman",
+        "actor": "Aktör",
+        "action": "İşlem",
+        "resource": "Kaynak"
+      },
       "empty": "Henüz kayıt yok.",
-      "actions": { "add_credits": "Kredi eklendi" }
+      "actions": {
+        "add_credits": "Kredi eklendi"
+      }
     },
     "billing": {
-      "title": "Paket ve kullanım yönetimi",
-      "description": "Workspace paketleri ve kredi bakiyeleri.",
+      "title": "Kredi ve kullanım yönetimi",
+      "description": "Çalışma alanlarının kredi bakiyeleri.",
       "addCredits": "Kredi ekle",
       "dialog": {
         "title": "Kredi ekle",

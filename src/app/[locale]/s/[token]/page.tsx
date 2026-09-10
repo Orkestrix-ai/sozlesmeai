@@ -1,7 +1,9 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 
+import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sectionsSchema } from "@/lib/contracts/schema";
+import { shareTokenSchema, sharedContractResultSchema } from "@/lib/db/schemas";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -12,37 +14,40 @@ const SIGNED_URL_TTL_SECONDS = 300;
  * Herkese açık, oturum GEREKTİRMEYEN paylaşım görünümü (plan C4). `[locale]`
  * altında ama (app) grubunun DIŞINDA — dashboard kabuğunu (sidebar vb.)
  * miras almaz, yalnızca kök layout'un (html/body/font) içinde render olur.
- * Doğrulama service-role ile yapılır; token'ın kendisi tek yetki kanıtıdır.
+ *
+ * Güvenlik sertleştirmesi: dört ayrı service-role sorgusu (RLS'i TAMAMEN
+ * atlayan, dolayısıyla bu sayfadaki bir kodlama hatasının tüm veritabanını
+ * açığa çıkarabileceği bir istemci) tek `get_shared_contract` RPC'sine
+ * indirgendi — o RPC yalnızca TEK bir paylaşıma karşılık gelen satırları
+ * döndürebilir, token'ın kendisi yetki kanıtıdır (B11). Service-role
+ * istemcisi artık YALNIZCA imzalı URL üretmek için kalıyor; o da güvenli,
+ * çünkü storage_path artık istemciden değil bir tetikleyiciden geliyor (B1).
  */
 export default async function SharedContractPage({ params }: PageProps<"/[locale]/s/[token]">) {
-  const { locale, token } = await params;
+  const { locale, token: rawToken } = await params;
   setRequestLocale(locale);
 
   const t = await getTranslations("sharedContract");
   const tStatus = await getTranslations("dashboard.status");
+  const tNav = await getTranslations("nav");
 
-  const admin = createAdminClient();
+  const parsedToken = shareTokenSchema.safeParse(rawToken);
 
-  const { data: share } = await admin
-    .from("contract_shares")
-    .select("contract_id, expires_at, revoked_at")
-    .eq("token", token)
-    .maybeSingle();
+  const supabase = await createClient();
 
-  const isValid =
-    !!share && !share.revoked_at && (!share.expires_at || new Date(share.expires_at) > new Date());
-
-  const contract = isValid
-    ? (
-        await admin
-          .from("contracts")
-          .select("id, title, status")
-          .eq("id", share!.contract_id)
-          .maybeSingle()
-      ).data
+  const row = parsedToken.success
+    ? await (async () => {
+        const { data, error } = await supabase.rpc("get_shared_contract", { p_token: parsedToken.data });
+        if (error) {
+          console.error("[s/token] get_shared_contract:", error.code, error.message);
+          return null;
+        }
+        const parsed = sharedContractResultSchema.safeParse(data);
+        return parsed.success ? (parsed.data[0] ?? null) : null;
+      })()
     : null;
 
-  if (!isValid || !contract) {
+  if (!row) {
     return (
       <div className="flex min-h-dvh items-center justify-center bg-paper-100 px-6">
         <div className="max-w-sm text-center">
@@ -53,35 +58,25 @@ export default async function SharedContractPage({ params }: PageProps<"/[locale
     );
   }
 
-  const { data: version } = await admin
-    .from("contract_versions")
-    .select("id, sections")
-    .eq("contract_id", contract.id)
-    .order("version_no", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  const sections = version ? (sectionsSchema.safeParse(version.sections).data ?? []) : [];
+  const sections = sectionsSchema.safeParse(row.sections).data ?? [];
 
   let pdfUrl: string | null = null;
-  if (version) {
-    const { data: document } = await admin
-      .from("contract_documents")
-      .select("storage_path")
-      .eq("version_id", version.id)
-      .maybeSingle();
-    if (document) {
-      const { data: signed } = await admin.storage
-        .from("contracts")
-        .createSignedUrl(document.storage_path, SIGNED_URL_TTL_SECONDS);
-      pdfUrl = signed?.signedUrl ?? null;
-    }
+  if (row.storage_path) {
+    // İmzalı URL üretimi RLS'e tabi değildir (Storage nesne meta verisi
+    // değil, geçici bir erişim jetonu üretimidir) — bu yüzden bunun için
+    // service-role gerekli, ama artık storage_path RPC'nin (dolayısıyla
+    // tetikleyicinin) ürettiği değer, istemciden gelmiyor.
+    const admin = createAdminClient();
+    const { data: signed } = await admin.storage
+      .from("contracts")
+      .createSignedUrl(row.storage_path, SIGNED_URL_TTL_SECONDS);
+    pdfUrl = signed?.signedUrl ?? null;
   }
 
   return (
     <div className="min-h-dvh bg-paper-100">
       <header className="border-b border-stone-200 bg-paper-50 px-6 py-4">
-        <span className="text-card-title font-heading text-ink-950">Sözleşme Stüdyosu</span>
+        <span className="text-card-title font-heading text-ink-950">{tNav("brand")}</span>
       </header>
       <main className="mx-auto max-w-3xl px-6 py-10">
         <Alert variant="neutral" className="mb-6">
@@ -89,8 +84,8 @@ export default async function SharedContractPage({ params }: PageProps<"/[locale
         </Alert>
 
         <div className="mb-6 flex flex-wrap items-center gap-3">
-          <h1 className="text-page-title font-heading text-ink-950">{contract.title}</h1>
-          <StatusBadge status={contract.status}>{tStatus(contract.status)}</StatusBadge>
+          <h1 className="text-page-title font-heading text-ink-950">{row.title}</h1>
+          <StatusBadge status={row.status}>{tStatus(row.status)}</StatusBadge>
         </div>
 
         {sections.length > 0 && (

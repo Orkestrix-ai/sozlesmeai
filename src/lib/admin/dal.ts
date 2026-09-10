@@ -7,6 +7,7 @@ import { redirect } from "@/i18n/navigation";
 import type { AppLocale } from "@/i18n/routing";
 import { createClient } from "@/lib/supabase/server";
 import { verifySession } from "@/lib/dal";
+import { DbError } from "@/lib/db/errors";
 
 /** Sayfa kapısı — admin olmayan kullanıcıyı sessizce dashboard'a döndürür
  * (design.md §9: "açık erişim değil, rol tabanlı yetki mesajları" — burada
@@ -52,7 +53,7 @@ export const getAdminUsers = cache(async () => {
     .select("id, email, full_name, locale, created_at")
     .order("created_at", { ascending: false });
 
-  if (error) throw error;
+  if (error) throw new DbError("admin/dal:getAdminUsers", error);
   return data ?? [];
 });
 
@@ -63,19 +64,17 @@ export const getAdminWorkspaces = cache(async () => {
   const { data, error } = await supabase
     .from("workspaces")
     .select(
-      "id, name, is_personal, created_at, subscriptions(plan, status), workspace_credits(balance), workspace_members(user_id)",
+      "id, name, is_personal, created_at, workspace_credits(balance), workspace_members(user_id)",
     )
     .order("created_at", { ascending: false });
 
-  if (error) throw error;
+  if (error) throw new DbError("admin/dal:getAdminWorkspaces", error);
 
   return (data ?? []).map((w) => ({
     id: w.id,
     name: w.name,
     isPersonal: w.is_personal,
     createdAt: w.created_at,
-    plan: w.subscriptions?.plan ?? null,
-    subscriptionStatus: w.subscriptions?.status ?? null,
     balance: w.workspace_credits?.balance ?? 0,
     memberCount: w.workspace_members?.length ?? 0,
   }));
@@ -94,7 +93,7 @@ export const getAdminUsageStats = cache(async () => {
   const supabase = await createClient();
 
   const { data, error } = await supabase.rpc("admin_usage_stats");
-  if (error) throw error;
+  if (error) throw new DbError("admin/dal:getAdminUsageStats", error);
   const row = data?.[0];
 
   return {
@@ -117,6 +116,6 @@ export const getAdminAuditLog = cache(async (limit = 50) => {
     .order("created_at", { ascending: false })
     .limit(limit);
 
-  if (error) throw error;
+  if (error) throw new DbError("admin/dal:getAdminAuditLog", error);
   return data ?? [];
 });

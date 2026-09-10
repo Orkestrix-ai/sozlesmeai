@@ -7,8 +7,3 @@ export const routing = defineRouting({
 });
 
 export type AppLocale = (typeof routing.locales)[number];
-
-export const localeNames: Record<AppLocale, string> = {
-  tr: "Türkçe",
-  en: "English",
-};
