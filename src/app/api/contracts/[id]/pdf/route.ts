@@ -113,8 +113,24 @@ export const POST = withApiErrors("contracts/pdf", async function POST(
     return Response.json({ error: "generic" }, { status: 500 });
   }
 
-  // Render + upload BAŞARILI oldu — kredi burada düşülür.
-  const idempotencyKey = crypto.randomUUID();
+  const { data: signed, error: signError } = await supabase.storage
+    .from("contracts")
+    .createSignedUrl(storagePath, SIGNED_URL_TTL_SECONDS);
+  if (signError || !signed) {
+    // Kredi HENÜZ düşülmedi (tahsilat aşağıda) — telafi gerekmiyor.
+    console.error("[contracts/pdf] signed url:", signError?.message);
+    return Response.json({ error: "generic" }, { status: 500 });
+  }
+
+  // Ücretin düştüğü tek an burası: kullanıcı sözleşmesinin PDF'ini alıyor.
+  // Sohbet, taslak, düzenleme ve risk kontrolü 0 kredi (operation_costs,
+  // 20260910120000_pay_as_you_go.sql).
+  //
+  // Anahtar SÖZLEŞMEYE sabit, rastgele değil: aynı sözleşmenin ikinci PDF'i
+  // consume_credits'in idempotency kısa devresine takılır ve ücretsiz geçer.
+  // "Sözleşme başına bir kez" kuralı böylece uygulamada değil VERİTABANINDA
+  // duruyor — buradan atlanamaz.
+  const idempotencyKey = `pdf:${contractId}`;
   const consumeResult = await dbRpc(
     "contracts/pdf:consume_credits",
     () =>
@@ -142,19 +158,17 @@ export const POST = withApiErrors("contracts/pdf", async function POST(
     { onConflict: "version_id" },
   );
   if (docError) {
+    // Kredi düşüldü ama belge satırı yazılamadı — telafi edilir.
+    // BİLİNEN SINIRLI SIZINTI: iade sonrası anahtar (`pdf:<id>`) defterde
+    // yanmış kalır, dolayısıyla bu nadir daldan sonraki deneme ücretsiz
+    // geçer. Kapatmak PDF satırı yazımını da consume ile aynı transaction'a,
+    // yani bir RPC'ye taşımayı gerektirir (bkz. create_contract_version).
     console.error("[contracts/pdf] document row:", docError.message);
     await supabase.rpc("refund_credits", {
       p_workspace_id: contract.workspace_id,
       p_idempotency_key: idempotencyKey,
       p_reason: "document_row_failed",
     });
-    return Response.json({ error: "generic" }, { status: 500 });
-  }
-
-  const { data: signed, error: signError } = await supabase.storage
-    .from("contracts")
-    .createSignedUrl(storagePath, SIGNED_URL_TTL_SECONDS);
-  if (signError || !signed) {
     return Response.json({ error: "generic" }, { status: 500 });
   }
 

@@ -71,9 +71,12 @@ export const POST = withApiErrors("contracts/review", async function POST(
     return Response.json({ error: "no_draft" }, { status: 400 });
   }
 
+  // Risk kontrolünün kendisi 0 kredi (ücret PDF'te düşüyor), o yüzden kapı
+  // `pdf_generate`i sorar — turn rotasındakiyle aynı gerekçe: sıfır bakiyeli
+  // bir hesabın sınırsız LLM token'ı yakmasını engellemek.
   const affordResult = await dbRpc(
     "contracts/review:can_afford",
-    () => supabase.rpc("can_afford", { p_workspace_id: contract.workspace_id, p_operation: "risk_check" }),
+    () => supabase.rpc("can_afford", { p_workspace_id: contract.workspace_id, p_operation: "pdf_generate" }),
     z.boolean(),
   );
   if (!affordResult.ok) return dbResultToResponse(affordResult);

@@ -94,8 +94,8 @@ export const TERMS_ARTICLES: readonly LegalArticle[] = [
           "legal.terms.articles.definitions.i3",
           "legal.terms.articles.definitions.i4",
           "legal.terms.articles.definitions.i5",
+          // i7 ("Paket") kaldırıldı — abonelik kademesi diye bir şey kalmadı.
           "legal.terms.articles.definitions.i6",
-          "legal.terms.articles.definitions.i7",
         ],
       },
     ],
@@ -148,6 +148,9 @@ export const TERMS_ARTICLES: readonly LegalArticle[] = [
     ],
   },
   {
+    // Çapa (`#plans`) BİLEREK korunuyor: madde kimlikleri dilden bağımsız
+    // derin bağlantılardır, paylaşılmış bir /terms#plans linki kırılmamalı.
+    // İçerik paket/abonelikten kredi modeline göre yeniden yazıldı.
     id: "plans",
     title: "legal.terms.articles.plans.title",
     blocks: [
@@ -156,7 +159,6 @@ export const TERMS_ARTICLES: readonly LegalArticle[] = [
       { kind: "p", key: "legal.terms.articles.plans.p3" },
       { kind: "p", key: "legal.terms.articles.plans.p4" },
       { kind: "p", key: "legal.terms.articles.plans.p5" },
-      { kind: "p", key: "legal.terms.articles.plans.p6" },
     ],
   },
   {

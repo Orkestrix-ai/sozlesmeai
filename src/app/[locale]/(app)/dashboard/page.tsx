@@ -3,13 +3,12 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/dashboard/page-header";
-import { StarterOverview } from "@/components/dashboard/starter-overview";
-import { ProOverview } from "@/components/dashboard/pro-overview";
-import { BusinessOverview } from "@/components/dashboard/business-overview";
+import { WorkspaceOverview } from "@/components/dashboard/workspace-overview";
 import {
   getContractStats,
   getCreditLedger,
   getCreditSeries,
+  getCreditsSpent,
   getCurrentUser,
   getRecentContracts,
   getWorkspaceActivity,
@@ -17,88 +16,58 @@ import {
   getWorkspaceMembers,
 } from "@/lib/dal";
 
+/** Cüzdan modelinde "dönem" yok; harcama penceresi sabit 30 gün. */
+const SPEND_WINDOW_DAYS = 30;
+
 export default async function DashboardPage({ params }: PageProps<"/[locale]/dashboard">) {
   const { locale } = await params;
   setRequestLocale(locale);
 
   const t = await getTranslations("dashboard");
-  const [currentUser, { workspace, subscription, credits }] = await Promise.all([
+  const [currentUser, { workspace, credits }] = await Promise.all([
     getCurrentUser(),
     getWorkspaceContext(),
   ]);
   const canArchive = workspace.role !== "viewer";
 
-  const primaryAction = (
-    <Button asChild>
-      <Link href="/contracts/new">{t("empty.contracts.cta")}</Link>
-    </Button>
-  );
+  const [stats, ledger, series, spentLast30Days, contracts] = await Promise.all([
+    getContractStats(workspace.id),
+    getCreditLedger(workspace.id),
+    getCreditSeries(workspace.id),
+    getCreditsSpent(workspace.id, SPEND_WINDOW_DAYS),
+    getRecentContracts(workspace.id),
+  ]);
 
-  let body: React.ReactNode;
-
-  if (subscription.plan === "business") {
-    const [stats, members, activity, contracts] = await Promise.all([
-      getContractStats(workspace.id),
-      getWorkspaceMembers(workspace.id),
-      getWorkspaceActivity(workspace.id),
-      getRecentContracts(workspace.id),
-    ]);
-    body = (
-      <BusinessOverview
-        stats={{ ...stats, activeMembers: members.length }}
-        members={members}
-        activity={activity}
-        contracts={contracts}
-        canArchive={canArchive}
-      />
-    );
-  } else if (subscription.plan === "pro") {
-    const [ledger, series, contracts] = await Promise.all([
-      getCreditLedger(workspace.id),
-      getCreditSeries(workspace.id),
-      getRecentContracts(workspace.id),
-    ]);
-    const spentThisMonth = ledger
-      .filter((e) => e.entry_type === "consume")
-      .reduce((sum, e) => sum + Math.abs(e.amount), 0);
-    body = (
-      <ProOverview
-        credits={credits}
-        spentThisMonth={spentThisMonth}
-        series={series}
-        contracts={contracts}
-        ledger={ledger}
-        canArchive={canArchive}
-      />
-    );
-  } else {
-    const [stats, contracts] = await Promise.all([
-      getContractStats(workspace.id),
-      getRecentContracts(workspace.id),
-    ]);
-    body = (
-      <StarterOverview
-        stats={stats}
-        credits={{
-          balance: credits.balance,
-          monthlyAllowance: credits.monthlyAllowance,
-          resetsOn: subscription.currentPeriodEnd,
-          isPlaceholder: credits.isPlaceholder,
-        }}
-        contracts={contracts}
-        canArchive={canArchive}
-      />
-    );
-  }
+  // Ekip blokları yalnızca paylaşılan çalışma alanlarında sorgulanır —
+  // kişisel workspace'te iki gereksiz sorgu atmanın anlamı yok.
+  const team = workspace.isPersonal
+    ? null
+    : await Promise.all([
+        getWorkspaceMembers(workspace.id),
+        getWorkspaceActivity(workspace.id),
+      ]).then(([members, activity]) => ({ members, activity }));
 
   return (
     <>
       <PageHeader
         title={t("pages.overview.title")}
         description={t("greeting", { name: currentUser.full_name.split(" ")[0] || currentUser.full_name })}
-        action={primaryAction}
+        action={
+          <Button asChild>
+            <Link href="/contracts/new">{t("empty.contracts.cta")}</Link>
+          </Button>
+        }
       />
-      {body}
+      <WorkspaceOverview
+        stats={stats}
+        credits={credits}
+        spentLast30Days={spentLast30Days}
+        series={series}
+        contracts={contracts}
+        ledger={ledger}
+        team={team}
+        canArchive={canArchive}
+      />
     </>
   );
 }

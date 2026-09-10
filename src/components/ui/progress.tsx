@@ -6,9 +6,13 @@ import { Progress as RadixProgress } from "radix-ui";
 import { cn } from "@/lib/utils";
 
 /**
- * design.md §7.2 — ince kullanım çubuğu. Dolulukla renk değişimi çağıran
- * tarafın sorumluluğu (bkz. dashboard/usage-meter.tsx): `indicatorClassName`
- * ile `bg-ink-800` → `bg-state-warning` → `bg-brand-red-500` geçişi kurulur.
+ * İnce ilerleme/kullanım çubuğu. Dolulukla renk değişimi çağıran tarafın
+ * sorumluluğu: `indicatorClassName` ile `bg-ink-800` → `bg-state-warning` →
+ * `bg-brand-red-500` geçişi kurulur.
+ *
+ * NOT: Tek kullanıcısı olan `dashboard/usage-meter.tsx`, aylık kredi tahsisi
+ * kavramıyla birlikte kaldırıldı (kullandıkça-öde geçişi). Primitif kitapta
+ * ve /style-guide'da duruyor; şu an ekranlarda kullanılmıyor.
  */
 function Progress({
   className,

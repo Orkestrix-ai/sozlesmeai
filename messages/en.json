@@ -126,50 +126,20 @@
   },
   "pricing": {
     "title": "Pricing",
-    "description": "Move up a plan as your needs grow. On every action you see how much credit it costs and what is left in your plan.",
-    "popularBadge": "Most popular",
-    "perMonth": "/ month",
-    "plans": {
-      "starter": {
-        "name": "Starter",
-        "price": "$0",
-        "tagline": "For freelancers and consultants working on their own.",
-        "cta": "Start for free",
-        "features": {
-          "f1": "3 contract drafts per month",
-          "f2": "Three core contract types",
-          "f3": "Editing in plain language",
-          "f4": "PDF generation and download",
-          "f5": "Personal document archive"
-        }
-      },
-      "pro": {
-        "name": "Pro",
-        "price": "$19",
-        "tagline": "For agencies and growing teams producing contracts regularly.",
-        "cta": "Go Pro",
-        "features": {
-          "f1": "Monthly credit allowance with transparent usage tracking",
-          "f2": "All contract types",
-          "f3": "Consistency and risk checks",
-          "f4": "Version history and comparison",
-          "f5": "Team member invitations",
-          "f6": "Sharing over email"
-        }
-      },
-      "business": {
-        "name": "Business",
-        "price": "Talk to us",
-        "tagline": "For multi-user operations, sales teams, and legal teams.",
-        "cta": "Get in touch",
-        "features": {
-          "f1": "Everything in Pro",
-          "f2": "Multiple workspaces and role management",
-          "f3": "Role-based access and permissions",
-          "f4": "Document activity logs",
-          "f5": "Team usage reports",
-          "f6": "Priority support"
-        }
+    "description": "No subscription, no monthly fee. You pay only for the contracts whose PDF you take away.",
+    "perContract": "/ contract",
+    "payg": {
+      "name": "Pay as you go",
+      "price": "$9",
+      "tagline": "For freelancers through to legal teams — anyone drafting contracts, regularly or occasionally.",
+      "cta": "Try it free",
+      "note": "You are charged only when you generate a PDF. Further PDFs of the same contract are free.",
+      "features": {
+        "f1": "Draft a contract in plain language",
+        "f2": "Missing details asked for and clearly flagged",
+        "f3": "Editing and version history",
+        "f4": "Consistency and risk check",
+        "f5": "PDF, archive and link sharing"
       }
     }
   },
@@ -213,12 +183,12 @@
         "answer": "The three most common types are supported in the first release. The system suggests a type that fits your needs, and you can accept or change that suggestion."
       },
       "credits": {
-        "question": "How are credits spent?",
-        "answer": "Actions like generating a draft or producing a PDF consume credits. Before starting an action you see how much it costs and what is left in your plan."
+        "question": "When am I charged?",
+        "answer": "Chatting, generating a draft, editing and the risk check are all free. One credit leaves your balance only when you generate the contract's PDF, and further PDFs of the same contract are not charged again."
       },
       "team": {
         "question": "Can I use this with my team?",
-        "answer": "On the Pro and Business plans you can invite team members into a workspace with their roles. Everyone only reaches the data they are authorized for."
+        "answer": "You can invite team members into a workspace with their roles. Everyone only reaches the data they are authorized for."
       }
     }
   },
@@ -270,7 +240,7 @@
     },
     "terms": {
       "title": "Terms of Use",
-      "metaDescription": "Scope of the service, account use, package and credit rules, responsibility for generated content, and termination.",
+      "metaDescription": "Scope of the service, account use, credit and fee rules, responsibility for generated content, and termination.",
       "intro": "These Terms of Use govern the relationship between the User who registers for the Service and the Company. They set out how the account may be used, what the generated contract drafts are and are not, and what each party is responsible for.",
       "articles": {
         "parties": {
@@ -286,8 +256,7 @@
           "i3": "Workspace: the unit that holds contracts, members and the credit balance, and to which access is granted by authorisation.",
           "i4": "Draft: a contract text produced through the Service on the basis of the information the User provides.",
           "i5": "Version: the stored state of a Draft at a given moment. Every edit is retained as a new version.",
-          "i6": "Credit: the unit of use deducted from a Workspace balance in order to carry out certain operations.",
-          "i7": "Package: the subscription tier that determines the features and credit allowance available to a Workspace."
+          "i6": "Credit: the unit of use deducted from a Workspace balance in order to carry out certain operations."
         },
         "account": {
           "title": "Accounts and workspaces",
@@ -320,13 +289,12 @@
           "p2": "Where a breach of these rules is identified, the Company reserves the right to remove the content concerned, restrict access, or suspend the account."
         },
         "plans": {
-          "title": "Packages, credits and fees",
-          "p1": "The Service is offered in packages of differing scope. Current package contents and fees are published on the Service's pricing page, which forms an annex to these Terms.",
-          "p2": "Certain operations are carried out by deducting from the Workspace credit balance. The Service shows how many credits each operation consumes. Where the balance is insufficient, the operation is not started.",
-          "p3": "The free tier offers limited use, the scope of which is determined by the Company, and carries no particular availability commitment.",
-          "p4": "Credits are assigned to a Workspace; they are non-transferable and cannot be exchanged for money. What happens to unused credits at the end of a period is governed by the terms of the relevant package.",
-          "p5": "The Company reserves the right to change fees and package contents. Changes made during a current subscription period are not applied to the User's detriment before that period ends, and are notified to the User in advance.",
-          "p6": "For Users who qualify as consumers, the rights of withdrawal and refund arising under the Turkish Consumer Protection Act No. 6502 and related legislation are reserved."
+          "title": "Credits and fees",
+          "p1": "The Service is charged per use rather than by subscription. The applicable unit fee is published on the Service's pricing page, which forms an annex to these Terms.",
+          "p2": "Credits are loaded in advance. Creating, editing and risk-checking a contract draft consumes no credits; a deduction is made from the balance only when the contract's PDF document is generated. Further PDF generations of the same contract are not charged again. Where the balance is insufficient, the operation is not started.",
+          "p3": "On account creation a one-off trial credit may be granted to the User's personal workspace. This credit does not constitute a commitment and its scope is determined by the Company.",
+          "p4": "Credits are assigned to a Workspace; they are non-transferable and cannot be exchanged for money. Credits do not expire.",
+          "p5": "The Company reserves the right to change the unit fee; such a change does not affect the validity of credits already loaded. For Users who qualify as consumers, the rights of withdrawal and refund arising under the Turkish Consumer Protection Act No. 6502 and related legislation are reserved."
         },
         "ip": {
           "title": "Intellectual property",
@@ -410,7 +378,7 @@
           "p1": "Your personal data is processed for the following purposes, on the legal bases indicated.",
           "i1": "Creating the account, authenticating you and providing the Service — necessary for entering into and performing the contract (KVKK art. 5/2-c; GDPR art. 6(1)(b)).",
           "i2": "Preparing, editing and versioning contract drafts and producing PDF output — performance of the contract (KVKK art. 5/2-c; GDPR art. 6(1)(b)).",
-          "i3": "Tracking package and credit usage and keeping the records that underpin billing — performance of the contract and compliance with a legal obligation (KVKK art. 5/2-c and 5/2-ç; GDPR art. 6(1)(b) and 6(1)(c)).",
+          "i3": "Tracking credit usage and keeping the records that underpin billing — performance of the contract and compliance with a legal obligation (KVKK art. 5/2-c and 5/2-ç; GDPR art. 6(1)(b) and 6(1)(c)).",
           "i4": "Keeping the Service secure, preventing misuse and diagnosing faults — legitimate interests (KVKK art. 5/2-f; GDPR art. 6(1)(f)).",
           "i5": "Meeting statutory retention and disclosure obligations — compliance with a legal obligation (KVKK art. 5/2-ç; GDPR art. 6(1)(c)).",
           "i6": "Sending service messages that are necessary for the Service — performance of the contract (KVKK art. 5/2-c; GDPR art. 6(1)(b)).",
@@ -648,22 +616,35 @@
   },
   "dashboard": {
     "greeting": "Hello, {name}",
-    "plan": {
-      "starter": "Starter",
-      "pro": "Pro",
-      "business": "Business"
-    },
-    "planNote": {
-      "placeholder": "Limits are placeholders and will be updated once plan terms are finalized."
-    },
     "pages": {
-      "overview": { "title": "Overview", "description": "A summary of your workspace." },
-      "contracts": { "title": "Contracts", "description": "All of your contracts." },
-      "newContract": { "title": "Create new contract", "description": "Start a new contract draft." },
-      "templates": { "title": "Templates", "description": "Your ready-made contract templates." },
-      "archive": { "title": "Archive", "description": "Archived documents." },
-      "reminders": { "title": "Reminders", "description": "Your upcoming dates and tasks." },
-      "settings": { "title": "Settings", "description": "Your account and workspace settings." }
+      "overview": {
+        "title": "Overview",
+        "description": "A summary of your workspace."
+      },
+      "contracts": {
+        "title": "Contracts",
+        "description": "All of your contracts."
+      },
+      "newContract": {
+        "title": "Create new contract",
+        "description": "Start a new contract draft."
+      },
+      "templates": {
+        "title": "Templates",
+        "description": "Your ready-made contract templates."
+      },
+      "archive": {
+        "title": "Archive",
+        "description": "Archived documents."
+      },
+      "reminders": {
+        "title": "Reminders",
+        "description": "Your upcoming dates and tasks."
+      },
+      "settings": {
+        "title": "Settings",
+        "description": "Your account and workspace settings."
+      }
     },
     "metrics": {
       "total": "Total contracts",
@@ -672,17 +653,6 @@
       "createdThisMonth": "Created this month",
       "activeMembers": "Active members",
       "remainingCredits": "Remaining credits"
-    },
-    "usage": {
-      "title": "Usage",
-      "usedOf": "{used} / {total} credits used",
-      "resetsOn": "Resets on {date}",
-      "helper": "Credits are spent on actions like generating a draft.",
-      "placeholderNote": "Limits are placeholders."
-    },
-    "upgrade": {
-      "message": "You're approaching your plan's limit.",
-      "link": "View plans"
     },
     "empty": {
       "contracts": {
@@ -723,9 +693,12 @@
     },
     "credits": {
       "title": "Credit summary",
+      "ledgerTitle": "Credit activity",
       "balance": "Balance",
-      "spentThisMonth": "Spent this month",
-      "topUp": "Add credits",
+      "balanceValue": "{count} credits",
+      "spentLast30Days": "Last 30 days",
+      "perContractNote": "Each contract's PDF costs 1 credit.",
+      "topUpSoon": "Adding credits is coming soon; for now balances can only be set by an administrator.",
       "ledger": {
         "date": "Date",
         "description": "Transaction",
@@ -733,15 +706,15 @@
         "balance": "Balance"
       },
       "reasons": {
+        "signup_grant": "Signup credit",
         "signup_starter_grant": "Signup credit",
-        "monthly_grant": "Monthly credit renewal",
-        "contract_created": "Contract draft created",
         "adjustment": "Manual adjustment",
         "refund": "Refund",
         "draft_generate": "AI draft generated",
         "ai_edit": "Edited with AI",
         "risk_check": "Risk check run",
-        "pdf_generate": "PDF generated"
+        "pdf_generate": "PDF generated",
+        "manual_edit": "Edited manually"
       }
     },
     "chart": {
@@ -921,6 +894,10 @@
         "download": "Download PDF",
         "error": "Couldn't generate the PDF. Please try again."
       }
+    },
+    "lowBalance": {
+      "message": "Your balance is running low.",
+      "link": "Adding credits"
     }
   },
   "sharedContract": {
@@ -950,14 +927,18 @@
     "users": {
       "title": "Users",
       "description": "All users on the platform.",
-      "table": { "name": "Name", "email": "Email", "locale": "Language", "joined": "Joined" }
+      "table": {
+        "name": "Name",
+        "email": "Email",
+        "locale": "Language",
+        "joined": "Joined"
+      }
     },
     "workspaces": {
       "title": "Workspaces & teams",
       "description": "All workspaces and their plans.",
       "table": {
         "name": "Name",
-        "plan": "Plan",
         "members": "Members",
         "balance": "Balance",
         "created": "Created"
@@ -979,13 +960,20 @@
     "auditLog": {
       "title": "Activity logs",
       "description": "Record of critical admin actions.",
-      "table": { "time": "Time", "actor": "Actor", "action": "Action", "resource": "Resource" },
+      "table": {
+        "time": "Time",
+        "actor": "Actor",
+        "action": "Action",
+        "resource": "Resource"
+      },
       "empty": "No entries yet.",
-      "actions": { "add_credits": "Credits added" }
+      "actions": {
+        "add_credits": "Credits added"
+      }
     },
     "billing": {
-      "title": "Plans & usage management",
-      "description": "Workspace plans and credit balances.",
+      "title": "Credits & usage management",
+      "description": "Credit balances by workspace.",
       "addCredits": "Add credits",
       "dialog": {
         "title": "Add credits",

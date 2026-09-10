@@ -9,7 +9,6 @@ import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/lib/supabase/types";
 import { DbError } from "@/lib/db/errors";
 
-type PlanTier = Database["public"]["Enums"]["plan_tier"];
 type WorkspaceRole = Database["public"]["Enums"]["workspace_role"];
 type ContractStatus = Database["public"]["Enums"]["contract_status"];
 
@@ -96,49 +95,21 @@ export const getWorkspaceContext = cache(async () => {
 
   const supabase = await createClient();
 
-  const [{ data: subscription, error: subError }, { data: credits, error: creditsError }] =
-    await Promise.all([
-      supabase
-        .from("subscriptions")
-        .select("plan, status, current_period_end")
-        .eq("workspace_id", active.id)
-        .single(),
-      supabase
-        .from("workspace_credits")
-        .select("balance")
-        .eq("workspace_id", active.id)
-        .maybeSingle(),
-    ]);
+  // Paket/abonelik yok (20260910120000_pay_as_you_go.sql): tek okunacak şey
+  // cüzdan bakiyesi. `maybeSingle` bilinçli — workspace_credits satırı ilk
+  // harcamada consume_credits tarafından yaratılır, o ana kadar yoktur.
+  const { data: credits, error: creditsError } = await supabase
+    .from("workspace_credits")
+    .select("balance")
+    .eq("workspace_id", active.id)
+    .maybeSingle();
 
-  if (subError || !subscription) {
-    throw new Error("getWorkspaceContext: abonelik bulunamadı.");
-  }
   if (creditsError) throw new DbError("dal:getWorkspaceContext", creditsError);
-
-  const { data: planDefault, error: planError } = await supabase
-    .from("plan_defaults")
-    .select("monthly_credits, seat_limit, is_placeholder")
-    .eq("plan", subscription.plan)
-    .single();
-
-  if (planError || !planDefault) {
-    throw new Error("getWorkspaceContext: plan_defaults satırı bulunamadı.");
-  }
 
   return {
     workspace: active,
     workspaces,
-    subscription: {
-      plan: subscription.plan as PlanTier,
-      status: subscription.status,
-      currentPeriodEnd: subscription.current_period_end,
-    },
-    credits: {
-      balance: credits?.balance ?? 0,
-      monthlyAllowance: planDefault.monthly_credits,
-      seatLimit: planDefault.seat_limit,
-      isPlaceholder: planDefault.is_placeholder,
-    },
+    credits: { balance: credits?.balance ?? 0 },
   };
 });
 
@@ -319,6 +290,31 @@ export const getContractFindings = cache(async (contractId: string) => {
 
   if (error) throw new DbError("dal:getContractFindings", error);
   return data ?? [];
+});
+
+/**
+ * Son `windowDays` gün içinde harcanan kredi. Cüzdan modelinde "bu ay" diye
+ * bir dönem yok (aylık yenileme kalktı), o yüzden pencere gün cinsinden verilir.
+ *
+ * Filtre veritabanında yapılır: eskiden dashboard bunu getCreditLedger'ın
+ * VARSAYILAN 20 SATIRLIK sayfasından hesaplıyordu, yani 20 hareketten eski
+ * harcamalar sessizce toplama girmiyordu.
+ */
+export const getCreditsSpent = cache(async (workspaceId: string, windowDays: number) => {
+  await verifySession();
+  const supabase = await createClient();
+
+  const since = new Date(Date.now() - windowDays * 24 * 60 * 60 * 1000).toISOString();
+
+  const { data, error } = await supabase
+    .from("credit_ledger")
+    .select("amount")
+    .eq("workspace_id", workspaceId)
+    .eq("entry_type", "consume")
+    .gte("created_at", since);
+
+  if (error) throw new DbError("dal:getCreditsSpent", error);
+  return (data ?? []).reduce((sum, row) => sum + Math.abs(row.amount), 0);
 });
 
 /** Son 8 hafta için işaretli/nötr seri — §7.3 tek kırmızı vurgu grafiği. */

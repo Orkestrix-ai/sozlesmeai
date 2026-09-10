@@ -15,11 +15,11 @@ export default async function SettingsPage({ params }: PageProps<"/[locale]/sett
 
   const t = await getTranslations("dashboard");
   const tTeam = await getTranslations("dashboard.team");
-  const tPlan = await getTranslations("dashboard.plan");
+  const tCredits = await getTranslations("dashboard.credits");
   const tUserMenu = await getTranslations("dashboard.userMenu");
   const tAdmin = await getTranslations("admin");
 
-  const [currentUser, { workspace, subscription }, isAdmin] = await Promise.all([
+  const [currentUser, { workspace, credits }, isAdmin] = await Promise.all([
     getCurrentUser(),
     getWorkspaceContext(),
     isPlatformAdmin(),
@@ -42,9 +42,16 @@ export default async function SettingsPage({ params }: PageProps<"/[locale]/sett
           <CardHeader>
             <CardTitle>{workspace.name}</CardTitle>
           </CardHeader>
-          <CardContent className="flex items-center justify-between">
-            <p className="text-body text-stone-600">{tPlan(subscription.plan)}</p>
-            <RoleBadge role={workspace.role}>{tTeam(`role.${workspace.role}`)}</RoleBadge>
+          <CardContent className="space-y-3">
+            <div className="flex items-center justify-between">
+              <p className="text-body text-stone-600">
+                {tCredits("balanceValue", { count: credits.balance })}
+              </p>
+              <RoleBadge role={workspace.role}>{tTeam(`role.${workspace.role}`)}</RoleBadge>
+            </div>
+            {/* Ödeme sağlayıcısı entegre değil — çalışmayan bir "yükle"
+                butonu koymak yerine durum olduğu gibi yazılır. */}
+            <p className="text-helper text-stone-600">{tCredits("topUpSoon")}</p>
           </CardContent>
         </Card>
 

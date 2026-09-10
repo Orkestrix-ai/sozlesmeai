@@ -125,7 +125,7 @@ The landing page should use a dark black background at the top, and warm white a
 - Hover text: `paper-50`
 - Main button: `brand-red-600`
 - Main button hover: `brand-red-700`
-- Simple menu structure: Product, How it works, Packages, FAQ
+- Simple menu structure: Product, How it works, Pricing, FAQ
 
 #### 6.2 Hero
 
@@ -169,15 +169,18 @@ Four or five-step horizontal/vertical process:
 - Icon: `ink-900`
 - Featured card: `ink-950` background, `paper-50` text and small red highlight
 
-#### 6.6 Packs
+#### 6.6 Price
 
-Three packs can be displayed side-by-side; price and feature comparisons should be straightforward.
+There are no packages. The product is pay-as-you-go: a single unit price per contract,
+charged only when the user generates the PDF. One centred card, not a comparison grid —
+there is nothing to compare against.
 
-- **Free:** `paper-50` background, `stone-200` border
-- **Pro:** `paper-50` background, `ink-950` border
-- **Business:** `ink-950` background, `paper-50` text, `brand-red-600` CTA
-- “Most Popular” tag: light red background instead of red fill `#FDEAE8` and `brand-red-700` text
-- Package cards should show a maximum of 5–6 key differences.
+- Card: `paper-50` background, `ink-950` border, centred, max ~28rem wide
+- Price: large heading type, with the `/ contract` unit in auxiliary text next to it
+- The card carries the section's only red CTA (§3, §5)
+- Maximum 5–6 lines of what is included
+- Below the CTA, one plain line stating when the charge happens — this is the single most
+  important sentence on the section and must not read as marketing
 
 #### 6.7 Trust Section
 
@@ -195,9 +198,12 @@ Three packs can be displayed side-by-side; price and feature comparisons should 
 
 - CTA: `paper-50` background, `ink-950` text
 
-## 7. Package-based dashboard design
+## 7. Dashboard design
 
-The dashboard should show package differences not with a chaotic mix of colors, but with capabilities, limitations, and usage areas.
+There is one dashboard for everyone. Packages are gone, so there is no tier to express;
+what the dashboard has to make legible instead is the wallet — *what is my balance, and
+where did it go* — plus, in shared workspaces only, who is in the workspace and what they
+have been doing.
 
 ### 7.1 Common Dashboard Structure
 
@@ -224,40 +230,35 @@ Common Menu:
 
 Signature features should be added to the menu in a later phase; do not highlight a feature that is not active in the MVP in the main navigation.
 
-### 7.2 Free Dashboard
+### 7.2 Overview — everyone
 
-Purpose: To guide the user to create their first contract and understand the product.
+Purpose: to make the balance and where it went legible, and to keep the path to a new
+contract one click away.
 
-- Tone: simple, educational, low-density
-- Sidebar: `ink-900`
-- Main CTA: `brand-red-600`
-- Usage limit: thin progress bar; `brand-red-500` as occupancy approaches red
+- Tone: calm, low-density; no upsell surface anywhere, because there is nothing to upsell to
+- Metric row: 3–4 key numbers only (total contracts, drafts, ready, remaining credits)
+- Credit summary: `ink-950` card — balance and spend over the last 30 days side by side
+- Under the balance, one auxiliary line: normally what a contract costs; when the balance
+  runs low, a **calm inline message**, never an aggressive banner
+- Spending graph: `brand-red-600` single emphasis series, other series gray
+- Credit history: simple table view; sign-coloured amounts (red out, green in)
 - Empty states: white surface, simple icon, single CTA
-- Package upgrade messages: calm inline message instead of aggressive banner
-- Statistics: should not display more than 2-3 key metrics
-
-### 7.3 Pro dashboard
-
-Purpose: To provide transparency regarding generated documents and usage costs.
-
-- Main emphasis: usage and transaction history
-- Credit/transaction summary: `ink-950` card or clear neutral card
-- Spending and usage graphs: `brand-red-600` single emphasis series, other series gray
 - Document status: green for completed, amber for pending, red for error
-- Credit/transaction history should be in a simple table view
-- Each document line should have a clear status and next action
 
-### 7.4 Business dashboard
+### 7.3 Shared workspace additions
 
-Purpose: Team management, collaboration, document archiving, and operational visibility.
+In a workspace that is not personal, two more cards follow the credit history. Nothing else
+about the screen changes — this is the same dashboard with one extra block, not a variant.
 
-- Sidebar: `ink-950`
-- Top navigation and workspace selector: `ink-900`
-- KPI cards: clear surface, strong typography, minimal decoration
 - Team activity: gray background, red only for significant actions
-- Role and authority badges: neutral tones; - For the admin: `ink-900`, for the editor: `brand-red-100` (like a bright red surface), for the viewer: `paper-100`
-- Advanced filters: border-based, red only on selected filter
-- API and integration area: technical but simple; monospaced text only in actual code or key representation
+- Role and authority badges: neutral tones; for the admin `ink-900`, for the editor
+  `brand-red-100` (a light red surface), for the viewer `paper-100`
+
+### 7.4 Reserved
+
+Multi-workspace filters and an API/integration area were specified for a "Business" tier
+that no longer exists. If they return, they return as capabilities of a shared workspace,
+not of a purchased tier.
 
 ## 8. Contract creation screen
 
@@ -310,7 +311,7 @@ The admin panel should be more robust and operational than the end-user dashboar
 - AI Usage Statistics
 - Document Processing Logs
 - System Notifications
-- Package and Usage Management
+- Credits and Usage Management
 - Support Requests
 - Security and Access Logs
 
@@ -355,7 +356,7 @@ The admin panel should be more robust and operational than the end-user dashboar
 
 ### Mobile
 
-- Sidebar bottom navigation or dropdown drawer should be enabled. - Contract creation screen should switch to a single-column flow. - Draft and AI chat should be separated by a tabbed view. - Package cards should be horizontally scrollable or vertically listed. - Admin tables should be converted to card view.
+- Sidebar bottom navigation or dropdown drawer should be enabled. - Contract creation screen should switch to a single-column flow. - Draft and AI chat should be separated by a tabbed view. - The price card should stretch to full width. - Admin tables should be converted to card view.
 
 ### Tablet
 
@@ -374,7 +375,7 @@ The admin panel should be more robust and operational than the end-user dashboar
 - [ ] Is there a single main CTA on each screen?
 - [ ] Are AI draft and user approval visually separated?
 - [ ] Is the contract text easy to read?
-- [ ] Are the differences between Free, Pro, and Business clear?
+- [ ] Is it unmistakable that the charge happens at PDF generation, and only once per contract?
 - [ ] Are critical actions securely separated on the admin screen?
 - [ ] Do empty states redirect the user to the next step? - [ ] Is the contract creation flow usable on mobile?
 - [ ] Are signature features not shown as main features in the interface if they are outside the MVP?

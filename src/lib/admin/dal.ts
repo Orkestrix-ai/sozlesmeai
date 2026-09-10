@@ -64,7 +64,7 @@ export const getAdminWorkspaces = cache(async () => {
   const { data, error } = await supabase
     .from("workspaces")
     .select(
-      "id, name, is_personal, created_at, subscriptions(plan, status), workspace_credits(balance), workspace_members(user_id)",
+      "id, name, is_personal, created_at, workspace_credits(balance), workspace_members(user_id)",
     )
     .order("created_at", { ascending: false });
 
@@ -75,8 +75,6 @@ export const getAdminWorkspaces = cache(async () => {
     name: w.name,
     isPersonal: w.is_personal,
     createdAt: w.created_at,
-    plan: w.subscriptions?.plan ?? null,
-    subscriptionStatus: w.subscriptions?.status ?? null,
     balance: w.workspace_credits?.balance ?? 0,
     memberCount: w.workspace_members?.length ?? 0,
   }));

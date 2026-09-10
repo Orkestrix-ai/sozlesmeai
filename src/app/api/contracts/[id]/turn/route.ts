@@ -120,14 +120,17 @@ export const POST = withApiErrors("contracts/turn", async function POST(
   let currentContractType = contract.contract_type;
   let latestVersionNo = latestVersion?.version_no ?? 0;
 
-  // Ön uçuş kredi kapısı (B7) — LLM çağrılmadan ÖNCE. Bu turun sonunda
-  // hangi işlem düşecekse (ilk taslak mı, düzenleme mi) onu ucuza tahmin
-  // eder; asıl gerçek kaynak yine create_contract_version'daki
-  // consume_credits'tir, burası yalnızca bütçe tükenmesini önleyen bir kapı.
-  const operationForGate = latestVersionNo === 0 ? "draft_generate" : "ai_edit";
+  // Ön uçuş kredi kapısı — LLM çağrılmadan ÖNCE.
+  //
+  // DİKKAT, kontrol edilen işlem bu turun işlemi DEĞİL: taslak üretimi ve
+  // düzenleme 0 kredi (ücret PDF'te düşüyor, 20260910120000_pay_as_you_go.sql),
+  // dolayısıyla `draft_generate`/`ai_edit` sorulsaydı kapı her zaman açık
+  // olurdu ve sıfır bakiyeli bir hesap sınırsız Anthropic/Groq token'ı
+  // yakabilirdi. Kapı "bu tur kaça mal olur"u değil, "kullanıcı sonunda
+  // çıktının parasını ödeyebilir mi"yi sorar.
   const affordResult = await dbRpc(
     "contracts/turn:can_afford",
-    () => supabase.rpc("can_afford", { p_workspace_id: contract.workspace_id, p_operation: operationForGate }),
+    () => supabase.rpc("can_afford", { p_workspace_id: contract.workspace_id, p_operation: "pdf_generate" }),
     z.boolean(),
   );
   if (!affordResult.ok) return dbResultToResponse(affordResult);
@@ -188,14 +191,20 @@ export const POST = withApiErrors("contracts/turn", async function POST(
 
           const toolResults: LlmToolResult[] = [];
 
-          for (const toolCall of toolCalls) {
+          // Anahtar tool call BAŞINA benzersiz olmak zorunda: tek bir tur iki
+          // upsert_sections çağırırsa, aynı anahtarla giden ikinci çağrıda
+          // consume_credits mükerrer sayıp erken döner (credit_integrity.sql:86)
+          // ama create_contract_version sürümü yine de yazar — sürüm var, defter
+          // satırı yok. Sağlayıcının tool call id'si bir retry'da aynı gelmediği
+          // için indeks kullanılıyor; kapatılması gereken çakışma tek istek içi.
+          for (const [toolIndex, toolCall] of toolCalls.entries()) {
             const result = await executeTool({
               toolCall,
               supabase,
               contractId,
               currentSections: sectionsState,
               latestVersionNo,
-              idempotencyKey: `${idemBase}:${iteration}`,
+              idempotencyKey: `${idemBase}:${iteration}:${toolIndex}`,
             });
 
             emit({ type: "tool", name: toolCall.name, input: toolCall.input });

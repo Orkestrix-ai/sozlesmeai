@@ -11,7 +11,6 @@ export default async function AdminBillingPage({ params }: PageProps<"/[locale]/
 
   const t = await getTranslations("admin.billing");
   const tWorkspaces = await getTranslations("admin.workspaces");
-  const tPlan = await getTranslations("dashboard.plan");
   const workspaces = await getAdminWorkspaces();
 
   return (
@@ -21,7 +20,6 @@ export default async function AdminBillingPage({ params }: PageProps<"/[locale]/
         <TableHeader>
           <TableRow>
             <TableHead>{tWorkspaces("table.name")}</TableHead>
-            <TableHead>{tWorkspaces("table.plan")}</TableHead>
             <TableHead>{tWorkspaces("table.balance")}</TableHead>
             <TableHead className="sr-only">{t("addCredits")}</TableHead>
           </TableRow>
@@ -32,7 +30,6 @@ export default async function AdminBillingPage({ params }: PageProps<"/[locale]/
               <TableCell className="font-medium text-ink-950">
                 {ws.isPersonal ? tWorkspaces("personal") : ws.name}
               </TableCell>
-              <TableCell>{ws.plan ? tPlan(ws.plan) : "—"}</TableCell>
               <TableCell data-numeric>{ws.balance}</TableCell>
               <TableCell>
                 <AddCreditsDialog workspaceId={ws.id} />

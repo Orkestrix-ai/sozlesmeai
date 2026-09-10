@@ -411,27 +411,9 @@ export type Database = {
         }
         Relationships: []
       }
-      plan_defaults: {
-        Row: {
-          is_placeholder: boolean
-          monthly_credits: number
-          plan: Database["public"]["Enums"]["plan_tier"]
-          seat_limit: number | null
-        }
-        Insert: {
-          is_placeholder?: boolean
-          monthly_credits: number
-          plan: Database["public"]["Enums"]["plan_tier"]
-          seat_limit?: number | null
-        }
-        Update: {
-          is_placeholder?: boolean
-          monthly_credits?: number
-          plan?: Database["public"]["Enums"]["plan_tier"]
-          seat_limit?: number | null
-        }
-        Relationships: []
-      }
+      // plan_defaults ve subscriptions 20260910120000_pay_as_you_go.sql ile
+      // düşürüldü — paket/abonelik modeli terk edildi, ürün ön yüklemeli
+      // krediyle çalışıyor ve ücret PDF üretiminde düşüyor.
       profiles: {
         Row: {
           created_at: string
@@ -458,59 +440,6 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
-      }
-      subscriptions: {
-        Row: {
-          cancel_at_period_end: boolean
-          created_at: string
-          current_period_end: string
-          current_period_start: string
-          id: string
-          plan: Database["public"]["Enums"]["plan_tier"]
-          provider: string | null
-          provider_customer_id: string | null
-          provider_subscription_id: string | null
-          status: Database["public"]["Enums"]["subscription_status"]
-          updated_at: string
-          workspace_id: string
-        }
-        Insert: {
-          cancel_at_period_end?: boolean
-          created_at?: string
-          current_period_end?: string
-          current_period_start?: string
-          id?: string
-          plan?: Database["public"]["Enums"]["plan_tier"]
-          provider?: string | null
-          provider_customer_id?: string | null
-          provider_subscription_id?: string | null
-          status?: Database["public"]["Enums"]["subscription_status"]
-          updated_at?: string
-          workspace_id: string
-        }
-        Update: {
-          cancel_at_period_end?: boolean
-          created_at?: string
-          current_period_end?: string
-          current_period_start?: string
-          id?: string
-          plan?: Database["public"]["Enums"]["plan_tier"]
-          provider?: string | null
-          provider_customer_id?: string | null
-          provider_subscription_id?: string | null
-          status?: Database["public"]["Enums"]["subscription_status"]
-          updated_at?: string
-          workspace_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "subscriptions_workspace_id_fkey"
-            columns: ["workspace_id"]
-            isOneToOne: true
-            referencedRelation: "workspaces"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       workspace_activity: {
         Row: {
@@ -745,8 +674,6 @@ export type Database = {
       contract_version_source: "ai_draft" | "ai_edit" | "manual"
       credit_entry_type: "grant" | "consume" | "refund" | "adjustment"
       finding_severity: "info" | "warning" | "error"
-      plan_tier: "starter" | "pro" | "business"
-      subscription_status: "trialing" | "active" | "past_due" | "canceled"
       workspace_role: "admin" | "editor" | "viewer"
     }
     CompositeTypes: {
@@ -888,8 +815,6 @@ export const Constants = {
       contract_version_source: ["ai_draft", "ai_edit", "manual"],
       credit_entry_type: ["grant", "consume", "refund", "adjustment"],
       finding_severity: ["info", "warning", "error"],
-      plan_tier: ["starter", "pro", "business"],
-      subscription_status: ["trialing", "active", "past_due", "canceled"],
       workspace_role: ["admin", "editor", "viewer"],
     },
   },
