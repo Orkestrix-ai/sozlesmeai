@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 
+import { BrandLockup } from "@/components/brand/brand-lockup";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/landing/container";
 import { LocaleSwitcher } from "@/components/landing/locale-switcher";
@@ -39,7 +40,7 @@ export function SiteHeader() {
           href="#main"
           className="text-card-title font-heading font-bold tracking-tight text-paper-50"
         >
-          {t("brand")}
+          <BrandLockup />
         </a>
 
         <nav
