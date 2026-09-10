@@ -5,7 +5,7 @@
   },
   "nav": {
     "skipToContent": "Skip to content",
-    "brand": "Cntrsign",
+    "brand": "SözleşmeAI",
     "product": "Product",
     "how": "How it works",
     "pricing": "Pricing",
@@ -254,7 +254,7 @@
       "legalNameLabel": "Legal name",
       "legalName": "",
       "tradeNameLabel": "Trading name",
-      "tradeName": "Cntrsign",
+      "tradeName": "SözleşmeAI",
       "addressLabel": "Address",
       "address": "",
       "mersisLabel": "MERSIS number",

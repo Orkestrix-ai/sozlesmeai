@@ -5,7 +5,7 @@
   },
   "nav": {
     "skipToContent": "İçeriğe geç",
-    "brand": "Cntrsign",
+    "brand": "SözleşmeAI",
     "product": "Ürün",
     "how": "Nasıl çalışır",
     "pricing": "Paketler",
@@ -254,7 +254,7 @@
       "legalNameLabel": "Ticaret unvanı",
       "legalName": "",
       "tradeNameLabel": "İşletme adı",
-      "tradeName": "Cntrsign",
+      "tradeName": "SözleşmeAI",
       "addressLabel": "Adres",
       "address": "",
       "mersisLabel": "MERSİS numarası",
