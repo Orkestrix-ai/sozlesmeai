@@ -931,7 +931,8 @@
         "name": "Name",
         "email": "Email",
         "locale": "Language",
-        "joined": "Joined"
+        "joined": "Joined",
+        "balance": "Balance"
       }
     },
     "workspaces": {
@@ -978,6 +979,7 @@
       "dialog": {
         "title": "Add credits",
         "description": "This action cannot be undone and is recorded in the activity log.",
+        "subject": "Recipient: {subject}",
         "amountLabel": "Amount",
         "confirm": "Add",
         "cancel": "Cancel"

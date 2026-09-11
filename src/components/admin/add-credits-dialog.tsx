@@ -23,7 +23,16 @@ import { Input } from "@/components/ui/input";
  * kayıt yarattığı için aynı disipline tabi tutuldu (bkz. addCreditsAction —
  * audit log'a yazar).
  */
-function AddCreditsDialog({ workspaceId }: { workspaceId: string }) {
+function AddCreditsDialog({
+  workspaceId,
+  /** Kredinin kime yazıldığını modalda göstermek için — /admin/users satırında
+   * kullanıcı adı + e-posta veriliyor. /admin/billing workspace listesinde
+   * satırın kendisi zaten bağlamı taşıdığı için boş bırakılır. */
+  subject,
+}: {
+  workspaceId: string;
+  subject?: string;
+}) {
   const t = useTranslations("admin.billing.dialog");
   const tBilling = useTranslations("admin.billing");
   const tErrors = useTranslations("errors");
@@ -61,6 +70,9 @@ function AddCreditsDialog({ workspaceId }: { workspaceId: string }) {
           <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
+        {subject ? (
+          <p className="text-sm font-medium text-ink-950">{t("subject", { subject })}</p>
+        ) : null}
         <Field
           id="add-credits-amount"
           label={t("amountLabel")}

@@ -44,6 +44,17 @@ export const isPlatformAdmin = cache(async () => {
   return !!data;
 });
 
+/**
+ * Kullanıcı listesi + kişisel workspace'inin kredi bakiyesi.
+ *
+ * İki sorgu, çünkü PostgREST `profiles` -> `workspaces` embed'i YAPAMAZ:
+ * `workspaces.owner_id` FK'si `auth.users`'a bakar, `profiles`'a değil.
+ * Eşleme `owner_id` üzerinden JS'te yapılıyor.
+ *
+ * `personalWorkspaceId` bilerek nullable: kredi workspace'te tutulduğu için
+ * kişisel workspace'i olmayan bir profil satırı (veri kayması) kredilenemez —
+ * çağıran taraf düğmeyi gizler, sayfa çökmez.
+ */
 export const getAdminUsers = cache(async () => {
   await requirePlatformAdmin();
   const supabase = await createClient();
@@ -54,7 +65,30 @@ export const getAdminUsers = cache(async () => {
     .order("created_at", { ascending: false });
 
   if (error) throw new DbError("admin/dal:getAdminUsers", error);
-  return data ?? [];
+
+  const { data: personal, error: personalError } = await supabase
+    .from("workspaces")
+    .select("id, owner_id, workspace_credits(balance)")
+    .eq("is_personal", true);
+
+  if (personalError) throw new DbError("admin/dal:getAdminUsers:workspaces", personalError);
+
+  const byOwner = new Map(
+    (personal ?? []).map((w) => [w.owner_id, { id: w.id, balance: w.workspace_credits?.balance ?? 0 }]),
+  );
+
+  return (data ?? []).map((u) => {
+    const workspace = byOwner.get(u.id);
+    return {
+      id: u.id,
+      email: u.email,
+      fullName: u.full_name,
+      locale: u.locale,
+      createdAt: u.created_at,
+      personalWorkspaceId: workspace?.id ?? null,
+      balance: workspace?.balance ?? 0,
+    };
+  });
 });
 
 export const getAdminWorkspaces = cache(async () => {

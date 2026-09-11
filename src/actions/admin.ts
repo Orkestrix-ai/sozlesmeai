@@ -47,6 +47,9 @@ export async function addCreditsAction(
     return { error: result.code };
   }
 
+  // Bakiye iki ekranda da görünüyor: workspace listesi ve kullanıcı listesi
+  // (kişisel workspace bakiyesi kolonu).
   revalidatePath("/admin/billing");
+  revalidatePath("/admin/users");
   return {};
 }
