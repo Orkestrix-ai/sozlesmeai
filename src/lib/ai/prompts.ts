@@ -21,7 +21,9 @@ KESİN KURALLAR:
 - Taslak oluştururken veya güncellerken upsert_sections'ı kullan. İlk taslakta TÜM bölümleri yaz; bir düzenleme isteğinde YALNIZCA değişen bölümleri gönder.
 - upsert_sections dışındaki normal metin yanıtların kısa ve sohbete uygun olsun — bölüm içeriğini düz metinde tekrarlama, kullanıcı sağ paneldeki taslağı zaten görüyor.
 - Bir araç çağrısından sonra kullanıcıya ne yaptığını tek-iki cümlede özetle.
-- upsert_sections "insufficient_credits" hatasıyla dönerse, kullanıcıya çalışma alanının kredisinin yetmediğini kısaca söyle ve paketini yükseltmesi gerektiğini belirt — tekrar deneme.`;
+- Bir araç hata döndürürse hatanın sebebini ASLA uydurma ve aynı çağrıyı tekrarlama; yalnızca aşağıdaki iki durumu ayırt et:
+  - upsert_sections "insufficient_credits" dönerse: çalışma alanının kredisi yetersizdir, bunu kısaca söyle. "Paket yükseltme"den SÖZ ETME — paket veya abonelik diye bir şey yok; kredi ön yüklemeli bir bakiyedir ve yalnızca PDF üretiminde harcanır.
+  - Başka bir hata dönerse ("save_failed", "db_error", "invalid_input" vb.): sebep tekniktir. Taslağın şu an kaydedilemediğini ve birazdan tekrar denenebileceğini söyle. Kredi, bakiye, ödeme veya paketten KESİNLİKLE söz etme.`;
 
 const RULES_EN = `You are the contract drafting assistant for "SözleşmeAI". The user describes their need in natural language; you build and edit the draft.
 
@@ -34,7 +36,9 @@ STRICT RULES:
 - Use upsert_sections to create or update the draft. Write ALL sections on the first draft; on an edit request send ONLY the changed sections.
 - Keep plain-text replies outside of upsert_sections short and conversational — don't repeat section content in prose, the user already sees the draft in the right panel.
 - After a tool call, summarize what you did for the user in one or two sentences.
-- If upsert_sections returns an "insufficient_credits" error, briefly tell the user their workspace is out of credits and they need to upgrade their plan — don't retry.`;
+- If a tool returns an error, NEVER invent a reason for it and don't repeat the same call; distinguish exactly these two cases:
+  - upsert_sections returns "insufficient_credits": the workspace is out of credits — say so briefly. Do NOT mention "upgrading a plan" — there are no plans or subscriptions; credits are a prepaid balance and are only spent on PDF generation.
+  - Any other error ("save_failed", "db_error", "invalid_input", …): the cause is technical. Say the draft could not be saved right now and can be retried shortly. Do NOT mention credits, balance, payment or plans at all.`;
 
 export function buildSystemPrompt(locale: AppLocale) {
   const rules = locale === "en" ? RULES_EN : RULES_TR;

@@ -312,8 +312,15 @@ async function executeTool(params: {
       );
 
       if (!result.ok) {
+        // İki etiket BİLEREK ayrı tutuluyor: sistem prompt'u (src/lib/ai/prompts.ts)
+        // tam olarak bu ikisine göre yazılı. Tek bir "db_error" etiketi
+        // verildiğinde model elindeki TEK hata senaryosunu (kredi) uydurup
+        // kullanıcıya "paketinizi yükseltin" diyordu — oysa gerçek hata 42702
+        // (create_contract_version'daki isim çakışması) idi ve bakiye yerindeydi
+        // (2026-09-11). Ham hata + reference kodu dbRpc tarafından zaten sunucu
+        // loguna yazılıyor; modele giden etiket yalnızca "ne söylenmeli"yi seçer.
         return {
-          output: result.code === "insufficient_credits" ? "insufficient_credits" : "db_error",
+          output: result.code === "insufficient_credits" ? "insufficient_credits" : "save_failed",
           isError: true,
         };
       }
