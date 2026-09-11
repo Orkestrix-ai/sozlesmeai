@@ -931,7 +931,8 @@
         "name": "Ad",
         "email": "E-posta",
         "locale": "Dil",
-        "joined": "Katılım"
+        "joined": "Katılım",
+        "balance": "Bakiye"
       }
     },
     "workspaces": {
@@ -978,6 +979,7 @@
       "dialog": {
         "title": "Kredi ekle",
         "description": "Bu işlem geri alınamaz ve işlem günlüğüne kaydedilir.",
+        "subject": "Alıcı: {subject}",
         "amountLabel": "Miktar",
         "confirm": "Ekle",
         "cancel": "Vazgeç"

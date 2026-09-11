@@ -56,6 +56,20 @@ export default async function proxy(request: NextRequest) {
   }
 
   // 5) İYİMSER auth kapısı.
+  //
+  // Server Action POST'ları React'in flight protokolünü bekler: yanıt ya
+  // `content-type: text/x-component` olmalı ya da `x-action-redirect`
+  // taşımalı. Buradan NextResponse.redirect() dönersek tarayıcı 307'yi POST
+  // olarak takip eder, hedef sayfanın HTML'ini alır ve istemci
+  // "An unexpected response was received from the server." diye patlar
+  // (next/dist/client/.../server-action-reducer.js). Hata React katmanının
+  // ALTINDA oluştuğu için error.tsx sınırları da devreye giremez.
+  //
+  // Bu yüzden iyimser kapı action isteklerinde atlanır: yetkiyi zaten
+  // action'ın kendi verifySession() / requirePlatformAdmin() çağrısı veriyor
+  // ve onun redirect()'ini Next doğru başlıkla serileştiriyor.
+  const isServerAction = request.method === "POST" && request.headers.has("next-action");
+
   const [, maybeLocale, ...rest] = request.nextUrl.pathname.split("/");
   const locale = (routing.locales as readonly string[]).includes(maybeLocale)
     ? (maybeLocale as AppLocale)
@@ -78,11 +92,13 @@ export default async function proxy(request: NextRequest) {
     return applySupabaseCookies(redirectResponse);
   };
 
-  if (isProtected && !claims?.sub) {
-    return redirectTo("/login", { next: request.nextUrl.pathname });
-  }
-  if (isAuthOnly && claims?.sub) {
-    return redirectTo("/dashboard");
+  if (!isServerAction) {
+    if (isProtected && !claims?.sub) {
+      return redirectTo("/login", { next: request.nextUrl.pathname });
+    }
+    if (isAuthOnly && claims?.sub) {
+      return redirectTo("/dashboard");
+    }
   }
 
   return response;

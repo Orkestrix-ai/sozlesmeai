@@ -30,7 +30,13 @@ const PG_CODE_MAP: Record<string, PublicErrorCode> = {
   "22P02": "invalid_input", // invalid_text_representation (bozuk uuid vb.)
   "22023": "invalid_input", // invalid_parameter_value (RPC'lerimizin unknown_operation/invalid_amount'ı)
   "42501": "forbidden", // insufficient_privilege (RPC'lerimizin unauthorized/immutable_column/append_only'si)
-  "P0001": "insufficient_credits", // raise exception 'insufficient_credits'
+  // P0001 Postgres'in GENEL raise_exception kodudur, bir ürün sinyali değil:
+  // errcode'u açıkça verilmemiş her `raise exception` buraya düşer. Eskiden
+  // "insufficient_credits"e eşleniyordu; alakasız bir RPC hatası kullanıcıya
+  // "krediniz yetmiyor" diye görünebiliyordu. Gerçek kredi hatası kaybolmuyor:
+  // consume_credits tam olarak 'insufficient_credits' metnini atıyor ve
+  // aşağıdaki MESSAGE_ALLOWLIST eşlemesi onu doğru koda daraltıyor.
+  "P0001": "generic",
   "P0002": "not_found", // raise exception 'not_found'
   PGRST116: "not_found", // PostgREST: .single() sıfır/çoklu satır
   PGRST301: "unauthorized", // PostgREST: JWT geçersiz/süresi dolmuş
