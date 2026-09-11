@@ -2,6 +2,10 @@
 
 import { randomBytes } from "node:crypto";
 import { revalidatePath } from "next/cache";
+// Locale'den bağımsız bir kontrol-akışı yardımcısı olduğu için `next/navigation`
+// doğrudan kullanılıyor; @/i18n/navigation kuralı yalnızca Link/redirect/router
+// için geçerli (bkz. CLAUDE.md i18n bölümü).
+import { unstable_rethrow } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
 import { verifySession, requireWorkspaceRole } from "@/lib/dal";
@@ -39,7 +43,14 @@ export async function createShareAction(
 
   try {
     await requireWorkspaceRole(contract.workspace_id, ["admin", "editor"]);
-  } catch {
+  } catch (err) {
+    // requireWorkspaceRole -> verifySession() zinciri redirect() çağırabilir ve
+    // onun NEXT_REDIRECT sinyali normal bir Error gibi görünür; çıplak bir
+    // catch onu yutup yönlendirmeyi sessizce öldürür. Bugün erişilemez bir
+    // durum (yukarıdaki verifySession() çağrısı try'ın dışında ve cache()'li),
+    // ama o satır kalkarsa tuzak sessizce kurulur. unstable_rethrow framework
+    // sinyallerini geçirir, yalnızca "yetersiz yetki" burada kalır.
+    unstable_rethrow(err);
     return { error: "unauthorized" };
   }
 
@@ -78,7 +89,9 @@ export async function revokeShareAction(
 
   try {
     await requireWorkspaceRole(contract.workspace_id, ["admin", "editor"]);
-  } catch {
+  } catch (err) {
+    // Gerekçe için createShareAction'daki yorum.
+    unstable_rethrow(err);
     return { error: "unauthorized" };
   }
 
