@@ -2,7 +2,7 @@ import "server-only";
 
 import Anthropic from "@anthropic-ai/sdk";
 
-import type { LlmMessage, LlmProvider, LlmRequest, LlmResult, LlmToolCall } from "./types";
+import type { LlmMessage, LlmProvider, LlmRequest, LlmResult, LlmToolCall, LlmUsage } from "./types";
 
 export const ANTHROPIC_MODEL = "claude-opus-5";
 
@@ -71,7 +71,35 @@ function extractResult(response: Anthropic.Message): LlmResult {
     name: b.name,
     input: b.input,
   }));
-  return { text: textBlocks.map((b) => b.text).join("\n"), toolCalls };
+  return {
+    text: textBlocks.map((b) => b.text).join("\n"),
+    toolCalls,
+    usage: toUsage(response.usage),
+  };
+}
+
+/**
+ * Anthropic'te `input_tokens` cache'li token'ları İÇERMEZ — cache okuma ve
+ * cache yazma ayrı sayaçlardır ve ayrı fiyatlanır.
+ *
+ * `cache_read_input_tokens` ayrı tutulur: normal girdinin ~%10'u fiyatına
+ * gelir; normal girdi sayılsaydı maliyet kat kat şişerdi.
+ *
+ * `cache_creation_input_tokens` ise bilerek `inputTokens`'a KATILIR. Gerçek
+ * fiyatı normal girdinin ~1.25 katı, yani bu birleştirme o kısmı eksik sayar —
+ * sınırlı ve bilinen bir sapma. Alternatif dördüncü bir kolondu; Anthropic
+ * yolu bu ortamda hiç çalıştırılmadığından (ANTHROPIC_API_KEY hâlâ placeholder)
+ * o maliyete değmedi. Anthropic'e gerçekten geçilirse önce burası ayrıştırılmalı.
+ */
+function toUsage(usage: Anthropic.Message["usage"] | undefined | null): LlmUsage | null {
+  if (!usage) return null;
+  return {
+    provider: "anthropic",
+    model: ANTHROPIC_MODEL,
+    inputTokens: (usage.input_tokens ?? 0) + (usage.cache_creation_input_tokens ?? 0),
+    outputTokens: usage.output_tokens ?? 0,
+    cachedInputTokens: usage.cache_read_input_tokens ?? 0,
+  };
 }
 
 export const anthropicProvider: LlmProvider = {

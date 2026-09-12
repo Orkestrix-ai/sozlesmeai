@@ -48,9 +48,32 @@ export type LlmRequest = {
   forceTool?: string;
 };
 
+/**
+ * Bir LLM ÇAĞRISININ token tüketimi. Yönetim panelindeki API gideri KPI'ı
+ * bunu `llm_usage` tablosuna yazar (bkz. src/lib/ai/usage.ts).
+ *
+ * `provider`/`model` burada taşınır çünkü sağlayıcı `LLM_PROVIDER` env'i ile
+ * değişebiliyor ve her modelin birim fiyatı farklı: hangi fiyatın uygulanacağını
+ * çağrının KENDİSİ söylemeli, sonradan env'e bakılarak tahmin edilmemeli.
+ */
+export type LlmUsage = {
+  provider: "anthropic" | "groq";
+  model: string;
+  inputTokens: number;
+  outputTokens: number;
+  /** Yalnızca Anthropic (prompt caching açık); Groq'ta karşılığı yok, 0 kalır. */
+  cachedInputTokens: number;
+};
+
 export type LlmResult = {
   text: string;
   toolCalls: LlmToolCall[];
+  /**
+   * Sağlayıcı usage döndürmezse `null` — sıfır UYDURULMAZ. Sıfır yazmak
+   * maliyeti sessizce eksik gösterirdi; null ise çağıran taraf satırı hiç
+   * yazmaz ve eksiklik görünür kalır.
+   */
+  usage: LlmUsage | null;
 };
 
 export interface LlmProvider {

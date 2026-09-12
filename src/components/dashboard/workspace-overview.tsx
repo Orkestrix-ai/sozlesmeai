@@ -9,6 +9,7 @@ import { EmptyState } from "@/components/dashboard/empty-state";
 import { MetricCard } from "@/components/dashboard/metric-card";
 import { ReadyTemplatesStrip } from "@/components/dashboard/ready-templates-strip";
 import { RoleBadge } from "@/components/dashboard/role-badge";
+import { isKnownReason } from "@/lib/credits/reasons";
 import type { Database } from "@/lib/supabase/types";
 
 type WorkspaceRole = Database["public"]["Enums"]["workspace_role"];
@@ -32,36 +33,6 @@ type LedgerEntry = {
 
 type Member = { userId: string; role: WorkspaceRole; createdAt: string; fullName: string; email: string };
 type Activity = { id: number; kind: ActivityKind; isImportant: boolean; createdAt: string; actorName: string };
-
-/**
- * `credit_ledger.reason` DEĞERLERİ — `credit_entry_type` enum'ı değil.
- * messages/*.json → dashboard.credits.reasons ile birebir.
- *
- * Bu ayrım bir kez kaçırıldı: liste `adjustment` içeriyordu (o bir entry_type),
- * oysa `admin_add_credits` reason olarak `admin_adjustment` yazıyor — arayüzde
- * ham metin görünüyordu. Yeni bir reason yazan her RPC/route buraya da eklenmeli.
- *
- * `signup_starter_grant` artık YAZILMIYOR ama listede kalıyor: credit_ledger
- * append-only, yani eski kayıtlardaki bu reason hiçbir zaman silinemez. Aynı
- * gerekçeyle `adjustment` ve `refund` de duruyor: bugün hiçbir şey yazmıyor,
- * ama mevcut RPC seti yerleşmeden önce yazılmış satırlar olabilir.
- */
-const KNOWN_REASON_KEYS = [
-  "signup_grant",
-  "signup_starter_grant",
-  "adjustment",
-  "refund",
-  "admin_adjustment",
-  "operation_failed",
-  "document_row_failed",
-  "findings_delete_failed",
-  "findings_insert_failed",
-  "draft_generate",
-  "ai_edit",
-  "risk_check",
-  "pdf_generate",
-  "manual_edit",
-] as const;
 
 /**
  * design.md §7 — paket kademesi kalktığı için tek dashboard. Ana vurgu
@@ -100,16 +71,10 @@ function WorkspaceOverview({
   const tActivity = useTranslations("dashboard.activity");
   const tEmptyContracts = useTranslations("dashboard.empty.contracts");
 
-  /**
-   * Tanınmayan reason ham metin olarak BASILMAZ. `refund_credits`'in
-   * `p_reason` parametresi serbest metin ve RPC `authenticated` rolüne açık;
-   * yani izin listesi hiçbir zaman tam olamaz. `other` bir DB değeri değil,
-   * yalnızca görüntüleme yedeği — bu yüzden KNOWN_REASON_KEYS'te yok.
-   */
+  /** Tanınmayan reason ham metin olarak BASILMAZ — gerekçe için bkz.
+   * isKnownReason (src/lib/credits/reasons.ts). */
   const reasonLabel = (reason: string) =>
-    (KNOWN_REASON_KEYS as readonly string[]).includes(reason)
-      ? tReasons(reason as (typeof KNOWN_REASON_KEYS)[number])
-      : tReasons("other");
+    isKnownReason(reason) ? tReasons(reason) : tReasons("other");
   const tEmptyLedger = useTranslations("dashboard.empty.ledger");
   const tEmptyActivity = useTranslations("dashboard.empty.activity");
   const tEmptyMembers = useTranslations("dashboard.empty.members");

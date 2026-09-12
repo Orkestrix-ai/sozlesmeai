@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { createClient } from "@/lib/supabase/server";
 import { getLlmProvider } from "@/lib/ai/provider";
+import { recordLlmUsage } from "@/lib/ai/usage";
 import type { LlmMessage, LlmToolCall, LlmToolResult } from "@/lib/ai/provider";
 import { CONTRACT_TOOLS } from "@/lib/ai/contract-tools";
 import { buildDynamicStateBlock, buildSystemPrompt } from "@/lib/ai/prompts";
@@ -178,10 +179,19 @@ export const POST = withApiErrors("contracts/turn", async function POST(
             { text: buildDynamicStateBlock({ contractType: currentContractType, sections: sectionsState }) },
           ];
 
-          const { text, toolCalls } = await provider.streamTurn(
+          const { text, toolCalls, usage } = await provider.streamTurn(
             { system, tools: CONTRACT_TOOLS, messages, maxTokens: 64000 },
             (delta) => emit({ type: "text", text: delta }),
           );
+
+          // Her yineleme AYRI bir LLM çağrısı, yani ayrı bir usage — döngünün
+          // içinde kaydedilir. recordLlmUsage hiçbir koşulda fırlatmaz; turu
+          // düşürmesi kabul edilemez (bkz. src/lib/ai/usage.ts).
+          await recordLlmUsage(usage, {
+            workspaceId: contract.workspace_id,
+            contractId,
+            operation: "turn",
+          });
 
           messages.push({ role: "assistant", text, toolCalls });
 

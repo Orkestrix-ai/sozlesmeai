@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { createClient } from "@/lib/supabase/server";
 import { getLlmProvider } from "@/lib/ai/provider";
+import { recordLlmUsage } from "@/lib/ai/usage";
 import { REVIEW_TOOL, buildReviewSystemPrompt, reviewFindingsInputSchema } from "@/lib/ai/review-tool";
 import { sectionsSchema } from "@/lib/contracts/schema";
 import { uuidSchema, consumeCreditsResultSchema } from "@/lib/db/schemas";
@@ -100,6 +101,12 @@ export const POST = withApiErrors("contracts/review", async function POST(
       messages: [
         { role: "user", content: `Sözleşme bölümleri (JSON):\n${JSON.stringify(sections, null, 2)}` },
       ],
+    });
+
+    await recordLlmUsage(result.usage, {
+      workspaceId: contract.workspace_id,
+      contractId,
+      operation: "review",
     });
 
     const toolCall = result.toolCalls[0];

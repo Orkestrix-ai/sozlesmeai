@@ -4,7 +4,7 @@ import { anthropicProvider } from "./anthropic";
 import { groqProvider } from "./groq";
 import type { LlmProvider } from "./types";
 
-export type { LlmMessage, LlmProvider, LlmRequest, LlmResult, LlmSystemBlock, LlmToolCall, LlmToolDef, LlmToolResult } from "./types";
+export type { LlmMessage, LlmProvider, LlmRequest, LlmResult, LlmSystemBlock, LlmToolCall, LlmToolDef, LlmToolResult, LlmUsage } from "./types";
 
 /**
  * `LLM_PROVIDER` env değişkenine göre tekil sağlayıcı seçilir. Varsayılan

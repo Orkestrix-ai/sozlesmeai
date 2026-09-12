@@ -13,12 +13,16 @@ export function AdminNavLinks() {
   const t = useTranslations("admin.sidebar");
   const pathname = usePathname();
 
+  /* `exact`: /admin artık bir yönlendirme değil, gerçek bir genel bakış
+     sayfası. startsWith ile eşleştirilirse her alt sayfada da aktif görünür. */
   const items = [
-    { href: "/admin/users" as const, label: t("users") },
-    { href: "/admin/workspaces" as const, label: t("workspaces") },
-    { href: "/admin/usage" as const, label: t("usage") },
-    { href: "/admin/audit-log" as const, label: t("auditLog") },
-    { href: "/admin/billing" as const, label: t("billing") },
+    { href: "/admin" as const, label: t("overview"), exact: true },
+    { href: "/admin/users" as const, label: t("users"), exact: false },
+    { href: "/admin/workspaces" as const, label: t("workspaces"), exact: false },
+    { href: "/admin/contracts" as const, label: t("contracts"), exact: false },
+    { href: "/admin/usage" as const, label: t("usage"), exact: false },
+    { href: "/admin/audit-log" as const, label: t("auditLog"), exact: false },
+    { href: "/admin/billing" as const, label: t("billing"), exact: false },
   ];
 
   const comingSoon = [t("comingSoon.templates"), t("comingSoon.notifications"), t("comingSoon.support")];
@@ -26,7 +30,9 @@ export function AdminNavLinks() {
   return (
     <nav className="flex flex-col gap-1">
       {items.map((item) => {
-        const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+        const active = item.exact
+          ? pathname === item.href
+          : pathname === item.href || pathname.startsWith(`${item.href}/`);
         return (
           <Link
             key={item.href}

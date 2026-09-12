@@ -1219,16 +1219,38 @@
     "sidebar": {
       "brand": "Admin Panel",
       "backToApp": "Back to app",
+      "overview": "Overview",
       "users": "Users",
       "workspaces": "Workspaces & teams",
+      "contracts": "Contracts",
       "usage": "Usage statistics",
       "auditLog": "Activity logs",
-      "billing": "Plans & usage management",
+      "billing": "Credits & usage management",
       "comingSoon": {
         "templates": "Templates",
         "notifications": "System notifications",
         "support": "Support requests"
       }
+    },
+    "overview": {
+      "title": "Overview",
+      "description": "Current state of the platform.",
+      "recentActions": "Recent admin actions",
+      "allActions": "View all",
+      "lowBalance": "Workspaces out of credits",
+      "lowBalanceEmpty": "No workspace is out of credits."
+    },
+    "financials": {
+      "title": "Revenue and cost",
+      "windowNote": "Last {days} days",
+      "revenue": "Accrued service value",
+      "revenueNote": "Derived from consumed credits (1 credit = 1 contract). No payment provider yet; this is not collected revenue.",
+      "cost": "API cost",
+      "costNote": "{calls} LLM calls · {tokens} tokens",
+      "net": "Net",
+      "ratesMissing": "No rates configured",
+      "ratesMissingNote": "Token unit prices and the USD→TRY rate are not yet set in src/lib/billing/rates.ts.",
+      "noData": "Measurement starts from this date — no data yet."
     },
     "users": {
       "title": "Users",
@@ -1243,7 +1265,7 @@
     },
     "workspaces": {
       "title": "Workspaces & teams",
-      "description": "All workspaces and their plans.",
+      "description": "All workspaces and their credit balances.",
       "table": {
         "name": "Name",
         "members": "Members",
@@ -1251,6 +1273,20 @@
         "created": "Created"
       },
       "personal": "Personal"
+    },
+    "contracts": {
+      "title": "Contracts",
+      "description": "All contracts on the platform. Contract content is not accessible to admins; only metadata is shown.",
+      "table": {
+        "title": "Title",
+        "workspace": "Workspace",
+        "type": "Type",
+        "status": "Status",
+        "owner": "Created by",
+        "updated": "Updated"
+      },
+      "archived": "Archived",
+      "empty": "No contracts yet."
     },
     "usage": {
       "title": "AI / contract usage statistics",
@@ -1262,7 +1298,8 @@
         "totalVersions": "Total AI/manual versions",
         "totalMessages": "Total chat messages",
         "creditsConsumed": "Total credits consumed"
-      }
+      },
+      "statusBreakdown": "Contract statuses"
     },
     "auditLog": {
       "title": "Activity logs",
@@ -1271,12 +1308,14 @@
         "time": "Time",
         "actor": "Actor",
         "action": "Action",
-        "resource": "Resource"
+        "resource": "Resource",
+        "detail": "Detail"
       },
       "empty": "No entries yet.",
       "actions": {
         "add_credits": "Credits added"
-      }
+      },
+      "detailCredits": "{amount} credits"
     },
     "billing": {
       "title": "Credits & usage management",
@@ -1289,6 +1328,15 @@
         "amountLabel": "Amount",
         "confirm": "Add",
         "cancel": "Cancel"
+      },
+      "ledger": {
+        "title": "Platform credit ledger",
+        "date": "Date",
+        "workspace": "Workspace",
+        "reason": "Operation",
+        "amount": "Amount",
+        "actor": "Actor",
+        "empty": "No credit activity yet."
       }
     },
     "unauthorizedNote": "Only platform administrators can access this area.",

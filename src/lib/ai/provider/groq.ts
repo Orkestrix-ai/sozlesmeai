@@ -3,7 +3,7 @@ import "server-only";
 import Groq from "groq-sdk";
 import type { ChatCompletionChunk, ChatCompletionMessageParam } from "groq-sdk/resources/chat/completions";
 
-import type { LlmMessage, LlmProvider, LlmRequest, LlmToolCall } from "./types";
+import type { LlmMessage, LlmProvider, LlmRequest, LlmToolCall, LlmUsage } from "./types";
 
 /**
  * Groq'ta mevcut en güçlü genel amaçlı model: 131k bağlam, 65.536 çıktı
@@ -95,6 +95,43 @@ class ToolCallAccumulator {
   }
 }
 
+/**
+ * Groq usage'ı OpenAI uyumlu `usage` alanında taşır: `prompt_tokens` /
+ * `completion_tokens`. Prompt caching yok, bu yüzden cachedInputTokens hep 0.
+ *
+ * `completion_tokens` reasoning token'larını ZATEN İÇERİR — canlı doğrulandı
+ * (completion_tokens=32 iken completion_tokens_details.reasoning_tokens=30).
+ * Uygulama `reasoning_effort: "medium"` ile çağırdığı için çıktının çoğu
+ * reasoning'dir; ayrıca eklemek çift sayma olurdu.
+ */
+function toUsage(usage: { prompt_tokens?: number; completion_tokens?: number } | undefined | null): LlmUsage | null {
+  if (!usage) return null;
+  return {
+    provider: "groq",
+    model: GROQ_MODEL,
+    inputTokens: usage.prompt_tokens ?? 0,
+    outputTokens: usage.completion_tokens ?? 0,
+    cachedInputTokens: 0,
+  };
+}
+
+/**
+ * Akışta usage'ın nerede geldiği CANLI ÖLÇÜLDÜ (gerçek API çağrısı):
+ *   - ek ayar yokken  → SON parçada `x_groq.usage`, ve o parçanın delta'sı VAR
+ *   - stream_options.include_usage:true → ek bir parçada üst düzey `usage`,
+ *     delta'sı YOK (choices boş)
+ * İkisini de karşılamak için okuma `if (!delta) continue` KONTROLÜNDEN ÖNCE
+ * yapılır. `stream_options` bilerek eklenmedi — ek ayar olmadan da usage
+ * geliyor; guard yalnızca ileride eklenirse diye savunma amaçlı.
+ */
+function usageFromChunk(chunk: unknown): LlmUsage | null {
+  const c = chunk as { usage?: unknown; x_groq?: { usage?: unknown } };
+  const raw = (c.x_groq?.usage ?? c.usage) as
+    | { prompt_tokens?: number; completion_tokens?: number }
+    | undefined;
+  return toUsage(raw);
+}
+
 function safeParseJson(raw: string): unknown {
   try {
     return raw ? JSON.parse(raw) : {};
@@ -117,8 +154,12 @@ export const groqProvider: LlmProvider = {
 
     const acc = new ToolCallAccumulator();
     let text = "";
+    let usage: LlmUsage | null = null;
 
     for await (const chunk of stream) {
+      // `continue`'dan ÖNCE — usage taşıyan parçanın delta'sı olmayabilir.
+      usage = usageFromChunk(chunk) ?? usage;
+
       const delta = chunk.choices[0]?.delta;
       if (!delta) continue;
       // delta.reasoning bilerek yok sayılır — düşünce zinciri kullanıcıya
@@ -130,7 +171,7 @@ export const groqProvider: LlmProvider = {
       acc.push(delta.tool_calls);
     }
 
-    return { text, toolCalls: acc.finalize() };
+    return { text, toolCalls: acc.finalize(), usage };
   },
 
   async createMessage(req) {
@@ -149,6 +190,6 @@ export const groqProvider: LlmProvider = {
       name: tc.function.name,
       input: safeParseJson(tc.function.arguments),
     }));
-    return { text: message?.content ?? "", toolCalls };
+    return { text: message?.content ?? "", toolCalls, usage: toUsage(response.usage) };
   },
 };

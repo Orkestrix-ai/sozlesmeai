@@ -393,6 +393,53 @@ export type Database = {
         // silinen bir aktör/sözleşme kaydı yeniden yazılmasın diye artık
         // düz uuid kolonlar, FK yok).
       }
+      llm_usage: {
+        Row: {
+          cached_input_tokens: number
+          contract_id: string | null
+          created_at: string
+          id: number
+          input_tokens: number
+          model: string
+          operation: string
+          output_tokens: number
+          provider: string
+          workspace_id: string
+        }
+        Insert: {
+          cached_input_tokens?: number
+          contract_id?: string | null
+          created_at?: string
+          id?: never
+          input_tokens: number
+          model: string
+          operation: string
+          output_tokens: number
+          provider: string
+          workspace_id: string
+        }
+        Update: {
+          cached_input_tokens?: number
+          contract_id?: string | null
+          created_at?: string
+          id?: never
+          input_tokens?: number
+          model?: string
+          operation?: string
+          output_tokens?: number
+          provider?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "llm_usage_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       operation_costs: {
         Row: {
           credits: number
@@ -594,6 +641,17 @@ export type Database = {
         }
         Returns: number
       }
+      admin_llm_usage_summary: {
+        Args: { p_since: string }
+        Returns: {
+          cached_input_tokens: number
+          calls: number
+          input_tokens: number
+          model: string
+          output_tokens: number
+          provider: string
+        }[]
+      }
       admin_usage_stats: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -652,6 +710,19 @@ export type Database = {
       // 20260908120000: LLM/PDF işlemi krediyi düşürdükten SONRA başarısız
       // olursa telafi kaydı yazan RPC (B6 — daha önce hiç kullanılmayan
       // `refund` enum değerinin ilk gerçek yazma yolu).
+      record_llm_usage: {
+        Args: {
+          p_cached_input_tokens?: number
+          p_contract_id: string
+          p_input_tokens: number
+          p_model: string
+          p_operation: string
+          p_output_tokens: number
+          p_provider: string
+          p_workspace_id: string
+        }
+        Returns: undefined
+      }
       refund_credits: {
         Args: {
           p_idempotency_key: string

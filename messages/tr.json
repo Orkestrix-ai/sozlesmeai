@@ -1219,16 +1219,38 @@
     "sidebar": {
       "brand": "Yönetici Paneli",
       "backToApp": "Uygulamaya dön",
+      "overview": "Genel bakış",
       "users": "Kullanıcılar",
       "workspaces": "Workspace ve ekipler",
+      "contracts": "Sözleşmeler",
       "usage": "Kullanım istatistikleri",
       "auditLog": "İşlem günlükleri",
-      "billing": "Paket ve kullanım yönetimi",
+      "billing": "Kredi ve kullanım yönetimi",
       "comingSoon": {
         "templates": "Şablonlar",
         "notifications": "Sistem bildirimleri",
         "support": "Destek talepleri"
       }
+    },
+    "overview": {
+      "title": "Genel bakış",
+      "description": "Platformun güncel durumu.",
+      "recentActions": "Son admin işlemleri",
+      "allActions": "Tümünü gör",
+      "lowBalance": "Kredisi tükenen çalışma alanları",
+      "lowBalanceEmpty": "Kredisi tükenen çalışma alanı yok."
+    },
+    "financials": {
+      "title": "Gelir ve gider",
+      "windowNote": "Son {days} gün",
+      "revenue": "Tahakkuk eden hizmet bedeli",
+      "revenueNote": "Tüketilen krediden hesaplanır (1 kredi = 1 sözleşme). Ödeme sağlayıcısı henüz yok; bu tahsil edilmiş gelir değildir.",
+      "cost": "API gideri",
+      "costNote": "{calls} LLM çağrısı · {tokens} token",
+      "net": "Net",
+      "ratesMissing": "Fiyat tanımlı değil",
+      "ratesMissingNote": "Token birim fiyatları ve USD→TRY kuru src/lib/billing/rates.ts içinde henüz girilmedi.",
+      "noData": "Ölçüm bu tarihten itibaren başlıyor — henüz veri yok."
     },
     "users": {
       "title": "Kullanıcılar",
@@ -1243,7 +1265,7 @@
     },
     "workspaces": {
       "title": "Workspace ve ekipler",
-      "description": "Tüm çalışma alanları ve paketleri.",
+      "description": "Tüm çalışma alanları ve kredi bakiyeleri.",
       "table": {
         "name": "Ad",
         "members": "Üye",
@@ -1251,6 +1273,20 @@
         "created": "Oluşturulma"
       },
       "personal": "Kişisel"
+    },
+    "contracts": {
+      "title": "Sözleşmeler",
+      "description": "Platformdaki tüm sözleşmeler. Sözleşme içeriği yönetici erişimine kapalıdır; yalnızca üst veri görünür.",
+      "table": {
+        "title": "Başlık",
+        "workspace": "Çalışma alanı",
+        "type": "Tür",
+        "status": "Durum",
+        "owner": "Oluşturan",
+        "updated": "Güncellenme"
+      },
+      "archived": "Arşivli",
+      "empty": "Henüz sözleşme yok."
     },
     "usage": {
       "title": "AI / sözleşme kullanım istatistikleri",
@@ -1262,7 +1298,8 @@
         "totalVersions": "Toplam AI/elle sürüm",
         "totalMessages": "Toplam sohbet mesajı",
         "creditsConsumed": "Harcanan toplam kredi"
-      }
+      },
+      "statusBreakdown": "Sözleşme durumları"
     },
     "auditLog": {
       "title": "İşlem günlükleri",
@@ -1271,12 +1308,14 @@
         "time": "Zaman",
         "actor": "Aktör",
         "action": "İşlem",
-        "resource": "Kaynak"
+        "resource": "Kaynak",
+        "detail": "Detay"
       },
       "empty": "Henüz kayıt yok.",
       "actions": {
         "add_credits": "Kredi eklendi"
-      }
+      },
+      "detailCredits": "{amount} kredi"
     },
     "billing": {
       "title": "Kredi ve kullanım yönetimi",
@@ -1289,6 +1328,15 @@
         "amountLabel": "Miktar",
         "confirm": "Ekle",
         "cancel": "Vazgeç"
+      },
+      "ledger": {
+        "title": "Platform kredi defteri",
+        "date": "Tarih",
+        "workspace": "Çalışma alanı",
+        "reason": "İşlem",
+        "amount": "Tutar",
+        "actor": "Aktör",
+        "empty": "Henüz kredi hareketi yok."
       }
     },
     "unauthorizedNote": "Bu alana yalnızca platform yöneticileri erişebilir.",
