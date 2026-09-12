@@ -27,7 +27,10 @@ export async function renderContractPdf(params: {
     const pdf = await page.pdf({
       format: "a4",
       printBackground: true,
-      margin: { top: "0", bottom: "40px", left: "0", right: "0" },
+      // Kenar boşlukları HTML padding'iyle DEĞİL burada verilir: gövde
+      // padding'i yalnızca ilk sayfaya uygulanır, sonraki sayfalarda metin
+      // kağıdın kenarına yapışırdı. Alt boşluk footer bandını da karşılar.
+      margin: { top: "18mm", bottom: "20mm", left: "16mm", right: "16mm" },
       displayHeaderFooter: true,
       headerTemplate: "<div></div>",
       footerTemplate: buildContractFooterTemplate(),

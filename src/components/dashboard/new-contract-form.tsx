@@ -7,9 +7,17 @@ import { createContractAction } from "@/actions/contracts";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
 
-/** design.md §5 — ekranın tek birincil aksiyonu: "Taslak oluştur". */
+/**
+ * design.md §5 — ekranın tek birincil aksiyonu: "Taslak oluştur".
+ *
+ * Tek alan var: başlık. "Sözleşme türü" seçimi bilerek KALDIRILDI — listesi
+ * şablon adlarıyla örtüşüyordu ("Kira sözleşmesi" seçen kullanıcı neden kira
+ * şablonunu almadığını haklı olarak soruyordu) ve türü AI zaten sohbetin ilk
+ * turunda `propose_contract_type` ile öneriyor (`contracts.contract_type`
+ * nullable). Başlık ise KALMALI: sözleşmeyi sonradan yeniden adlandırma yolu
+ * yok, alan kalkarsa her sözleşme kalıcı olarak "Adsız sözleşme" olurdu.
+ */
 function NewContractForm() {
   const t = useTranslations("dashboard.newContract");
   const tValidation = useTranslations("validation");
@@ -25,22 +33,6 @@ function NewContractForm() {
         required
       >
         <Input name="title" autoComplete="off" disabled={pending} />
-      </Field>
-
-      <Field
-        id="contract-type"
-        label={t("typeLabel")}
-        error={state?.fieldErrors?.contractType ? tValidation(state.fieldErrors.contractType) : undefined}
-        required
-      >
-        <Select name="contractType" defaultValue="" disabled={pending}>
-          <option value="" disabled>
-            {t("typePlaceholder")}
-          </option>
-          <option value="service">{t("types.service")}</option>
-          <option value="nda">{t("types.nda")}</option>
-          <option value="freelance">{t("types.freelance")}</option>
-        </Select>
       </Field>
 
       {state?.formError && <p className="text-helper text-state-error">{tErrors(state.formError)}</p>}

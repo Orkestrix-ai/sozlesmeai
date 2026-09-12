@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  Archive,
-  Bell,
-  FilePlus,
-  FileText,
-  LayoutDashboard,
-  LayoutTemplate,
-  Settings,
-} from "lucide-react";
+import { Archive, FilePlus, FileText, LayoutDashboard, Settings } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Link, usePathname } from "@/i18n/navigation";
@@ -18,6 +10,14 @@ import { cn } from "@/lib/utils";
  * design.md §7.1 ortak menü. Sidebar (masaüstü) ve mobile-nav-drawer aynı
  * listeyi kullanır — tek kaynak burada. İmza özellikleri MVP dışında
  * olduğu için listeye eklenmedi (design.md §7.1 son satırı).
+ *
+ * "Hatırlatmalar" da AYNI gerekçeyle listede yok: arkasında tablo, DAL
+ * fonksiyonu veya action yoktu; menü kullanıcıyı hiçbir koşulda dolamayacak
+ * boş bir ekrana götürüyordu. Özellik gerçekten yazıldığında geri eklenir.
+ *
+ * "Şablonlar" ise silinmedi, TAŞINDI: sözleşme oluşturmanın tek giriş noktası
+ * artık /contracts/new — şablon galerisi orada, "sıfırdan" formuyla aynı
+ * ekranda duruyor. /templates adresi oraya yönleniyor.
  */
 export function SidebarNavLinks({ onNavigate }: { onNavigate?: () => void }) {
   const t = useTranslations("dashboardNav");
@@ -25,11 +25,9 @@ export function SidebarNavLinks({ onNavigate }: { onNavigate?: () => void }) {
 
   const items = [
     { href: "/dashboard" as const, label: t("overview"), icon: LayoutDashboard },
-    { href: "/contracts" as const, label: t("contracts"), icon: FileText },
     { href: "/contracts/new" as const, label: t("newContract"), icon: FilePlus },
-    { href: "/templates" as const, label: t("templates"), icon: LayoutTemplate },
+    { href: "/contracts" as const, label: t("contracts"), icon: FileText },
     { href: "/archive" as const, label: t("archive"), icon: Archive },
-    { href: "/reminders" as const, label: t("reminders"), icon: Bell },
     { href: "/settings" as const, label: t("settings"), icon: Settings },
   ];
 

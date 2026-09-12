@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, Minus, Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { ContractDocument } from "@/components/contracts/contract-document";
+import { A4 } from "@/lib/contracts/document-model";
 import type { ContractSection } from "@/lib/contracts/schema";
 
 export type VersionEntry = {
@@ -36,13 +38,21 @@ const FINDING_CODES = [
   "other",
 ] as const;
 
+/** design.md §13 sınırları: %75 – %125. Zoom yalnızca ekranı etkiler. */
+const ZOOM_STEPS = [75, 90, 100, 110, 125] as const;
+const DEFAULT_ZOOM_INDEX = 2;
+
 /**
- * design.md §8 sağ panel — paper-100 zemin, paper-50 belge yüzeyi. AI'ın son
- * değiştirdiği satırlar `bg-draft-ai-changed`, onaylanan bölümler
- * `bg-draft-approved` (globals.css'te tanımlı, burada ilk kullanım).
+ * design.md §8 sağ panel — paper-100 çalışma tezgâhı, üzerinde paper-50 A4
+ * belge. Okuma modunda taslak <ContractDocument> ile gerçek bir sözleşme
+ * belgesi olarak render edilir; ELLE DÜZENLEME modunda bölüm kartı editörü
+ * (aşağıda) korunur — belge görünümü bir metin editörü değildir.
  */
 function DraftPanel({
   status,
+  contractTitle,
+  versionNo,
+  previousSections,
   sections,
   versions,
   viewingVersionId,
@@ -63,6 +73,9 @@ function DraftPanel({
   pdfError,
 }: {
   status: "draft" | "review" | "ready" | "shared" | "error";
+  contractTitle: string;
+  versionNo: number;
+  previousSections?: ContractSection[];
   sections: ContractSection[];
   versions: VersionEntry[];
   viewingVersionId: string | null;
@@ -90,6 +103,30 @@ function DraftPanel({
   const [editMode, setEditMode] = React.useState(false);
   const [draft, setDraft] = React.useState<ContractSection[]>(sections);
   const isViewingHistory = viewingVersionId !== null;
+
+  const [zoomIndex, setZoomIndex] = React.useState<number>(DEFAULT_ZOOM_INDEX);
+  const zoom = ZOOM_STEPS[zoomIndex];
+
+  /**
+   * Dar ekranda A4 taşmasın (design.md §12 "mobilde kullanılabilir mi"):
+   * tezgâh genişliği ölçülür, belge gerektiği kadar küçültülür. Kullanıcının
+   * zoom'u bunun ÜSTÜNE çarpan olarak biner.
+   */
+  const deskRef = React.useRef<HTMLDivElement>(null);
+  const [fitScale, setFitScale] = React.useState(1);
+
+  React.useEffect(() => {
+    const node = deskRef.current;
+    if (!node) return;
+    const observer = new ResizeObserver(([entry]) => {
+      const available = entry.contentRect.width - 32;
+      setFitScale(Math.min(1, available / A4.widthPx));
+    });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  const documentScale = fitScale * (zoom / 100);
 
   // `draft` yalnızca editMode true iken okunur (bkz. `displayed` altta) —
   // startEdit() zaten güncel `sections`'ı kopyalayarak başlatır, bu yüzden
@@ -150,30 +187,72 @@ function DraftPanel({
   const reviewIsPrimary = status === "draft";
 
   return (
-    <div className="flex h-full flex-col bg-paper-100">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-200 bg-paper-100 p-4">
+    // `w-full min-w-0`: tezgâh genişliği ResizeObserver ile ölçülüp belgenin
+    // ölçeğini belirliyor. Panel içeriğine göre daralabilseydi belge genişliği
+    // → panel genişliği → ölçek → belge genişliği diye geri besleme kurulurdu.
+    <div className="flex h-full w-full min-w-0 flex-col bg-paper-100">
+      <div className="contract-toolbar flex flex-wrap items-center justify-between gap-3 border-b border-stone-200 bg-paper-100 p-4">
         <div className="flex items-center gap-3">
           <h2 className="text-card-title font-heading text-ink-950">{t("draft.title")}</h2>
           <StatusBadge status={status}>{tStatus(status)}</StatusBadge>
         </div>
-        {versions.length > 0 && (
-          <Select
-            className="h-9 w-auto min-w-[10rem]"
-            value={viewingVersionId ?? "latest"}
-            onChange={(e) => onSelectVersion(e.target.value === "latest" ? null : e.target.value)}
-            aria-label={t("versions.title")}
-          >
-            <option value="latest">{t("versions.current")}</option>
-            {versions.map((v) => (
-              <option key={v.id} value={v.id}>
-                v{v.versionNo} — {tVersions(v.source)}
-              </option>
-            ))}
-          </Select>
-        )}
+        <div className="flex items-center gap-2">
+          {!editMode && (
+            <>
+              <span className="rounded-[var(--radius-sm)] border border-stone-200 px-1.5 py-0.5 text-helper text-stone-600">
+                {t("preview.a4")}
+              </span>
+              <div className="flex items-center gap-0.5 rounded-[var(--radius-sm)] border border-stone-200">
+                <button
+                  type="button"
+                  onClick={() => setZoomIndex((i) => Math.max(0, i - 1))}
+                  disabled={zoomIndex === 0}
+                  aria-label={t("preview.zoomOut")}
+                  className="flex size-7 items-center justify-center rounded-[var(--radius-sm)] text-stone-600 hover:bg-paper-50 disabled:opacity-30"
+                >
+                  <Minus className="size-3.5" aria-hidden="true" />
+                </button>
+                <span
+                  className="min-w-[3rem] text-center text-helper text-stone-600"
+                  aria-label={t("preview.zoomLevel", { zoom })}
+                  data-numeric
+                >
+                  {zoom}%
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setZoomIndex((i) => Math.min(ZOOM_STEPS.length - 1, i + 1))}
+                  disabled={zoomIndex === ZOOM_STEPS.length - 1}
+                  aria-label={t("preview.zoomIn")}
+                  className="flex size-7 items-center justify-center rounded-[var(--radius-sm)] text-stone-600 hover:bg-paper-50 disabled:opacity-30"
+                >
+                  <Plus className="size-3.5" aria-hidden="true" />
+                </button>
+              </div>
+            </>
+          )}
+          {versions.length > 0 && (
+            <Select
+              className="h-9 w-auto min-w-[10rem]"
+              value={viewingVersionId ?? "latest"}
+              onChange={(e) => onSelectVersion(e.target.value === "latest" ? null : e.target.value)}
+              aria-label={t("versions.title")}
+            >
+              <option value="latest">{t("versions.current")}</option>
+              {versions.map((v) => (
+                <option key={v.id} value={v.id}>
+                  v{v.versionNo} — {tVersions(v.source)}
+                </option>
+              ))}
+            </Select>
+          )}
+        </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4">
+      <div
+        ref={deskRef}
+        className="contract-desk flex-1 overflow-auto bg-paper-100 p-4 shadow-[inset_0_2px_4px_rgba(13,13,15,0.05)]"
+      >
         {isViewingHistory && (
           <Alert variant="neutral" className="mb-4 flex items-center justify-between gap-3">
             <AlertDescription>{t("draft.viewingOldVersion")}</AlertDescription>
@@ -183,21 +262,22 @@ function DraftPanel({
           </Alert>
         )}
 
-        {displayed.length === 0 ? (
-          <p className="text-body text-stone-600">{t("draft.empty")}</p>
+        {!editMode ? (
+          <ContractDocument
+            title={contractTitle}
+            versionNo={versionNo}
+            sections={sections}
+            previousSections={previousSections}
+            scale={documentScale}
+          />
         ) : (
           <div className="space-y-4">
             {displayed.map((section, index) => (
               <div
                 key={section.key}
-                className={cn(
-                  "rounded-[var(--radius)] border border-stone-200 bg-paper-50 p-4",
-                  !editMode && section.lastEditedBy === "ai" && "bg-draft-ai-changed",
-                  !editMode && section.status === "approved" && "bg-draft-approved",
-                )}
+                className="rounded-[var(--radius)] border border-stone-200 bg-paper-50 p-4"
               >
-                {editMode ? (
-                  <div className="space-y-2">
+                <div className="space-y-2">
                     <div className="flex items-center gap-2">
                       <input
                         value={section.title}
@@ -239,33 +319,18 @@ function DraftPanel({
                       rows={5}
                       className="w-full resize-y rounded-[var(--radius)] border border-stone-200 bg-paper-50 px-2.5 py-2 font-[family-name:var(--font-contract)] text-contract text-stone-800 outline-none focus-visible:ring-2 focus-visible:ring-brand-red-600"
                     />
-                  </div>
-                ) : (
-                  <>
-                    <h3 className="text-card-title font-heading text-ink-950">{section.title}</h3>
-                    <p className="mt-2 whitespace-pre-wrap font-[family-name:var(--font-contract)] text-contract text-stone-800">
-                      {section.body}
-                    </p>
-                    {section.missing.length > 0 && (
-                      <p className="mt-3 rounded-[var(--radius)] bg-state-warning-surface px-3 py-2 text-helper text-state-warning-text">
-                        {t("draft.missingLabel")}: {section.missing.join(", ")}
-                      </p>
-                    )}
-                  </>
-                )}
+                </div>
               </div>
             ))}
-            {editMode && (
-              <Button variant="secondary" size="sm" onClick={addSection}>
-                <Plus className="size-4" aria-hidden="true" />
-                {t("draft.addSection")}
-              </Button>
-            )}
+            <Button variant="secondary" size="sm" onClick={addSection}>
+              <Plus className="size-4" aria-hidden="true" />
+              {t("draft.addSection")}
+            </Button>
           </div>
         )}
 
         {findings.length > 0 && !isViewingHistory && (
-          <div className="mt-6 rounded-[var(--radius)] border border-stone-200 bg-paper-50 p-4">
+          <div className="contract-findings mx-auto mt-6 max-w-[794px] rounded-[var(--radius)] border border-stone-200 bg-paper-50 p-4">
             <h3 className="text-card-title font-heading text-ink-950">{t("review.title")}</h3>
             <p className="mt-1 text-helper text-stone-600">{t("review.disclaimer")}</p>
             <ul className="mt-3 space-y-2">
@@ -297,7 +362,7 @@ function DraftPanel({
       </div>
 
       {!isViewingHistory && (
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-stone-200 bg-paper-100 p-4">
+        <div className="contract-actions flex flex-wrap items-center justify-between gap-3 border-t border-stone-200 bg-paper-100 p-4">
           {editMode ? (
             <div className="flex gap-2">
               <Button variant="secondary" size="sm" onClick={cancelEdit} disabled={saving}>

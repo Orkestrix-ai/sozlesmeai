@@ -18,23 +18,22 @@ export type ContractFormState =
   | { fieldErrors?: FieldErrors; formError?: AppErrorKey }
   | undefined;
 
-/** messages/*.json → dashboard.newContract.types ile birebir. */
-const CONTRACT_TYPES = ["service", "nda", "freelance"] as const;
-
+/**
+ * "Sıfırdan" akışı yalnızca başlık sorar; sözleşme türü BİLEREK sorulmaz ve
+ * `contract_type` null olarak açılır. Türü sohbetin ilk turunda model
+ * `propose_contract_type` ile belirler (bkz. src/lib/ai/prompts.ts). Şablon
+ * yolu ise türü kendi taşır (`actions/templates.ts` → contractTypeCode).
+ */
 export async function createContractAction(
   _prev: ContractFormState,
   formData: FormData,
 ): Promise<ContractFormState> {
   const title = String(formData.get("title") ?? "");
-  const contractType = String(formData.get("contractType") ?? "");
   const locale = (await getLocale()) as AppLocale;
 
   const fieldErrors: FieldErrors = {};
   const titleError = validateContractTitle(title);
   if (titleError) fieldErrors.title = titleError;
-  if (!CONTRACT_TYPES.includes(contractType as (typeof CONTRACT_TYPES)[number])) {
-    fieldErrors.contractType = "required";
-  }
   if (Object.keys(fieldErrors).length > 0) return { fieldErrors };
 
   // Aktif workspace + rol her zaman sunucuda yeniden okunur; formdan gelen
@@ -48,7 +47,7 @@ export async function createContractAction(
     .insert({
       workspace_id: workspace.id,
       title: title.trim(),
-      contract_type: contractType,
+      contract_type: null,
       created_by: userId,
     })
     .select("id")

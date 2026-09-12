@@ -605,9 +605,7 @@
     "overview": "Genel bakış",
     "contracts": "Sözleşmeler",
     "newContract": "Yeni sözleşme oluştur",
-    "templates": "Şablonlar",
     "archive": "Arşiv",
-    "reminders": "Hatırlatmalar",
     "settings": "Ayarlar",
     "mainNavLabel": "Ana navigasyon",
     "openMenu": "Menüyü aç",
@@ -627,19 +625,11 @@
       },
       "newContract": {
         "title": "Yeni sözleşme oluştur",
-        "description": "Yeni bir sözleşme taslağı başlat."
-      },
-      "templates": {
-        "title": "Şablonlar",
-        "description": "Hazır sözleşme şablonların."
+        "description": "Hazır bir şablonla başla ya da sıfırdan oluştur."
       },
       "archive": {
         "title": "Arşiv",
         "description": "Arşivlenen belgeler."
-      },
-      "reminders": {
-        "title": "Hatırlatmalar",
-        "description": "Yaklaşan tarih ve görevlerin."
       },
       "settings": {
         "title": "Ayarlar",
@@ -663,16 +653,6 @@
       "archive": {
         "title": "Arşiv boş",
         "body": "Arşivlediğin belgeler burada görünecek.",
-        "cta": "Sözleşmelere git"
-      },
-      "templates": {
-        "title": "Henüz şablon yok",
-        "body": "Şablonlar ileride burada listelenecek.",
-        "cta": "Yeni sözleşme oluştur"
-      },
-      "reminders": {
-        "title": "Hatırlatma yok",
-        "body": "Yaklaşan tarih ve görevler burada görünecek.",
         "cta": "Sözleşmelere git"
       },
       "activity": {
@@ -714,7 +694,13 @@
         "ai_edit": "AI ile düzenlendi",
         "risk_check": "Risk kontrolü çalıştırıldı",
         "pdf_generate": "PDF oluşturuldu",
-        "manual_edit": "Elle düzenlendi"
+        "manual_edit": "Elle düzenlendi",
+        "admin_adjustment": "Admin",
+        "operation_failed": "Başarısız işlem iadesi",
+        "document_row_failed": "PDF kaydı başarısız — iade",
+        "findings_delete_failed": "Risk kontrolü başarısız — iade",
+        "findings_insert_failed": "Risk kontrolü başarısız — iade",
+        "other": "Diğer işlem"
       }
     },
     "chart": {
@@ -802,18 +788,322 @@
       "submit": "Oluştur"
     },
     "userMenu": {
-      "settings": "Ayarlar",
       "signOut": "Çıkış yap"
     },
     "newContract": {
       "titleLabel": "Başlık",
-      "typeLabel": "Sözleşme türü",
-      "typePlaceholder": "Bir tür seç",
+      "fromTemplateTitle": "Hazır şablonla başla",
+      "fromTemplateDescription": "Bilgileri doldur, sözleşmen anında oluşsun.",
+      "fromScratchTitle": "Sıfırdan başla",
+      "fromScratchDescription": "Uygun bir şablon yoksa ihtiyacını anlat, taslağı AI ile birlikte oluştur.",
       "submit": "Taslak oluştur",
       "types": {
         "service": "Hizmet sözleşmesi",
         "nda": "Gizlilik sözleşmesi",
-        "freelance": "Serbest çalışma sözleşmesi"
+        "freelance": "Serbest çalışma sözleşmesi",
+        "rental": "Kira sözleşmesi",
+        "employment": "İş sözleşmesi",
+        "resignation": "İstifa dilekçesi"
+      }
+    },
+    "templates": {
+      "gallery": {
+        "title": "Hazır sözleşmeler",
+        "start": "Oluşturmaya başla",
+        "seeAll": "Tümünü gör",
+        "stripTitle": "Hazır sözleşmeler",
+        "stripDescription": "Sıfırdan başlamak yerine hazır bir şablonla devam et."
+      },
+      "categories": {
+        "lease": "Kira",
+        "employment": "İstihdam",
+        "confidentiality": "Gizlilik",
+        "services": "Hizmet",
+        "hr": "İnsan kaynakları"
+      },
+      "groups": {
+        "parties": "Taraflar",
+        "subject": "Sözleşmenin konusu",
+        "financial": "Bedel ve ödeme",
+        "term": "Süre ve tarihler",
+        "other": "Ek bilgiler"
+      },
+      "builder": {
+        "formTitle": "Bilgiler",
+        "previewTitle": "Sözleşme ön izleme",
+        "tabForm": "Bilgiler",
+        "tabPreview": "Ön izleme",
+        "submit": "Sözleşmeyi oluştur",
+        "submitHelp": "Bu adım ücretsizdir. Bakiyenden 1 kredi yalnızca PDF oluştururken düşer.",
+        "nextSteps": "Oluşturduktan sonra sözleşmeyi AI ile düzenleyebilir, risk kontrolünden geçirebilir ve PDF'e dönüştürebilirsin.",
+        "missingTitle": "Eksik bilgiler",
+        "missingCount": "Sözleşmeyi tamamlamak için {count} bilgi daha gerekiyor.",
+        "complete": "Zorunlu bilgilerin tamamı dolduruldu.",
+        "backToGallery": "Şablonlara dön",
+        "error": "Sözleşme oluşturulamadı. Lütfen tekrar dene.",
+        "fieldPlaceholder": "[{label} girilmedi]",
+        "emptyOptional": "—",
+        "optional": "İsteğe bağlı"
+      },
+      "items": {
+        "rental": {
+          "name": "Kira sözleşmesi",
+          "description": "Konut veya iş yeri kiralaması için taraflar, bedel, süre ve ödeme koşullarını içeren sözleşme.",
+          "fields": {
+            "landlordName": {
+              "label": "Kiraya veren ad soyad / unvan",
+              "placeholder": "Ahmet Yılmaz"
+            },
+            "landlordId": {
+              "label": "Kiraya veren T.C. kimlik / vergi no"
+            },
+            "tenantName": {
+              "label": "Kiracı ad soyad / unvan",
+              "placeholder": "Mehmet Kaya"
+            },
+            "tenantId": {
+              "label": "Kiracı T.C. kimlik / vergi no"
+            },
+            "propertyAddress": {
+              "label": "Kiralanan taşınmazın adresi",
+              "placeholder": "Mahalle, cadde, no, ilçe / il"
+            },
+            "rentAmount": {
+              "label": "Aylık kira bedeli (TL)",
+              "placeholder": "25000"
+            },
+            "depositAmount": {
+              "label": "Depozito (TL)",
+              "placeholder": "50000"
+            },
+            "startDate": {
+              "label": "Kira başlangıç tarihi"
+            },
+            "durationMonths": {
+              "label": "Sözleşme süresi (ay)",
+              "placeholder": "12"
+            },
+            "paymentDay": {
+              "label": "Ödeme günü (ayın kaçı)",
+              "placeholder": "5"
+            },
+            "paymentMethod": {
+              "label": "Ödeme yöntemi",
+              "options": {
+                "bank": "banka havalesi / EFT",
+                "cash": "elden ödeme"
+              }
+            },
+            "specialTerms": {
+              "label": "Özel şartlar",
+              "placeholder": "Tarafların eklemek istediği maddeler"
+            }
+          },
+          "articles": {
+            "parties": "Taraflar",
+            "subject": "Sözleşmenin Konusu",
+            "rent": "Kira Bedeli",
+            "deposit": "Depozito",
+            "term": "Süre",
+            "payment": "Ödeme",
+            "obligations": "Tarafların Yükümlülükleri",
+            "utilities": "Aidat ve Abonelikler",
+            "termination": "Fesih",
+            "special_terms": "Özel Şartlar"
+          }
+        },
+        "employment": {
+          "name": "İş sözleşmesi",
+          "description": "Belirsiz süreli iş ilişkisi için pozisyon, ücret, çalışma süresi ve izin koşullarını tanımlar.",
+          "fields": {
+            "employerName": {
+              "label": "İşveren unvanı"
+            },
+            "employerTaxNo": {
+              "label": "İşveren vergi no"
+            },
+            "employeeName": {
+              "label": "Çalışan ad soyad"
+            },
+            "employeeId": {
+              "label": "Çalışan T.C. kimlik no"
+            },
+            "position": {
+              "label": "Pozisyon",
+              "placeholder": "Kıdemli yazılım geliştirici"
+            },
+            "startDate": {
+              "label": "İşe başlama tarihi"
+            },
+            "salaryAmount": {
+              "label": "Aylık brüt ücret (TL)",
+              "placeholder": "90000"
+            },
+            "workMode": {
+              "label": "Çalışma şekli",
+              "options": {
+                "onsite": "iş yerinde",
+                "hybrid": "hibrit",
+                "remote": "uzaktan"
+              }
+            },
+            "workplaceAddress": {
+              "label": "Çalışma adresi"
+            },
+            "weeklyHours": {
+              "label": "Haftalık çalışma süresi (saat)",
+              "placeholder": "45"
+            },
+            "annualLeaveDays": {
+              "label": "Yıllık izin (gün)",
+              "placeholder": "14"
+            },
+            "specialTerms": {
+              "label": "Özel şartlar"
+            }
+          },
+          "articles": {
+            "parties": "Taraflar",
+            "position": "İşin Konusu ve Pozisyon",
+            "start_date": "İşe Başlama",
+            "salary": "Ücret",
+            "working_hours": "Çalışma Süresi",
+            "workplace": "Çalışma Yeri",
+            "leave": "Yıllık İzin",
+            "confidentiality": "Gizlilik",
+            "termination": "Fesih",
+            "special_terms": "Özel Şartlar"
+          }
+        },
+        "nda": {
+          "name": "Gizlilik sözleşmesi (NDA)",
+          "description": "Paylaşılan ticari bilginin kapsamını, saklama yükümlülüğünü ve süresini belirler.",
+          "fields": {
+            "disclosingParty": {
+              "label": "Açıklayan taraf ad / unvan"
+            },
+            "disclosingPartyId": {
+              "label": "Açıklayan taraf kimlik / vergi no"
+            },
+            "receivingParty": {
+              "label": "Alan taraf ad / unvan"
+            },
+            "receivingPartyId": {
+              "label": "Alan taraf kimlik / vergi no"
+            },
+            "purpose": {
+              "label": "Paylaşım amacı",
+              "placeholder": "Olası iş birliğinin değerlendirilmesi"
+            },
+            "confidentialScope": {
+              "label": "Gizli bilginin kapsamı",
+              "placeholder": "Fiyat listeleri, müşteri verileri, kaynak kodu"
+            },
+            "effectiveDate": {
+              "label": "Yürürlük tarihi"
+            },
+            "durationYears": {
+              "label": "Gizlilik süresi (yıl)",
+              "placeholder": "3"
+            }
+          },
+          "articles": {
+            "parties": "Taraflar",
+            "confidential_information": "Gizli Bilgi",
+            "obligations": "Yükümlülükler",
+            "term": "Süre",
+            "exceptions": "İstisnalar",
+            "remedies": "Aykırılık ve Sonuçları"
+          }
+        },
+        "service": {
+          "name": "Hizmet sözleşmesi",
+          "description": "Bir hizmetin kapsamını, bedelini, ödeme planını ve tarafların sorumluluğunu düzenler.",
+          "fields": {
+            "providerName": {
+              "label": "Hizmet veren ad soyad / unvan"
+            },
+            "providerId": {
+              "label": "Hizmet veren kimlik / vergi no"
+            },
+            "clientName": {
+              "label": "Hizmet alan ad soyad / unvan"
+            },
+            "clientId": {
+              "label": "Hizmet alan kimlik / vergi no"
+            },
+            "serviceScope": {
+              "label": "Hizmetin kapsamı",
+              "placeholder": "Teslim edilecek işler ve kapsam dışı kalanlar"
+            },
+            "feeAmount": {
+              "label": "Hizmet bedeli (TL)",
+              "placeholder": "120000"
+            },
+            "paymentSchedule": {
+              "label": "Ödeme planı",
+              "options": {
+                "monthly": "aylık",
+                "milestone": "aşamaya bağlı",
+                "onDelivery": "teslimde"
+              }
+            },
+            "startDate": {
+              "label": "Başlangıç tarihi"
+            },
+            "endDate": {
+              "label": "Bitiş tarihi"
+            }
+          },
+          "articles": {
+            "parties": "Taraflar",
+            "scope": "Hizmetin Konusu",
+            "payment": "Bedel ve Ödeme",
+            "term": "Süre",
+            "termination": "Fesih",
+            "liability": "Sorumluluk"
+          }
+        },
+        "resignation": {
+          "name": "İstifa dilekçesi",
+          "description": "İş ilişkisinin çalışan tarafından sonlandırılmasını, son çalışma gününü ve devir teslimi kayda geçirir.",
+          "fields": {
+            "employeeName": {
+              "label": "Ad soyad"
+            },
+            "employeeId": {
+              "label": "T.C. kimlik no"
+            },
+            "employerName": {
+              "label": "İşveren unvanı"
+            },
+            "position": {
+              "label": "Görev / pozisyon"
+            },
+            "resignationDate": {
+              "label": "Bildirim tarihi"
+            },
+            "lastWorkingDay": {
+              "label": "Son çalışma günü"
+            },
+            "handoverNotes": {
+              "label": "Devir teslim notları",
+              "placeholder": "Devredilecek işler, dosyalar, zimmetli eşyalar"
+            },
+            "specialTerms": {
+              "label": "Ek açıklamalar"
+            }
+          },
+          "articles": {
+            "parties": "Taraflar",
+            "declaration": "İstifa Beyanı",
+            "last_working_day": "Son Çalışma Günü",
+            "handover": "Devir Teslim",
+            "receivables": "Hak ve Alacaklar",
+            "confidentiality": "Gizlilik",
+            "special_terms": "Ek Açıklamalar"
+          }
+        }
       }
     },
     "contractScreen": {
@@ -826,7 +1116,7 @@
         "error": "Mesaj gönderilemedi. Lütfen tekrar dene."
       },
       "draft": {
-        "title": "Taslak",
+        "title": "Ön İzleme",
         "empty": "Sohbet ilerledikçe taslak burada görünecek.",
         "editToggle": "Elle düzenle",
         "cancelEdit": "Vazgeç",
@@ -841,6 +1131,22 @@
         "unsavedWarning": "Kaydedilmemiş değişikliklerin var.",
         "viewingOldVersion": "Geçmiş bir sürümü görüntülüyorsun.",
         "backToLatest": "Güncel sürüme dön"
+      },
+      "preview": {
+        "a4": "A4",
+        "zoomIn": "Yakınlaştır",
+        "zoomOut": "Uzaklaştır",
+        "zoomLevel": "Yakınlaştırma: %{zoom}",
+        "pageOf": "{page} / {total}"
+      },
+      "document": {
+        "version": "Sürüm {versionNo}",
+        "partiesHeading": "TARAFLAR",
+        "disclaimer": "Bu belge bir sözleşme taslağıdır; hukuki görüş veya geçerlilik garantisi değildir.",
+        "signatureParty": "Taraf {n}",
+        "signatureName": "Ad Soyad",
+        "signatureSignature": "İmza",
+        "signatureDate": "Tarih"
       },
       "versions": {
         "title": "Sürüm geçmişi",

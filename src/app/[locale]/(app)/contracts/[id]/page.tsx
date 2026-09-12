@@ -60,13 +60,14 @@ export default async function ContractDetailPage({ params }: PageProps<"/[locale
 
   const shares: ShareEntry[] = rawShares.map((s) => ({ id: s.id, token: s.token }));
 
+  const heading = contract.title || t("untitled");
+
   return (
     <div>
-      <h1 className="mb-4 text-page-title font-heading text-ink-950">
-        {contract.title || t("untitled")}
-      </h1>
+      <h1 className="mb-4 text-page-title font-heading text-ink-950">{heading}</h1>
       <ContractWorkspace
         contractId={id}
+        contractTitle={heading}
         locale={locale as AppLocale}
         initialStatus={contract.status}
         canEdit={role !== null && role !== "viewer"}

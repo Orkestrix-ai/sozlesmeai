@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Container } from "@/components/landing/container";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Field } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -299,6 +300,13 @@ export default function StyleGuidePage() {
             </Field>
             <Field id="sg-name" label="Ad Soyad" error="Bu alan zorunludur.">
               <Input placeholder="Ad Soyad" />
+            </Field>
+            <Field
+              id="sg-notes"
+              label="Özel şartlar"
+              description="Input ile aynı kenarlık/odak dili; tek farkı resize-y."
+            >
+              <Textarea placeholder="Tarafların eklemek istediği maddeler" />
             </Field>
             <Field id="sg-radio" asGroup required label="Bir seçenek seç">
               <RadioGroup defaultValue="a">

@@ -238,3 +238,61 @@
     font-variant-numeric: tabular-nums;
   }
 }
+
+/*
+  Sözleşme ön izlemesinin tarayıcı baskısı — İKİNCİL bir yol.
+  Ürünün gerçek PDF çıktısı sunucu tarafında Puppeteer ile üretilir
+  (/api/contracts/[id]/pdf, src/lib/pdf/*). Buradaki kurallar yalnızca
+  kullanıcı Ctrl+P'ye basarsa ekranın makul bir A4 çıktısı vermesi içindir:
+  sohbet, toolbar, aksiyon çubuğu ve tezgah zemini kalkar, geriye sadece
+  kağıt kalır.
+*/
+@media print {
+  @page {
+    size: A4;
+    margin: 18mm 16mm 20mm;
+  }
+
+  .contract-toolbar,
+  .contract-actions,
+  .contract-findings,
+  .contract-chat,
+  /* şablon doldurma ekranının sol paneli — sözleşme ekranındaki
+     .contract-chat'in karşılığı (bkz. templates/template-builder.tsx) */
+  .contract-form-panel {
+    display: none !important;
+  }
+
+  .contract-desk {
+    overflow: visible !important;
+    padding: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Zoom yalnızca ekran içindir; baskı gerçek A4 ölçüsünde kalır. */
+  .contract-scale {
+    width: auto !important;
+    height: auto !important;
+    transform: none !important;
+  }
+
+  .contract-page {
+    width: auto !important;
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    break-after: page;
+  }
+
+  .contract-page:last-of-type {
+    break-after: auto;
+  }
+
+  /* Sayfa numarası bandı ekran kağıdına aittir; baskıda @page üretir. */
+  .contract-page-footer {
+    display: none !important;
+  }
+}

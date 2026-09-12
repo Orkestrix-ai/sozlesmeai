@@ -1,15 +1,13 @@
 "use client";
 
-import { LogOut, Settings } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { logoutAction } from "@/actions/auth";
-import { Link } from "@/i18n/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -19,7 +17,13 @@ function initials(name: string) {
   return (parts[0][0] + (parts[1]?.[0] ?? "")).toUpperCase();
 }
 
-/** design.md §7.1 — kullanıcı menüsü, sidebar/mobile-nav-drawer'ın altında. */
+/**
+ * design.md §7.1 — kullanıcı menüsü, sidebar/mobile-nav-drawer'ın altında.
+ *
+ * Yalnızca "Çıkış yap" var: buradaki "Ayarlar" kalemi yan menüdeki satırla
+ * birebir aynıydı (aynı href, aynı ikon, aynı etiket) ve ikisi aynı ekranda
+ * birkaç satır arayla duruyordu.
+ */
 function UserMenu({ name, email }: { name: string; email: string }) {
   const t = useTranslations("dashboard.userMenu");
 
@@ -35,13 +39,6 @@ function UserMenu({ name, email }: { name: string; email: string }) {
         </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="top" align="start" className="w-56">
-        <DropdownMenuItem asChild>
-          <Link href="/settings" className="flex items-center gap-2">
-            <Settings className="size-4" aria-hidden="true" />
-            {t("settings")}
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
         <DropdownMenuItem
           onSelect={() => {
             void logoutAction();

@@ -605,9 +605,7 @@
     "overview": "Overview",
     "contracts": "Contracts",
     "newContract": "Create new contract",
-    "templates": "Templates",
     "archive": "Archive",
-    "reminders": "Reminders",
     "settings": "Settings",
     "mainNavLabel": "Main navigation",
     "openMenu": "Open menu",
@@ -627,19 +625,11 @@
       },
       "newContract": {
         "title": "Create new contract",
-        "description": "Start a new contract draft."
-      },
-      "templates": {
-        "title": "Templates",
-        "description": "Your ready-made contract templates."
+        "description": "Start from a ready-made template or from scratch."
       },
       "archive": {
         "title": "Archive",
         "description": "Archived documents."
-      },
-      "reminders": {
-        "title": "Reminders",
-        "description": "Your upcoming dates and tasks."
       },
       "settings": {
         "title": "Settings",
@@ -663,16 +653,6 @@
       "archive": {
         "title": "Archive is empty",
         "body": "Documents you archive will appear here.",
-        "cta": "Go to contracts"
-      },
-      "templates": {
-        "title": "No templates yet",
-        "body": "Templates will be listed here in the future.",
-        "cta": "Create new contract"
-      },
-      "reminders": {
-        "title": "No reminders",
-        "body": "Upcoming dates and tasks will appear here.",
         "cta": "Go to contracts"
       },
       "activity": {
@@ -714,7 +694,13 @@
         "ai_edit": "Edited with AI",
         "risk_check": "Risk check run",
         "pdf_generate": "PDF generated",
-        "manual_edit": "Edited manually"
+        "manual_edit": "Edited manually",
+        "admin_adjustment": "Admin",
+        "operation_failed": "Failed operation refund",
+        "document_row_failed": "PDF record failed — refund",
+        "findings_delete_failed": "Risk check failed — refund",
+        "findings_insert_failed": "Risk check failed — refund",
+        "other": "Other"
       }
     },
     "chart": {
@@ -802,18 +788,322 @@
       "submit": "Create"
     },
     "userMenu": {
-      "settings": "Settings",
       "signOut": "Sign out"
     },
     "newContract": {
       "titleLabel": "Title",
-      "typeLabel": "Contract type",
-      "typePlaceholder": "Choose a type",
+      "fromTemplateTitle": "Start from a template",
+      "fromTemplateDescription": "Fill in the details and your contract takes shape instantly.",
+      "fromScratchTitle": "Start from scratch",
+      "fromScratchDescription": "No template fits? Describe what you need and build the draft with AI.",
       "submit": "Create draft",
       "types": {
         "service": "Service agreement",
         "nda": "Non-disclosure agreement",
-        "freelance": "Freelance services agreement"
+        "freelance": "Freelance services agreement",
+        "rental": "Lease agreement",
+        "employment": "Employment agreement",
+        "resignation": "Resignation letter"
+      }
+    },
+    "templates": {
+      "gallery": {
+        "title": "Ready-made contracts",
+        "start": "Start drafting",
+        "seeAll": "See all",
+        "stripTitle": "Ready-made contracts",
+        "stripDescription": "Continue from a template instead of starting from scratch."
+      },
+      "categories": {
+        "lease": "Lease",
+        "employment": "Employment",
+        "confidentiality": "Confidentiality",
+        "services": "Services",
+        "hr": "Human resources"
+      },
+      "groups": {
+        "parties": "Parties",
+        "subject": "Subject",
+        "financial": "Fees and payment",
+        "term": "Term and dates",
+        "other": "Additional details"
+      },
+      "builder": {
+        "formTitle": "Details",
+        "previewTitle": "Contract preview",
+        "tabForm": "Details",
+        "tabPreview": "Preview",
+        "submit": "Create contract",
+        "submitHelp": "This step is free. One credit is charged only when you generate the PDF.",
+        "nextSteps": "Once created you can edit the contract with AI, run the risk check and turn it into a PDF.",
+        "missingTitle": "Missing details",
+        "missingCount": "{count} more details are needed to complete the contract.",
+        "complete": "All required details are filled in.",
+        "backToGallery": "Back to templates",
+        "error": "The contract could not be created. Please try again.",
+        "fieldPlaceholder": "[{label} not provided]",
+        "emptyOptional": "—",
+        "optional": "Optional"
+      },
+      "items": {
+        "rental": {
+          "name": "Lease agreement",
+          "description": "A lease covering the parties, rent, term and payment terms for a home or business premises.",
+          "fields": {
+            "landlordName": {
+              "label": "Landlord name or company",
+              "placeholder": "Jane Doe"
+            },
+            "landlordId": {
+              "label": "Landlord ID or tax number"
+            },
+            "tenantName": {
+              "label": "Tenant name or company",
+              "placeholder": "John Smith"
+            },
+            "tenantId": {
+              "label": "Tenant ID or tax number"
+            },
+            "propertyAddress": {
+              "label": "Address of the leased property",
+              "placeholder": "Street, number, district, city"
+            },
+            "rentAmount": {
+              "label": "Monthly rent (TRY)",
+              "placeholder": "25000"
+            },
+            "depositAmount": {
+              "label": "Deposit (TRY)",
+              "placeholder": "50000"
+            },
+            "startDate": {
+              "label": "Lease start date"
+            },
+            "durationMonths": {
+              "label": "Term (months)",
+              "placeholder": "12"
+            },
+            "paymentDay": {
+              "label": "Payment day of month",
+              "placeholder": "5"
+            },
+            "paymentMethod": {
+              "label": "Payment method",
+              "options": {
+                "bank": "bank transfer",
+                "cash": "cash"
+              }
+            },
+            "specialTerms": {
+              "label": "Special terms",
+              "placeholder": "Any additional clauses the parties want to add"
+            }
+          },
+          "articles": {
+            "parties": "Parties",
+            "subject": "Subject of the Agreement",
+            "rent": "Rent",
+            "deposit": "Deposit",
+            "term": "Term",
+            "payment": "Payment",
+            "obligations": "Obligations of the Parties",
+            "utilities": "Dues and Utilities",
+            "termination": "Termination",
+            "special_terms": "Special Terms"
+          }
+        },
+        "employment": {
+          "name": "Employment agreement",
+          "description": "Defines position, salary, working hours and leave for an open-ended employment relationship.",
+          "fields": {
+            "employerName": {
+              "label": "Employer legal name"
+            },
+            "employerTaxNo": {
+              "label": "Employer tax number"
+            },
+            "employeeName": {
+              "label": "Employee full name"
+            },
+            "employeeId": {
+              "label": "Employee ID number"
+            },
+            "position": {
+              "label": "Position",
+              "placeholder": "Senior software engineer"
+            },
+            "startDate": {
+              "label": "Start date"
+            },
+            "salaryAmount": {
+              "label": "Monthly gross salary (TRY)",
+              "placeholder": "90000"
+            },
+            "workMode": {
+              "label": "Work mode",
+              "options": {
+                "onsite": "on-site",
+                "hybrid": "hybrid",
+                "remote": "remote"
+              }
+            },
+            "workplaceAddress": {
+              "label": "Workplace address"
+            },
+            "weeklyHours": {
+              "label": "Weekly working hours",
+              "placeholder": "45"
+            },
+            "annualLeaveDays": {
+              "label": "Annual leave (days)",
+              "placeholder": "14"
+            },
+            "specialTerms": {
+              "label": "Special terms"
+            }
+          },
+          "articles": {
+            "parties": "Parties",
+            "position": "Role and Position",
+            "start_date": "Commencement",
+            "salary": "Remuneration",
+            "working_hours": "Working Hours",
+            "workplace": "Place of Work",
+            "leave": "Annual Leave",
+            "confidentiality": "Confidentiality",
+            "termination": "Termination",
+            "special_terms": "Special Terms"
+          }
+        },
+        "nda": {
+          "name": "Non-disclosure agreement (NDA)",
+          "description": "Sets out the scope of shared business information, the duty of confidentiality and its duration.",
+          "fields": {
+            "disclosingParty": {
+              "label": "Disclosing party name"
+            },
+            "disclosingPartyId": {
+              "label": "Disclosing party ID or tax number"
+            },
+            "receivingParty": {
+              "label": "Receiving party name"
+            },
+            "receivingPartyId": {
+              "label": "Receiving party ID or tax number"
+            },
+            "purpose": {
+              "label": "Purpose of disclosure",
+              "placeholder": "Evaluating a potential business relationship"
+            },
+            "confidentialScope": {
+              "label": "Scope of confidential information",
+              "placeholder": "Price lists, customer data, source code"
+            },
+            "effectiveDate": {
+              "label": "Effective date"
+            },
+            "durationYears": {
+              "label": "Confidentiality period (years)",
+              "placeholder": "3"
+            }
+          },
+          "articles": {
+            "parties": "Parties",
+            "confidential_information": "Confidential Information",
+            "obligations": "Obligations",
+            "term": "Term",
+            "exceptions": "Exceptions",
+            "remedies": "Breach and Remedies"
+          }
+        },
+        "service": {
+          "name": "Service agreement",
+          "description": "Covers the scope of a service, its fee, the payment schedule and each party's responsibility.",
+          "fields": {
+            "providerName": {
+              "label": "Service provider name"
+            },
+            "providerId": {
+              "label": "Provider ID or tax number"
+            },
+            "clientName": {
+              "label": "Client name"
+            },
+            "clientId": {
+              "label": "Client ID or tax number"
+            },
+            "serviceScope": {
+              "label": "Scope of services",
+              "placeholder": "Deliverables and what falls outside the scope"
+            },
+            "feeAmount": {
+              "label": "Service fee (TRY)",
+              "placeholder": "120000"
+            },
+            "paymentSchedule": {
+              "label": "Payment schedule",
+              "options": {
+                "monthly": "monthly",
+                "milestone": "milestone-based",
+                "onDelivery": "on delivery"
+              }
+            },
+            "startDate": {
+              "label": "Start date"
+            },
+            "endDate": {
+              "label": "End date"
+            }
+          },
+          "articles": {
+            "parties": "Parties",
+            "scope": "Scope of Services",
+            "payment": "Fees and Payment",
+            "term": "Term",
+            "termination": "Termination",
+            "liability": "Liability"
+          }
+        },
+        "resignation": {
+          "name": "Resignation letter",
+          "description": "Records the employee's resignation, the last working day and the handover.",
+          "fields": {
+            "employeeName": {
+              "label": "Full name"
+            },
+            "employeeId": {
+              "label": "ID number"
+            },
+            "employerName": {
+              "label": "Employer legal name"
+            },
+            "position": {
+              "label": "Role or position"
+            },
+            "resignationDate": {
+              "label": "Notice date"
+            },
+            "lastWorkingDay": {
+              "label": "Last working day"
+            },
+            "handoverNotes": {
+              "label": "Handover notes",
+              "placeholder": "Work, files and company property to hand over"
+            },
+            "specialTerms": {
+              "label": "Additional notes"
+            }
+          },
+          "articles": {
+            "parties": "Parties",
+            "declaration": "Resignation Statement",
+            "last_working_day": "Last Working Day",
+            "handover": "Handover",
+            "receivables": "Entitlements",
+            "confidentiality": "Confidentiality",
+            "special_terms": "Additional Notes"
+          }
+        }
       }
     },
     "contractScreen": {
@@ -826,7 +1116,7 @@
         "error": "Couldn't send the message. Please try again."
       },
       "draft": {
-        "title": "Draft",
+        "title": "Preview",
         "empty": "The draft will appear here as the conversation progresses.",
         "editToggle": "Edit manually",
         "cancelEdit": "Cancel",
@@ -841,6 +1131,22 @@
         "unsavedWarning": "You have unsaved changes.",
         "viewingOldVersion": "You're viewing a past version.",
         "backToLatest": "Back to latest version"
+      },
+      "preview": {
+        "a4": "A4",
+        "zoomIn": "Zoom in",
+        "zoomOut": "Zoom out",
+        "zoomLevel": "Zoom: {zoom}%",
+        "pageOf": "{page} / {total}"
+      },
+      "document": {
+        "version": "Version {versionNo}",
+        "partiesHeading": "PARTIES",
+        "disclaimer": "This document is a contract draft; it is not legal advice or a guarantee of validity.",
+        "signatureParty": "Party {n}",
+        "signatureName": "Full name",
+        "signatureSignature": "Signature",
+        "signatureDate": "Date"
       },
       "versions": {
         "title": "Version history",

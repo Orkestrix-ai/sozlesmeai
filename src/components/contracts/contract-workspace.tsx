@@ -28,6 +28,7 @@ type TurnEvent =
  */
 function ContractWorkspace({
   contractId,
+  contractTitle,
   locale,
   initialStatus,
   canEdit,
@@ -37,6 +38,7 @@ function ContractWorkspace({
   initialShares,
 }: {
   contractId: string;
+  contractTitle: string;
   locale: AppLocale;
   initialStatus: ContractStatus;
   canEdit: boolean;
@@ -47,7 +49,17 @@ function ContractWorkspace({
 }) {
   const tChat = useTranslations("dashboard.contractScreen.chat");
   const tDraft = useTranslations("dashboard.contractScreen.draft");
-  const [mobileTab, setMobileTab] = React.useState<"chat" | "draft">("chat");
+  /**
+   * Şablondan gelen sözleşmede (actions/templates.ts → /contracts/[id])
+   * sohbet BOŞ ama taslak hazırdır — kullanıcıyı boş bir sohbet ekranına
+   * değil, az önce doldurduğu belgeye indir. Sohbetle oluşturulan bir
+   * sözleşmede her zaman en az bir mesaj olur, orada varsayılan "chat"
+   * kalır. Masaüstünde iki panel yan yana olduğu için bu yalnızca mobil
+   * sekmeyi etkiler.
+   */
+  const [mobileTab, setMobileTab] = React.useState<"chat" | "draft">(
+    initialMessages.length === 0 && initialVersions.length > 0 ? "draft" : "chat",
+  );
 
   const [messages, setMessages] = React.useState(initialMessages);
   const [streamingText, setStreamingText] = React.useState("");
@@ -71,6 +83,12 @@ function ContractWorkspace({
   const latestSections = versions[0]?.sections ?? [];
   const viewingVersion = versions.find((v) => v.id === viewingVersionId) ?? null;
   const displayedSections = viewingVersion ? viewingVersion.sections : latestSections;
+
+  // Belge başlığı için görüntülenen sürümün numarası; "AI'ın son değiştirdiği"
+  // vurgusu için bir öncekinin bölümleri (versions, version_no DESC sıralı).
+  const displayedIndex = viewingVersion ? versions.indexOf(viewingVersion) : 0;
+  const displayedVersionNo = versions[displayedIndex]?.versionNo ?? 1;
+  const previousSections = versions[displayedIndex + 1]?.sections;
 
   const sendMessage = async (text: string) => {
     setChatError(false);
@@ -195,7 +213,7 @@ function ContractWorkspace({
 
   return (
     <div className="flex h-[70dvh] min-h-[520px] flex-col overflow-hidden rounded-[var(--radius)] border border-stone-200 lg:h-[78dvh] lg:flex-row">
-      <div className="flex border-b border-stone-200 bg-paper-50 lg:hidden">
+      <div className="contract-chat flex border-b border-stone-200 bg-paper-50 lg:hidden">
         {(["chat", "draft"] as const).map((tab) => (
           <button
             key={tab}
@@ -212,7 +230,7 @@ function ContractWorkspace({
         ))}
       </div>
 
-      <div className={`min-h-0 lg:w-2/5 lg:shrink-0 ${mobileTab === "chat" ? "flex-1" : "hidden lg:flex"}`}>
+      <div className={`contract-chat min-h-0 lg:w-2/5 lg:shrink-0 ${mobileTab === "chat" ? "flex-1" : "hidden lg:flex"}`}>
         <ChatPanel
           messages={messages}
           streamingText={streamingText}
@@ -226,6 +244,9 @@ function ContractWorkspace({
       <div className={`min-h-0 flex-1 ${mobileTab === "draft" ? "flex-1" : "hidden lg:flex"}`}>
         <DraftPanel
           status={status}
+          contractTitle={contractTitle}
+          versionNo={displayedVersionNo}
+          previousSections={previousSections}
           sections={displayedSections}
           versions={versions}
           viewingVersionId={viewingVersionId}

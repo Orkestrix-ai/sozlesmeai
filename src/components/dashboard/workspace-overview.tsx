@@ -7,6 +7,7 @@ import { ContractsTable } from "@/components/dashboard/contracts-table";
 import { CreditChart } from "@/components/dashboard/credit-chart";
 import { EmptyState } from "@/components/dashboard/empty-state";
 import { MetricCard } from "@/components/dashboard/metric-card";
+import { ReadyTemplatesStrip } from "@/components/dashboard/ready-templates-strip";
 import { RoleBadge } from "@/components/dashboard/role-badge";
 import type { Database } from "@/lib/supabase/types";
 
@@ -33,18 +34,28 @@ type Member = { userId: string; role: WorkspaceRole; createdAt: string; fullName
 type Activity = { id: number; kind: ActivityKind; isImportant: boolean; createdAt: string; actorName: string };
 
 /**
- * messages/*.json → dashboard.credits.reasons ile birebir. Tanınmayan bir
- * `reason` ham metin olarak gösterilir — next-intl bilinmeyen anahtarda
- * fırlatır, burada önlenir.
+ * `credit_ledger.reason` DEĞERLERİ — `credit_entry_type` enum'ı değil.
+ * messages/*.json → dashboard.credits.reasons ile birebir.
+ *
+ * Bu ayrım bir kez kaçırıldı: liste `adjustment` içeriyordu (o bir entry_type),
+ * oysa `admin_add_credits` reason olarak `admin_adjustment` yazıyor — arayüzde
+ * ham metin görünüyordu. Yeni bir reason yazan her RPC/route buraya da eklenmeli.
  *
  * `signup_starter_grant` artık YAZILMIYOR ama listede kalıyor: credit_ledger
- * append-only, yani eski kayıtlardaki bu reason hiçbir zaman silinemez.
+ * append-only, yani eski kayıtlardaki bu reason hiçbir zaman silinemez. Aynı
+ * gerekçeyle `adjustment` ve `refund` de duruyor: bugün hiçbir şey yazmıyor,
+ * ama mevcut RPC seti yerleşmeden önce yazılmış satırlar olabilir.
  */
 const KNOWN_REASON_KEYS = [
   "signup_grant",
   "signup_starter_grant",
   "adjustment",
   "refund",
+  "admin_adjustment",
+  "operation_failed",
+  "document_row_failed",
+  "findings_delete_failed",
+  "findings_insert_failed",
   "draft_generate",
   "ai_edit",
   "risk_check",
@@ -88,6 +99,17 @@ function WorkspaceOverview({
   const tTeam = useTranslations("dashboard.team");
   const tActivity = useTranslations("dashboard.activity");
   const tEmptyContracts = useTranslations("dashboard.empty.contracts");
+
+  /**
+   * Tanınmayan reason ham metin olarak BASILMAZ. `refund_credits`'in
+   * `p_reason` parametresi serbest metin ve RPC `authenticated` rolüne açık;
+   * yani izin listesi hiçbir zaman tam olamaz. `other` bir DB değeri değil,
+   * yalnızca görüntüleme yedeği — bu yüzden KNOWN_REASON_KEYS'te yok.
+   */
+  const reasonLabel = (reason: string) =>
+    (KNOWN_REASON_KEYS as readonly string[]).includes(reason)
+      ? tReasons(reason as (typeof KNOWN_REASON_KEYS)[number])
+      : tReasons("other");
   const tEmptyLedger = useTranslations("dashboard.empty.ledger");
   const tEmptyActivity = useTranslations("dashboard.empty.activity");
   const tEmptyMembers = useTranslations("dashboard.empty.members");
@@ -104,6 +126,8 @@ function WorkspaceOverview({
         <MetricCard label={tMetrics("ready")} value={stats.ready} />
         <MetricCard label={tMetrics("remainingCredits")} value={credits.balance} />
       </div>
+
+      <ReadyTemplatesStrip />
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Card tone="dark">
@@ -191,11 +215,7 @@ function WorkspaceOverview({
                         {new Date(entry.created_at).toLocaleDateString()}
                       </time>
                     </TableCell>
-                    <TableCell>
-                      {(KNOWN_REASON_KEYS as readonly string[]).includes(entry.reason)
-                        ? tReasons(entry.reason as (typeof KNOWN_REASON_KEYS)[number])
-                        : entry.reason}
-                    </TableCell>
+                    <TableCell>{reasonLabel(entry.reason)}</TableCell>
                     <TableCell
                       data-numeric
                       className={entry.amount < 0 ? "text-state-error" : "text-state-success"}

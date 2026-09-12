@@ -15,6 +15,26 @@ type ContractRow = {
 };
 
 /**
+ * `contract_types` tablosundaki kodların tamamı. Eskiden burada yalnızca üçü
+ * vardı, dolayısıyla şablonla üretilen kira/iş/istifa sözleşmeleri listede
+ * türsüz ("—") görünüyordu.
+ */
+const CONTRACT_TYPE_CODES = [
+  "service",
+  "nda",
+  "freelance",
+  "rental",
+  "employment",
+  "resignation",
+] as const;
+
+type ContractTypeCode = (typeof CONTRACT_TYPE_CODES)[number];
+
+function isKnownType(code: string): code is ContractTypeCode {
+  return CONTRACT_TYPE_CODES.includes(code as ContractTypeCode);
+}
+
+/**
  * design.md §7.3 — "Her belge satırında net durum ve sonraki aksiyon
  * bulunmalı." `canArchive`, viewer rolüne arşivleme butonu göstermemek için
  * (contracts_update RLS politikası zaten reddeder — burada yalnızca UI'ı
@@ -45,9 +65,8 @@ function ContractsTable({ contracts, canArchive }: { contracts: ContractRow[]; c
               {contract.title || t("untitled")}
             </TableCell>
             <TableCell>
-              {contract.contract_type &&
-              ["service", "nda", "freelance"].includes(contract.contract_type)
-                ? tTypes(contract.contract_type as "service" | "nda" | "freelance")
+              {contract.contract_type && isKnownType(contract.contract_type)
+                ? tTypes(contract.contract_type)
                 : "—"}
             </TableCell>
             <TableCell>

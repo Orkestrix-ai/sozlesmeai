@@ -1,23 +1,14 @@
-import { setRequestLocale, getTranslations } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
 
-import { PageHeader } from "@/components/dashboard/page-header";
-import { EmptyState } from "@/components/dashboard/empty-state";
-
+/**
+ * Şablon galerisi artık `/contracts/new` içinde, "sıfırdan başla" formuyla
+ * aynı ekranda duruyor — sözleşme oluşturmanın tek giriş noktası orası.
+ *
+ * Rota silinmedi, yönlendirildi: eski yer imleri ve paylaşılmış bağlantılar
+ * ölmesin. `@/i18n/navigation`'ın redirect'i dil ön ekini korur.
+ * Şablon doldurma ekranı (`/templates/[templateId]`) yerinde duruyor.
+ */
 export default async function TemplatesPage({ params }: PageProps<"/[locale]/templates">) {
   const { locale } = await params;
-  setRequestLocale(locale);
-
-  const t = await getTranslations("dashboard");
-
-  return (
-    <>
-      <PageHeader title={t("pages.templates.title")} description={t("pages.templates.description")} />
-      <EmptyState
-        title={t("empty.templates.title")}
-        body={t("empty.templates.body")}
-        ctaLabel={t("empty.templates.cta")}
-        ctaHref="/contracts/new"
-      />
-    </>
-  );
+  redirect({ href: "/contracts/new", locale });
 }
