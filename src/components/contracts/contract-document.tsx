@@ -332,7 +332,25 @@ function ContractDocument({
   }
 
   // Ölçeklenmemiş doğal yükseklik — sayfa sayısı bilindiği için kesin.
-  const naturalHeight = pages.length * A4.heightPx + (pages.length - 1) * PAGE_GAP;
+  /**
+   * `pages` bir ÖNCEKİ `fragments`'a göre ölçüldü ve parçaları NUMARAYLA tutar.
+   * Ölçüm efekti render'dan SONRA çalıştığı için bu render'da eskimiş olabilir:
+   * form doldurulurken "eksik bilgi" parçaları kaybolur/geri gelir, yani parça
+   * SAYISI değişir. Eski liste hâlâ olmayan bir numarayı işaret ederse
+   * `fragments[index]` undefined olur ve çizim çökerdi
+   * ("Cannot read properties of undefined (reading 'kind')").
+   *
+   * Tutarsızlıkta ilk state'in yaptığına düşülür: hepsi tek sayfada. Kullanıcı
+   * bunu GÖRMEZ — useLayoutEffect boyamadan önce çalışıp doğru sayfalamayı
+   * yazar; bu yalnızca çökmeye karşı bir emniyet.
+   */
+  const pagesCoverFragments =
+    pages.reduce((total, page) => total + page.length, 0) === fragments.length &&
+    pages.every((page) => page.every((index) => index < fragments.length));
+
+  const visiblePages = pagesCoverFragments ? pages : [fragments.map((_, i) => i)];
+
+  const naturalHeight = visiblePages.length * A4.heightPx + (visiblePages.length - 1) * PAGE_GAP;
 
   return (
     <div
@@ -360,7 +378,7 @@ function ContractDocument({
           transformOrigin: "top left",
         }}
       >
-        {pages.map((indices, pageIndex) => (
+        {visiblePages.map((indices, pageIndex) => (
           <article
             key={pageIndex}
             className="contract-page relative flex shrink-0 flex-col border border-stone-200 bg-paper-50 shadow-card"
@@ -386,7 +404,7 @@ function ContractDocument({
             >
               <span>{brand}</span>
               <span data-numeric>
-                {t("preview.pageOf", { page: pageIndex + 1, total: pages.length })}
+                {t("preview.pageOf", { page: pageIndex + 1, total: visiblePages.length })}
               </span>
             </footer>
           </article>

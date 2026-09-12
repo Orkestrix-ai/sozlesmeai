@@ -10,8 +10,24 @@ import type { ContractTemplate, MessageKey } from "./types";
  * değil, ama ikisi de bu imzaya uyar. Böylece `buildTemplateLabels` tek bir
  * yerde durur ve iki tarafta da AYNI etiketleri üretir — ön izlemede görülen
  * metinle DB'ye yazılan metnin ayrışmaması buna bağlı.
+ *
+ * DİKKAT — bu tip next-intl'in ANAHTAR BAZLI argüman denetimini devre dışı
+ * bırakır. Gerçek `t`, `{label}` isteyen bir mesajı argümansız çağırmayı
+ * DERLEME hatası yapar; bu imza ise "her anahtar argümansız çağrılabilir"
+ * dediği için `tsc` susar ve hata çalışma zamanına kalır. `fieldPlaceholder`
+ * tam olarak böyle kaçtı (FORMATTING_ERROR).
+ *
+ * Bu yüzden: bu tiple çağrılan her anahtarın argümansız çalıştığı ELLE
+ * doğrulanmalı. Argüman isteyen bir mesaj gerekiyorsa `raw` kullanın (aşağıya
+ * bakın) ya da o değeri buradan değil, çağıran bileşenden geçirin.
+ *
+ * Tipi next-intl kadar hassas yapmak, onun genel tip parametrelerini
+ * kopyalamayı gerektirir — bu projede daha önce TS2590 ("union type too
+ * complex") üretmiş bir yol. Bilerek yapılmadı.
  */
-export type Translate = (key: MessageKey) => string;
+export type Translate = ((key: MessageKey) => string) & {
+  raw: (key: MessageKey) => unknown;
+};
 
 export function buildTemplateLabels(template: ContractTemplate, t: Translate): TemplateLabels {
   const fieldLabels: Record<string, string> = {};
@@ -41,7 +57,13 @@ export function buildTemplateLabels(template: ContractTemplate, t: Translate): T
     fieldLabels,
     optionLabels,
     articleTitles,
-    missingPattern: t("builder.fieldPlaceholder"),
+    // `t()` DEĞİL `t.raw()`: burada istenen şey doldurulmuş bir cümle değil,
+    // `{label}` boşluğu DURAN bir KALIP — boşluğu renderTemplateSections her
+    // alan için ayrı ayrı dolduruyor (render.ts). `t()` ICU'yu işler ve
+    // doldurulmamış boşluk bulunca FORMATTING_ERROR atar; `raw()` mesajı
+    // olduğu gibi döndürür, zaten tam olarak bunun için var.
+    // Buraya `t()` geri konursa hata aynen döner.
+    missingPattern: String(t.raw("builder.fieldPlaceholder")),
     emptyOptional: t("builder.emptyOptional"),
   };
 }
